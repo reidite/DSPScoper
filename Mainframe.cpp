@@ -121,11 +121,28 @@ DigitalFilter::MainFrame::MainFrame()
 	wxGridSizer* gSizer_Outputs;
 	gSizer_Outputs = new wxGridSizer(2, 1, 0, 0);
 
-	m_bitmap_Fig1 = new wxStaticBitmap(this, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0);
-	gSizer_Outputs->Add(m_bitmap_Fig1, 0, wxALL, 5);
+	mpScaleX* timeAxis = new mpScaleX(wxT("Time"), mpALIGN_BOTTOM, true, mpX_NORMAL);
+	mpScaleX* freqAxis = new mpScaleX(wxT("Frequency"), mpALIGN_BOTTOM, true, mpX_NORMAL);
+	mpScaleY* amplitudeAxis = new mpScaleY(wxT("Amplitude"), mpALIGN_LEFT, true);
+	timeAxis->SetDrawOutsideMargins(false);
+	freqAxis->SetDrawOutsideMargins(false);
+	amplitudeAxis->SetDrawOutsideMargins(false);
 
-	m_bitmap_Fig2 = new wxStaticBitmap(this, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0);
-	gSizer_Outputs->Add(m_bitmap_Fig2, 0, wxALL, 5);
+	m_Fig1 = new mpWindow(this, 0, wxPoint(0, 0), wxSize(100, 100), wxSUNKEN_BORDER);
+	
+	m_Fig1->SetMargins(10, 30, 50, 100);
+	m_Fig1->AddLayer(timeAxis);
+	m_Fig1->AddLayer(amplitudeAxis);
+
+	gSizer_Outputs->Add(m_Fig1, 0, wxEXPAND, 5);
+
+	m_Fig2 = new mpWindow(this, -1, wxPoint(0, 0), wxSize(100, 100), wxSUNKEN_BORDER);
+	m_Fig2->SetMargins(30, 30, 50, 100);
+	m_Fig2->AddLayer(freqAxis);
+	m_Fig2->AddLayer(amplitudeAxis);
+
+	gSizer_Outputs->Add(m_Fig2, 0, wxEXPAND, 5);
+
 
 
 	gSizer_OuterLayout->Add(gSizer_Outputs, 1, wxEXPAND, 5);

@@ -158,11 +158,13 @@
     <ClCompile Include="filterthread.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mainframe.cpp" />
+    <ClCompile Include="mathplot.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="coefstrategy.h" />
     <ClInclude Include="filterthread.h" />
     <ClInclude Include="Mainframe.h" />
+    <ClInclude Include="mathplot.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

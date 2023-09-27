@@ -23,10 +23,23 @@
 #include <wx/statbmp.h>
 #include <wx/frame.h>
 #include "wx/aboutdlg.h"
+#include <wx/wxprec.h>
+#include <wx/image.h>
+#include <wx/listctrl.h>
+#include <wx/sizer.h>
+#include <wx/log.h>
+#include <wx/intl.h>
+#include <wx/print.h>
+#include <wx/filename.h>
+
+#include "mathplot.h"
 
 namespace DigitalFilter {
     class MainFrame : public wxFrame {
     private:
+        int axesPos[2];
+        bool ticks;
+
         wxDECLARE_EVENT_TABLE();
         wxDECLARE_NO_COPY_CLASS(MainFrame);
 
@@ -46,8 +59,8 @@ namespace DigitalFilter {
         wxStaticText* m_staticText_Stopfreq;
         wxTextCtrl* m_textCtrl_Stopfreq;
         wxButton* m_button_Start;
-        wxStaticBitmap* m_bitmap_Fig1;
-        wxStaticBitmap* m_bitmap_Fig2;
+        mpWindow* m_Fig1;
+        mpWindow* m_Fig2;
 
     public:
         MainFrame();
@@ -57,6 +70,6 @@ namespace DigitalFilter {
         void Quit(wxCommandEvent& event);
         void Start(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
-
+        //void LoadFigures();
     };
 }
