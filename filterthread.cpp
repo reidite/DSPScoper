@@ -23,7 +23,7 @@ void DigitalFilter::Thread::FilterThread::test_signal(int sample, std::vector<do
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 
-    emit generated(tt, yy);
+    //emit generated(tt, yy);
 
     std::vector<double> yy_filtered(yy.size(), 0.0);
 
@@ -33,5 +33,5 @@ void DigitalFilter::Thread::FilterThread::test_signal(int sample, std::vector<do
             + b[0] * yy[i] + b[1] * yy[i - 1] + b[2] * yy[i - 2];
     }
 
-    emit finishedFilter(tt, yy_filtered);
+    //emit finishedFilter(tt, yy_filtered);
 }

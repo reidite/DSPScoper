@@ -5,7 +5,7 @@ DigitalFilter::MainFrame::MainFrame()
 	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 
 	wxGridSizer* gSizer_OuterLayout;
-	gSizer_OuterLayout = new wxGridSizer(0, 2, 0, 0);
+	gSizer_OuterLayout = new wxGridSizer(1, 2, 0, 0);
 
 	wxBoxSizer* bSizer_LeftLayout;
 	bSizer_LeftLayout = new wxBoxSizer(wxVERTICAL);
@@ -29,7 +29,7 @@ DigitalFilter::MainFrame::MainFrame()
 	sbSizer_DesignMethod->Add(gSizer00, 1, wxEXPAND, 5);
 
 
-	gSizer_AdjusterLayout->Add(sbSizer_DesignMethod, 1, wxEXPAND, 5);
+	gSizer_AdjusterLayout->Add(sbSizer_DesignMethod, 1, wxEXPAND | wxLEFT, 5);
 
 	wxStaticBoxSizer* sbSizer_FilterOrder;
 	sbSizer_FilterOrder = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, wxT("Filter Order")), wxVERTICAL);
@@ -47,7 +47,7 @@ DigitalFilter::MainFrame::MainFrame()
 	sbSizer_FilterOrder->Add(gSizer01, 1, wxEXPAND, 5);
 
 
-	gSizer_AdjusterLayout->Add(sbSizer_FilterOrder, 1, wxEXPAND, 5);
+	gSizer_AdjusterLayout->Add(sbSizer_FilterOrder, 1, wxEXPAND | wxLEFT, 5);
 
 	wxStaticBoxSizer* sbSizer_ResponseType;
 	sbSizer_ResponseType = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, wxT("Response Type")), wxVERTICAL);
@@ -71,61 +71,43 @@ DigitalFilter::MainFrame::MainFrame()
 	sbSizer_ResponseType->Add(gSizer10, 1, wxEXPAND, 5);
 
 
-	gSizer_AdjusterLayout->Add(sbSizer_ResponseType, 1, wxEXPAND, 5);
+	gSizer_AdjusterLayout->Add(sbSizer_ResponseType, 1, wxEXPAND | wxLEFT, 5);
 
 	wxStaticBoxSizer* sbSizer_SpecifyFrequency;
 	sbSizer_SpecifyFrequency = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, wxT("Specify Frequency")), wxVERTICAL);
 
 	wxGridSizer* gSizer11;
-	gSizer11 = new wxGridSizer(3, 1, 0, 0);
-
-	wxGridSizer* gSizer0;
-	gSizer0 = new wxGridSizer(1, 2, 0, 0);
+	gSizer11 = new wxGridSizer(3, 2, 0, 0);
 
 	m_staticText_Samplefreq = new wxStaticText(sbSizer_SpecifyFrequency->GetStaticBox(), wxID_ANY, wxT("Sample freq"), wxDefaultPosition, wxDefaultSize, 0);
 	m_staticText_Samplefreq->Wrap(-1);
-	gSizer0->Add(m_staticText_Samplefreq, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	gSizer11->Add(m_staticText_Samplefreq, 0, wxLEFT, 5);
 
 	m_textCtrl_Samplefreq = new wxTextCtrl(sbSizer_SpecifyFrequency->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE);
 	m_textCtrl_Samplefreq->SetMaxLength(6);
-	gSizer0->Add(m_textCtrl_Samplefreq, 0, wxALIGN_CENTER | wxALL | wxEXPAND, 5);
-
-
-	gSizer11->Add(gSizer0, 1, wxEXPAND, 5);
-
-	wxGridSizer* gSizer1;
-	gSizer1 = new wxGridSizer(1, 2, 0, 0);
+	gSizer11->Add(m_textCtrl_Samplefreq, 3, wxSHAPED, 5);
 
 	m_staticText_Passfreq = new wxStaticText(sbSizer_SpecifyFrequency->GetStaticBox(), wxID_ANY, wxT("Pass freq"), wxDefaultPosition, wxDefaultSize, 0);
 	m_staticText_Passfreq->Wrap(-1);
-	gSizer1->Add(m_staticText_Passfreq, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	gSizer11->Add(m_staticText_Passfreq, 0, wxLEFT, 5);
 
 	m_textCtrl_Passfreq = new wxTextCtrl(sbSizer_SpecifyFrequency->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE);
 	m_textCtrl_Passfreq->SetMaxLength(6);
-	gSizer1->Add(m_textCtrl_Passfreq, 0, wxALIGN_CENTER | wxALL | wxEXPAND, 5);
-
-
-	gSizer11->Add(gSizer1, 1, wxEXPAND, 5);
-
-	wxGridSizer* gSizer2;
-	gSizer2 = new wxGridSizer(1, 2, 0, 0);
+	gSizer11->Add(m_textCtrl_Passfreq, 0, wxSHAPED, 5);
 
 	m_staticText_Stopfreq = new wxStaticText(sbSizer_SpecifyFrequency->GetStaticBox(), wxID_ANY, wxT("Stop freq"), wxDefaultPosition, wxDefaultSize, 0);
 	m_staticText_Stopfreq->Wrap(-1);
-	gSizer2->Add(m_staticText_Stopfreq, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	gSizer11->Add(m_staticText_Stopfreq, 0, wxLEFT, 5);
 
-	m_textCtrl_Stopfreq = new wxTextCtrl(sbSizer_SpecifyFrequency->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+	m_textCtrl_Stopfreq = new wxTextCtrl(sbSizer_SpecifyFrequency->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE);
 	m_textCtrl_Stopfreq->SetMaxLength(6);
-	gSizer2->Add(m_textCtrl_Stopfreq, 0, wxALIGN_CENTER | wxALL | wxEXPAND, 5);
-
-
-	gSizer11->Add(gSizer2, 1, wxEXPAND, 5);
+	gSizer11->Add(m_textCtrl_Stopfreq, 0, wxSHAPED, 5);
 
 
 	sbSizer_SpecifyFrequency->Add(gSizer11, 1, wxEXPAND, 5);
 
 
-	gSizer_AdjusterLayout->Add(sbSizer_SpecifyFrequency, 1, wxEXPAND, 5);
+	gSizer_AdjusterLayout->Add(sbSizer_SpecifyFrequency, 1, wxEXPAND | wxLEFT, 5);
 
 
 	bSizer_LeftLayout->Add(gSizer_AdjusterLayout, 1, wxALIGN_TOP, 5);

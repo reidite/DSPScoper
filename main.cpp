@@ -7,21 +7,17 @@
 // Copyright:   (c) Francesco Montorsi
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
+#define WXSUPPRESS_SIZER_FLAGS_CHECK = 1
 
 #include "wx/wxprec.h"
 #include "wx/log.h"
 #include "wx/app.h"
 #include "wx/scrolwin.h"
 
-
-
-
 #include "wx/fontpicker.h"
-
 #include "Mainframe.h"
 
-enum
-{
+enum {
     PANE_COLLAPSE = 100,
     PANE_EXPAND,
     PANE_SETLABEL,
@@ -34,29 +30,29 @@ enum
 };
 
 
-// ----------------------------------------------------------------------------
-// our classes
-// ----------------------------------------------------------------------------
-namespace DigitalFilter {
-	class App : public wxApp {
-	public:
-		App() { }
+class App : public wxApp {
+public:
+	App() { }
 
-		virtual bool OnInit() wxOVERRIDE {
-			if (!wxApp::OnInit())
-				return false;
+    virtual bool OnInit() wxOVERRIDE;
 
-			// create and show the main frame
-			MainFrame* frame = new MainFrame;
+	wxDECLARE_NO_COPY_CLASS(App);
+};
 
-			frame->Show(true);
 
-			return true;
-		};
+wxIMPLEMENT_APP(App);
 
-		wxDECLARE_NO_COPY_CLASS(App);
-	};
+bool App::OnInit() {
+    if (!wxApp::OnInit())
+        return false;
+
+    // create and show the main frame
+    DigitalFilter::MainFrame* frame = new DigitalFilter::MainFrame;
+    frame->Show(true);
+
+    return true;
 }
-wxIMPLEMENT_APP(DigitalFilter::App);
+
 wxBEGIN_EVENT_TABLE(DigitalFilter::MainFrame, wxFrame)
+    EVT_MENU(PANE_QUIT, MainFrame::Quit)
 wxEND_EVENT_TABLE()
