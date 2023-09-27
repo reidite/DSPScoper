@@ -691,8 +691,7 @@ protected:
     the bottom-right hand of the ruler. The scale numbering automatically
     adjusts to view and zoom factor.
 */
-class WXDLLIMPEXP_MATHPLOT mpScaleX : public mpLayer
-{
+class WXDLLIMPEXP_MATHPLOT mpScaleX : public mpLayer {
 public:
     /** Full constructor.
         @param name Label to plot by the ruler

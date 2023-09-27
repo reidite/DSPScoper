@@ -1,10 +1,10 @@
 #pragma once
-#include "filterthread.h"
+#include "Filter.h"
 
-DigitalFilter::Thread::FilterThread::FilterThread() {
+DigitalFilter::Calc::Filter::Filter() {
 }
 
-void DigitalFilter::Thread::FilterThread::test_signal(int sample, std::vector<double> a, std::vector<double> b)
+void DigitalFilter::Calc::Filter::test_signal(int sample, std::vector<double> a, std::vector<double> b)
 {
     std::vector<double> tt, yy;
 

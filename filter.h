@@ -3,10 +3,10 @@
 #include <vector>
 #include "math.h"
 namespace DigitalFilter {
-    namespace Thread {
-        class FilterThread {
+    namespace Calc {
+        class Filter {
         public:
-            FilterThread();
+            Filter();
 
             void test_signal(int sample, std::vector<double> a, std::vector<double> b);
 

@@ -16,9 +16,6 @@
     <Filter Include="Source Files\Calc">
       <UniqueIdentifier>{ec12a600-b311-4b73-b76e-e74132809d02}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Thread">
-      <UniqueIdentifier>{34fe5bf3-5d6b-45a9-9a32-88dab002dc7b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Plot">
       <UniqueIdentifier>{6c0455a5-d380-4e80-978e-e9abc24fb3f9}</UniqueIdentifier>
     </Filter>
@@ -33,11 +30,14 @@
     <ClCompile Include="coefstrategy.cpp">
       <Filter>Source Files\Calc</Filter>
     </ClCompile>
-    <ClCompile Include="filterthread.cpp">
-      <Filter>Source Files\Thread</Filter>
-    </ClCompile>
     <ClCompile Include="mathplot.cpp">
       <Filter>Source Files\Plot</Filter>
+    </ClCompile>
+    <ClCompile Include="filter.cpp">
+      <Filter>Source Files\Calc</Filter>
+    </ClCompile>
+    <ClCompile Include="signal.cpp">
+      <Filter>Source Files\Calc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -47,10 +47,13 @@
     <ClInclude Include="coefstrategy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="filterthread.h">
+    <ClInclude Include="filter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="mathplot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="signal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

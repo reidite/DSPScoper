@@ -1,6 +1,9 @@
 #define MAINFRAME_NAME "Digital Filter"
 #define MAINFRAME_HEIGHT 420
 #define MAINFRAME_WIDTH 840
+#define AMPL 2.0
+#define FREQ 220.0
+#define PSI 0.25
 
 #include "wx/frame.h"
 #include "wx/textdlg.h"
@@ -32,14 +35,21 @@
 #include <wx/print.h>
 #include <wx/filename.h>
 
-#include "mathplot.h"
+#include "signal.h"
+#include <thread>
 
 namespace DigitalFilter {
     class MainFrame : public wxFrame {
     private:
+        std::atomic_bool stopFigureDrawing = false;
+        Calc::Signal* originalATSignalData;
+        Calc::Signal* filteredATSignalData;
+        Calc::Signal* originalMFSignalData;
+        Calc::Signal* filteredMFSignalData;
+
+
         int axesPos[2];
         bool ticks;
-
         wxDECLARE_EVENT_TABLE();
         wxDECLARE_NO_COPY_CLASS(MainFrame);
 
@@ -70,6 +80,6 @@ namespace DigitalFilter {
         void Quit(wxCommandEvent& event);
         void Start(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
-        //void LoadFigures();
+        void LoadingOriginalSignal();
     };
 }

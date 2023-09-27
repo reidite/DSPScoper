@@ -49,7 +49,8 @@ bool App::OnInit() {
     // create and show the main frame
     DigitalFilter::MainFrame* frame = new DigitalFilter::MainFrame;
     frame->Show(true);
-
+    std::thread Updater(&DigitalFilter::MainFrame::LoadingOriginalSignal, &(*frame));
+    Updater.detach();
     return true;
 }
 
