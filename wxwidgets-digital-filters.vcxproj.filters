@@ -19,6 +19,9 @@
     <Filter Include="Source Files\Plot">
       <UniqueIdentifier>{6c0455a5-d380-4e80-978e-e9abc24fb3f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{a6ccd196-0cb3-4cec-9f6b-db438a37eecf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,6 +42,9 @@
     <ClCompile Include="signal.cpp">
       <Filter>Source Files\Calc</Filter>
     </ClCompile>
+    <ClCompile Include="MainFrameUI.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mainframe.h">
@@ -54,6 +60,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="signal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrameUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
