@@ -14,6 +14,16 @@
 #include "signal.h"
 #include <thread>
 
+enum DESIGN_METHOD {
+    IIR,
+    FIR
+};
+
+enum FILTER_ORDER {
+    FIRST,
+    SECOND
+};
+
 enum RESPOND_TYPE {
     LOWBASS,
     HIGHBASS,
@@ -25,10 +35,13 @@ namespace DigitalFilter {
     class MainFrame : public MainFrameUI {
     private:
         std::atomic_bool stopFigureDrawing = false;
+
         int _sampleFreq = DEFAULT_SAMPLEFREQ;
         int _passFreq = DEFAULT_PASSFREQ;
         int _stopFreq = DEFAULT_STOPFREQ;
-        RESPOND_TYPE filterType;
+        DESIGN_METHOD designMethod = DESIGN_METHOD::IIR;
+        FILTER_ORDER filterOrder = FILTER_ORDER::FIRST;
+        RESPOND_TYPE filterType = RESPOND_TYPE::LOWBASS;
 
         
         wxDECLARE_EVENT_TABLE();
@@ -53,10 +66,10 @@ namespace DigitalFilter {
         void m_textCtrl_StopfreqOnKeyUp(wxKeyEvent& event);
         void m_button_StartOnButtonClick(wxCommandEvent& event);
 
-        //int sampleFreq
+        //Signal Ploting
         void Quit(wxCommandEvent& event);
-        void Start(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
+        void SettingThePlots();
         void LoadingOriginalSignal();
         void LoadingFilteredSignal();
     };

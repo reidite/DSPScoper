@@ -2,31 +2,7 @@
 
 DigitalFilter::MainFrame::MainFrame()
 					: MainFrameUI(nullptr, wxID_ANY, MAINFRAME_NAME, wxDefaultPosition, wxSize(MAINFRAME_WIDTH, MAINFRAME_HEIGHT)) {
-	mpScaleX* timeAxis = new mpScaleX(wxT("Time"), mpALIGN_BORDER_BOTTOM, true, mpX_NORMAL);
-	mpScaleY* amplitudeAxis = new mpScaleY(wxT("Amplitude"), mpALIGN_BORDER_LEFT, true);
-	mpScaleX* freqAxis = new mpScaleX(wxT("Frequency"), mpALIGN_BORDER_BOTTOM, true, mpX_NORMAL);
-	mpScaleY* modulusAxis = new mpScaleY(wxT("Modulus"), mpALIGN_BORDER_LEFT, true);
-	timeAxis->SetContinuity(true);
-	freqAxis->SetContinuity(true);
-	amplitudeAxis->SetContinuity(true);
-
-	timeAxis->SetDrawOutsideMargins(true);
-	freqAxis->SetDrawOutsideMargins(true);
-	amplitudeAxis->SetDrawOutsideMargins(true);
-	
-	m_Fig1 = new mpWindow(this, -1, wxPoint(0, 0), wxSize(100, 100), wxSUNKEN_BORDER);
-	m_Fig1->EnableMousePanZoom(false);
-	m_Fig1->AddLayer(timeAxis);
-	m_Fig1->AddLayer(amplitudeAxis);
-
-	m_Fig2 = new mpWindow(this, -1, wxPoint(0, 0), wxSize(100, 100), wxSUNKEN_BORDER);
-	m_Fig2->EnableMousePanZoom(false);
-	m_Fig2->AddLayer(freqAxis);
-	m_Fig2->AddLayer(modulusAxis);
-
-	gSizer_Outputs->Add(m_Fig1, 0, wxEXPAND, 5);
-	gSizer_Outputs->Add(m_Fig2, 1, wxEXPAND, 5);
-
+	SettingThePlots();
 	m_textCtrl_Samplefreq->SetValue(std::to_string(_sampleFreq));
 	m_textCtrl_Passfreq->SetValue(std::to_string(_passFreq));
 	m_textCtrl_Stopfreq->SetValue(std::to_string(_stopFreq));
@@ -86,6 +62,33 @@ void DigitalFilter::MainFrame::OnAbout(wxCommandEvent& WXUNUSED(event)) {
     wxAboutBox(info, this);
 }
 
+void DigitalFilter::MainFrame::SettingThePlots() {
+	mpScaleX* timeAxis = new mpScaleX(wxT("Time"), mpALIGN_BORDER_BOTTOM, true, mpX_NORMAL);
+	mpScaleY* amplitudeAxis = new mpScaleY(wxT("Amplitude"), mpALIGN_BORDER_LEFT, true);
+	mpScaleX* freqAxis = new mpScaleX(wxT("Frequency"), mpALIGN_BORDER_BOTTOM, true, mpX_NORMAL);
+	mpScaleY* modulusAxis = new mpScaleY(wxT("Modulus"), mpALIGN_BORDER_LEFT, true);
+	timeAxis->SetContinuity(true);
+	freqAxis->SetContinuity(true);
+	amplitudeAxis->SetContinuity(true);
+
+	timeAxis->SetDrawOutsideMargins(true);
+	freqAxis->SetDrawOutsideMargins(true);
+	amplitudeAxis->SetDrawOutsideMargins(true);
+
+	m_Fig1 = new mpWindow(this, -1, wxPoint(0, 0), wxSize(100, 100), wxSUNKEN_BORDER);
+	m_Fig1->EnableMousePanZoom(false);
+	m_Fig1->AddLayer(timeAxis);
+	m_Fig1->AddLayer(amplitudeAxis);
+
+	m_Fig2 = new mpWindow(this, -1, wxPoint(0, 0), wxSize(100, 100), wxSUNKEN_BORDER);
+	m_Fig2->EnableMousePanZoom(false);
+	m_Fig2->AddLayer(freqAxis);
+	m_Fig2->AddLayer(modulusAxis);
+
+	gSizer_Outputs->Add(m_Fig1, 0, wxEXPAND, 5);
+	gSizer_Outputs->Add(m_Fig2, 1, wxEXPAND, 5);
+}
+
 void DigitalFilter::MainFrame::LoadingOriginalSignal() {
 	wxPen drawingBluePen(*wxBLUE, 2, wxPENSTYLE_SOLID);
 
@@ -94,7 +97,6 @@ void DigitalFilter::MainFrame::LoadingOriginalSignal() {
 	originalATSignalData->SetPen(drawingBluePen);
 	originalATSignalData->SetATSignalData(100);
 	m_Fig1->AddLayer(originalATSignalData);
-	
 	m_Fig1->Fit(0.0, 1.0, -AMPL, AMPL);
 
 	originalMFSignalData = new DigitalFilter::Calc::Signal(originalATSignalData);
@@ -113,8 +115,7 @@ void DigitalFilter::MainFrame::LoadingFilteredSignal() {
 	originalATSignalData->SetPen(drawingBluePen);
 	originalATSignalData->SetATSignalData(100);
 	m_Fig1->AddLayer(originalATSignalData);
-
-	m_Fig1->Fit();
+	m_Fig1->Fit(0.0, 1.0, -AMPL, AMPL);
 
 	originalMFSignalData = new DigitalFilter::Calc::Signal(originalATSignalData);
 	originalMFSignalData->SetContinuity(true);
