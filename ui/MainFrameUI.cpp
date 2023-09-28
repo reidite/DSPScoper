@@ -142,6 +142,14 @@ MainFrameUI::MainFrameUI(wxWindow* parent, wxWindowID id, const wxString& title,
 	this->Centre(wxBOTH);
 
 	// Connect Events
+	m_radioBtn_IIR->Connect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(MainFrameUI::m_radioBtn_IIROnRadioButton), NULL, this);
+	m_radioBtn_FIR->Connect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(MainFrameUI::m_radioBtn_FIROnRadioButton), NULL, this);
+	m_radioBtn_Firstorder->Connect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(MainFrameUI::m_radioBtn_FirstorderOnRadioButton), NULL, this);
+	m_radioBtn_Secondorder->Connect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(MainFrameUI::m_radioBtn_SecondorderOnRadioButton), NULL, this);
+	m_radioBtn_Lowpass->Connect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(MainFrameUI::m_radioBtn_LowpassOnRadioButton), NULL, this);
+	m_radioBtn_Highpass->Connect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(MainFrameUI::m_radioBtn_HighpassOnRadioButton), NULL, this);
+	m_radioBtn_Bandpass->Connect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(MainFrameUI::m_radioBtn_BandpassOnRadioButton), NULL, this);
+	m_radioBtn_Bandstop->Connect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(MainFrameUI::m_radioBtn_BandstopOnRadioButton), NULL, this);
 	m_textCtrl_Samplefreq->Connect(wxEVT_KEY_UP, wxKeyEventHandler(MainFrameUI::m_textCtrl_SamplefreqOnKeyUp), NULL, this);
 	m_textCtrl_Passfreq->Connect(wxEVT_KEY_UP, wxKeyEventHandler(MainFrameUI::m_textCtrl_PassfreqOnKeyUp), NULL, this);
 	m_textCtrl_Stopfreq->Connect(wxEVT_KEY_UP, wxKeyEventHandler(MainFrameUI::m_textCtrl_StopfreqOnKeyUp), NULL, this);
@@ -151,6 +159,14 @@ MainFrameUI::MainFrameUI(wxWindow* parent, wxWindowID id, const wxString& title,
 MainFrameUI::~MainFrameUI()
 {
 	// Disconnect Events
+	m_radioBtn_IIR->Disconnect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(MainFrameUI::m_radioBtn_IIROnRadioButton), NULL, this);
+	m_radioBtn_FIR->Disconnect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(MainFrameUI::m_radioBtn_FIROnRadioButton), NULL, this);
+	m_radioBtn_Firstorder->Disconnect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(MainFrameUI::m_radioBtn_FirstorderOnRadioButton), NULL, this);
+	m_radioBtn_Secondorder->Disconnect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(MainFrameUI::m_radioBtn_SecondorderOnRadioButton), NULL, this);
+	m_radioBtn_Lowpass->Disconnect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(MainFrameUI::m_radioBtn_LowpassOnRadioButton), NULL, this);
+	m_radioBtn_Highpass->Disconnect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(MainFrameUI::m_radioBtn_HighpassOnRadioButton), NULL, this);
+	m_radioBtn_Bandpass->Disconnect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(MainFrameUI::m_radioBtn_BandpassOnRadioButton), NULL, this);
+	m_radioBtn_Bandstop->Disconnect(wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(MainFrameUI::m_radioBtn_BandstopOnRadioButton), NULL, this);
 	m_textCtrl_Samplefreq->Disconnect(wxEVT_KEY_UP, wxKeyEventHandler(MainFrameUI::m_textCtrl_SamplefreqOnKeyUp), NULL, this);
 	m_textCtrl_Passfreq->Disconnect(wxEVT_KEY_UP, wxKeyEventHandler(MainFrameUI::m_textCtrl_PassfreqOnKeyUp), NULL, this);
 	m_textCtrl_Stopfreq->Disconnect(wxEVT_KEY_UP, wxKeyEventHandler(MainFrameUI::m_textCtrl_StopfreqOnKeyUp), NULL, this);

@@ -52,6 +52,14 @@ protected:
 	wxGridSizer* gSizer_Outputs;
 
 	// Virtual event handlers, overide them in your derived class
+	virtual void m_radioBtn_IIROnRadioButton(wxCommandEvent& event) { event.Skip(); }
+	virtual void m_radioBtn_FIROnRadioButton(wxCommandEvent& event) { event.Skip(); }
+	virtual void m_radioBtn_FirstorderOnRadioButton(wxCommandEvent& event) { event.Skip(); }
+	virtual void m_radioBtn_SecondorderOnRadioButton(wxCommandEvent& event) { event.Skip(); }
+	virtual void m_radioBtn_LowpassOnRadioButton(wxCommandEvent& event) { event.Skip(); }
+	virtual void m_radioBtn_HighpassOnRadioButton(wxCommandEvent& event) { event.Skip(); }
+	virtual void m_radioBtn_BandpassOnRadioButton(wxCommandEvent& event) { event.Skip(); }
+	virtual void m_radioBtn_BandstopOnRadioButton(wxCommandEvent& event) { event.Skip(); }
 	virtual void m_textCtrl_SamplefreqOnKeyUp(wxKeyEvent& event) { event.Skip(); }
 	virtual void m_textCtrl_PassfreqOnKeyUp(wxKeyEvent& event) { event.Skip(); }
 	virtual void m_textCtrl_StopfreqOnKeyUp(wxKeyEvent& event) { event.Skip(); }

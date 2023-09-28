@@ -154,7 +154,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="calc\coefstrategy.cpp" />
     <ClCompile Include="calc\filter.cpp" />
     <ClCompile Include="calc\signal.cpp" />
     <ClCompile Include="main.cpp" />
@@ -163,7 +162,6 @@
     <ClCompile Include="ui\MainFrameUI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="calc\coefstrategy.h" />
     <ClInclude Include="calc\filter.h" />
     <ClInclude Include="MainFrame.h" />
     <ClInclude Include="plot\mathplot.h" />

@@ -30,12 +30,6 @@
     <ClCompile Include="MainFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="calc\coefstrategy.cpp">
-      <Filter>Source Files\calc</Filter>
-    </ClCompile>
-    <ClCompile Include="calc\filter.cpp">
-      <Filter>Source Files\calc</Filter>
-    </ClCompile>
     <ClCompile Include="calc\signal.cpp">
       <Filter>Source Files\calc</Filter>
     </ClCompile>
@@ -44,6 +38,9 @@
     </ClCompile>
     <ClCompile Include="plot\mathplot.cpp">
       <Filter>Source Files\plot</Filter>
+    </ClCompile>
+    <ClCompile Include="calc\filter.cpp">
+      <Filter>Source Files\calc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -57,9 +54,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ui\MainFrameUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="calc\coefstrategy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="calc\filter.h">

@@ -12,43 +12,27 @@
 #include "wx/aboutdlg.h"
 
 #include "./ui/MainFrameUI.h"
-#include "./calc/coefstrategy.h"
+#include "./calc/filter.h"
 #include "./calc/signal.h"
-
-enum DESIGN_METHOD {
-    IIR,
-    FIR
-};
-
-enum FILTER_ORDER {
-    FIRST,
-    SECOND
-};
-
-enum RESPOND_TYPE {
-    LOWBASS,
-    HIGHBASS,
-    BANDBASS,
-    BANDSTOP
-};
 
 namespace DigitalFilter {
     class MainFrame : public MainFrameUI {
     private:
         std::atomic_bool stopFigureDrawing = false;
+        Calc::Filter* filter;
 
-        int _sampleFreq = DEFAULT_SAMPLEFREQ;
-        int _passFreq = DEFAULT_PASSFREQ;
-        int _stopFreq = DEFAULT_STOPFREQ;
-        DESIGN_METHOD designMethod = DESIGN_METHOD::IIR;
-        FILTER_ORDER filterOrder = FILTER_ORDER::FIRST;
-        RESPOND_TYPE filterType = RESPOND_TYPE::LOWBASS;
-
-        
         wxDECLARE_EVENT_TABLE();
         wxDECLARE_NO_COPY_CLASS(MainFrame);
 
     protected:
+        int _sampleFreq = DEFAULT_SAMPLEFREQ;
+        int _passFreq = DEFAULT_PASSFREQ;
+        int _stopFreq = DEFAULT_STOPFREQ;
+        unsigned int designMethod = 0;
+        unsigned int filterOrder = 0;
+        unsigned int filterType = 0;
+
+        
         mpWindow* m_Fig1;
         mpWindow* m_Fig2;
 
@@ -62,12 +46,20 @@ namespace DigitalFilter {
         virtual ~MainFrame();
 
         // Commands
+        void m_radioBtn_IIROnRadioButton(wxCommandEvent& event);
+        void m_radioBtn_FIROnRadioButton(wxCommandEvent& event);
+        void m_radioBtn_FirstorderOnRadioButton(wxCommandEvent& event);
+        void m_radioBtn_SecondorderOnRadioButton(wxCommandEvent& event);
+        void m_radioBtn_LowpassOnRadioButton(wxCommandEvent& event);
+        void m_radioBtn_HighpassOnRadioButton(wxCommandEvent& event);
+        void m_radioBtn_BandpassOnRadioButton(wxCommandEvent& event);
+        void m_radioBtn_BandstopOnRadioButton(wxCommandEvent& event);
         void m_textCtrl_SamplefreqOnKeyUp(wxKeyEvent& event);
         void m_textCtrl_PassfreqOnKeyUp(wxKeyEvent& event);
         void m_textCtrl_StopfreqOnKeyUp(wxKeyEvent& event);
         void m_button_StartOnButtonClick(wxCommandEvent& event);
 
-        //Signal Ploting
+        // Plotings
         void Quit(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
         void SettingThePlots();
