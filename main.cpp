@@ -13,9 +13,9 @@
 #include "wx/log.h"
 #include "wx/app.h"
 #include "wx/scrolwin.h"
-
 #include "wx/fontpicker.h"
-#include "Mainframe.h"
+
+#include "./Mainframe.h"
 
 enum {
     PANE_COLLAPSE = 100,

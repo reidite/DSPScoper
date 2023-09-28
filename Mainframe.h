@@ -8,11 +8,12 @@
 #define DEFAULT_PASSFREQ 50
 #define DEFAULT_STOPFREQ 50
 
-#include "wx/aboutdlg.h"
-#include "MainFrameUI.h"
-#include "coefstrategy.h"
-#include "signal.h"
 #include <thread>
+#include "wx/aboutdlg.h"
+
+#include "./ui/MainFrameUI.h"
+#include "./calc/coefstrategy.h"
+#include "./calc/signal.h"
 
 enum DESIGN_METHOD {
     IIR,

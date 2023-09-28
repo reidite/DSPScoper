@@ -13,14 +13,14 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Calc">
+    <Filter Include="Source Files\calc">
       <UniqueIdentifier>{ec12a600-b311-4b73-b76e-e74132809d02}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Plot">
-      <UniqueIdentifier>{6c0455a5-d380-4e80-978e-e9abc24fb3f9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\UI">
+    <Filter Include="Source Files\ui">
       <UniqueIdentifier>{a6ccd196-0cb3-4cec-9f6b-db438a37eecf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\plot">
+      <UniqueIdentifier>{6c0455a5-d380-4e80-978e-e9abc24fb3f9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -30,39 +30,39 @@
     <ClCompile Include="MainFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="coefstrategy.cpp">
-      <Filter>Source Files\Calc</Filter>
+    <ClCompile Include="calc\coefstrategy.cpp">
+      <Filter>Source Files\calc</Filter>
     </ClCompile>
-    <ClCompile Include="mathplot.cpp">
-      <Filter>Source Files\Plot</Filter>
+    <ClCompile Include="calc\filter.cpp">
+      <Filter>Source Files\calc</Filter>
     </ClCompile>
-    <ClCompile Include="filter.cpp">
-      <Filter>Source Files\Calc</Filter>
+    <ClCompile Include="calc\signal.cpp">
+      <Filter>Source Files\calc</Filter>
     </ClCompile>
-    <ClCompile Include="signal.cpp">
-      <Filter>Source Files\Calc</Filter>
+    <ClCompile Include="ui\MainFrameUI.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="MainFrameUI.cpp">
-      <Filter>Source Files\UI</Filter>
+    <ClCompile Include="plot\mathplot.cpp">
+      <Filter>Source Files\plot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="coefstrategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="filter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mathplot.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="signal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MainFrameUI.h">
+    <ClInclude Include="plot\mathplot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\MainFrameUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="calc\coefstrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="calc\filter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

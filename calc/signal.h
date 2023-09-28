@@ -1,6 +1,4 @@
-#pragma once
-#define _CRT_SECURE_NO_WARNINGS 1
-#include "./plot/mathplot.h"
+#include "../plot/mathplot.h"
 #include <complex>
 #include <vector>
 #include <cmath>
