@@ -157,7 +157,7 @@
     <ClCompile Include="coefstrategy.cpp" />
     <ClCompile Include="filter.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Mainframe.cpp" />
+    <ClCompile Include="MainFrame.cpp" />
     <ClCompile Include="MainFrameUI.cpp" />
     <ClCompile Include="mathplot.cpp" />
     <ClCompile Include="signal.cpp" />
@@ -165,7 +165,7 @@
   <ItemGroup>
     <ClInclude Include="coefstrategy.h" />
     <ClInclude Include="filter.h" />
-    <ClInclude Include="Mainframe.h" />
+    <ClInclude Include="MainFrame.h" />
     <ClInclude Include="MainFrameUI.h" />
     <ClInclude Include="mathplot.h" />
     <ClInclude Include="signal.h" />

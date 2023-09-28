@@ -29,6 +29,7 @@ MainFrameUI::MainFrameUI(wxWindow* parent, wxWindowID id, const wxString& title,
 	gSizer00 = new wxGridSizer(2, 1, 0, 0);
 
 	m_radioBtn_IIR = new wxRadioButton(sbSizer_DesignMethod->GetStaticBox(), wxID_ANY, wxT("IIR"), wxDefaultPosition, wxDefaultSize, 0);
+	m_radioBtn_IIR->SetValue(true);
 	gSizer00->Add(m_radioBtn_IIR, 0, wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT | wxALL, 5);
 
 	m_radioBtn_FIR = new wxRadioButton(sbSizer_DesignMethod->GetStaticBox(), wxID_ANY, wxT("FIR"), wxDefaultPosition, wxDefaultSize, 0);
@@ -47,6 +48,7 @@ MainFrameUI::MainFrameUI(wxWindow* parent, wxWindowID id, const wxString& title,
 	gSizer01 = new wxGridSizer(2, 1, 0, 0);
 
 	m_radioBtn_Firstorder = new wxRadioButton(sbSizer_FilterOrder->GetStaticBox(), wxID_ANY, wxT("First order"), wxDefaultPosition, wxDefaultSize, 0);
+	m_radioBtn_Firstorder->SetValue(true);
 	gSizer01->Add(m_radioBtn_Firstorder, 0, wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT | wxALL, 5);
 
 	m_radioBtn_Secondorder = new wxRadioButton(sbSizer_FilterOrder->GetStaticBox(), wxID_ANY, wxT("Second order"), wxDefaultPosition, wxDefaultSize, 0);
@@ -65,6 +67,7 @@ MainFrameUI::MainFrameUI(wxWindow* parent, wxWindowID id, const wxString& title,
 	gSizer10 = new wxGridSizer(4, 1, 0, 0);
 
 	m_radioBtn_Lowpass = new wxRadioButton(sbSizer_ResponseType->GetStaticBox(), wxID_ANY, wxT("Low-pass"), wxDefaultPosition, wxDefaultSize, 0);
+	m_radioBtn_Lowpass->SetValue(true);
 	gSizer10->Add(m_radioBtn_Lowpass, 0, wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT | wxALL, 5);
 
 	m_radioBtn_Highpass = new wxRadioButton(sbSizer_ResponseType->GetStaticBox(), wxID_ANY, wxT("High-pass"), wxDefaultPosition, wxDefaultSize, 0);
@@ -139,12 +142,18 @@ MainFrameUI::MainFrameUI(wxWindow* parent, wxWindowID id, const wxString& title,
 	this->Centre(wxBOTH);
 
 	// Connect Events
+	m_textCtrl_Samplefreq->Connect(wxEVT_KEY_UP, wxKeyEventHandler(MainFrameUI::m_textCtrl_SamplefreqOnKeyUp), NULL, this);
+	m_textCtrl_Passfreq->Connect(wxEVT_KEY_UP, wxKeyEventHandler(MainFrameUI::m_textCtrl_PassfreqOnKeyUp), NULL, this);
+	m_textCtrl_Stopfreq->Connect(wxEVT_KEY_UP, wxKeyEventHandler(MainFrameUI::m_textCtrl_StopfreqOnKeyUp), NULL, this);
 	m_button_Start->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainFrameUI::m_button_StartOnButtonClick), NULL, this);
 }
 
 MainFrameUI::~MainFrameUI()
 {
 	// Disconnect Events
+	m_textCtrl_Samplefreq->Disconnect(wxEVT_KEY_UP, wxKeyEventHandler(MainFrameUI::m_textCtrl_SamplefreqOnKeyUp), NULL, this);
+	m_textCtrl_Passfreq->Disconnect(wxEVT_KEY_UP, wxKeyEventHandler(MainFrameUI::m_textCtrl_PassfreqOnKeyUp), NULL, this);
+	m_textCtrl_Stopfreq->Disconnect(wxEVT_KEY_UP, wxKeyEventHandler(MainFrameUI::m_textCtrl_StopfreqOnKeyUp), NULL, this);
 	m_button_Start->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainFrameUI::m_button_StartOnButtonClick), NULL, this);
 
 }

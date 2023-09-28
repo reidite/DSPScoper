@@ -10,42 +10,66 @@ DigitalFilter::MainFrame::MainFrame()
 	freqAxis->SetContinuity(true);
 	amplitudeAxis->SetContinuity(true);
 
-
-	wxPen drawingBluePen(*wxBLUE, 4, wxPENSTYLE_SOLID);
-	wxPen drawingRedPen(*wxRED, 4, wxPENSTYLE_SOLID);
-
 	timeAxis->SetDrawOutsideMargins(true);
 	freqAxis->SetDrawOutsideMargins(true);
 	amplitudeAxis->SetDrawOutsideMargins(true);
-
-	m_Fig1 = new mpWindow(this, 0, wxPoint(0, 0), wxSize(300, 100), wxSUNKEN_BORDER);
+	
+	m_Fig1 = new mpWindow(this, -1, wxPoint(0, 0), wxSize(100, 100), wxSUNKEN_BORDER);
+	m_Fig1->EnableMousePanZoom(false);
 	m_Fig1->AddLayer(timeAxis);
 	m_Fig1->AddLayer(amplitudeAxis);
 
-	originalATSignalData = new Calc::Signal(AMPL, FREQ, PSI);
-	originalATSignalData->SetContinuity(true);
-	originalATSignalData->SetPen(drawingBluePen);
-	originalATSignalData->SetATSignalData(100);
-	m_Fig1->AddLayer(originalATSignalData);
-
-	gSizer_Outputs->Add(m_Fig1, 0, wxEXPAND, 5);
-	m_Fig1->Fit();
-
 	m_Fig2 = new mpWindow(this, -1, wxPoint(0, 0), wxSize(100, 100), wxSUNKEN_BORDER);
+	m_Fig2->EnableMousePanZoom(false);
 	m_Fig2->AddLayer(freqAxis);
 	m_Fig2->AddLayer(modulusAxis);
 
-	originalMFSignalData = new DigitalFilter::Calc::Signal(originalATSignalData);
-	originalMFSignalData->SetContinuity(true);
-	originalMFSignalData->SetPen(drawingBluePen);
-	originalMFSignalData->SetMFSignalData(originalATSignalData);
-	m_Fig2->AddLayer(originalATSignalData);
+	gSizer_Outputs->Add(m_Fig1, 0, wxEXPAND, 5);
 	gSizer_Outputs->Add(m_Fig2, 1, wxEXPAND, 5);
-	m_Fig2->Fit();
 
+	m_textCtrl_Samplefreq->SetValue(std::to_string(_sampleFreq));
+	m_textCtrl_Passfreq->SetValue(std::to_string(_passFreq));
+	m_textCtrl_Stopfreq->SetValue(std::to_string(_stopFreq));
 }
 
 DigitalFilter::MainFrame::~MainFrame() {
+}
+
+void DigitalFilter::MainFrame::m_textCtrl_SamplefreqOnKeyUp(wxKeyEvent& event) {
+	int keyCode = event.GetKeyCode();
+	if (wxIsdigit(keyCode) || (keyCode >= WXK_NUMPAD0 && keyCode <= WXK_NUMPAD9) ||
+		keyCode == WXK_BACK || keyCode == WXK_DELETE) {
+		_sampleFreq = wxAtoi(m_textCtrl_Samplefreq->GetValue());
+	}
+	else {
+		m_textCtrl_Samplefreq->SetValue(std::to_string(_sampleFreq));
+	}
+}
+
+void DigitalFilter::MainFrame::m_textCtrl_PassfreqOnKeyUp(wxKeyEvent& event) {
+	int keyCode = event.GetKeyCode();
+	if (wxIsdigit(keyCode) || (keyCode >= WXK_NUMPAD0 && keyCode <= WXK_NUMPAD9) ||
+		keyCode == WXK_BACK || keyCode == WXK_DELETE) {
+		_passFreq = wxAtoi(m_textCtrl_Passfreq->GetValue());
+	}
+	else {
+		m_textCtrl_Passfreq->SetValue(std::to_string(_passFreq));
+	}
+}
+
+void DigitalFilter::MainFrame::m_textCtrl_StopfreqOnKeyUp(wxKeyEvent& event) {
+	int keyCode = event.GetKeyCode();
+	if (wxIsdigit(keyCode) || (keyCode >= WXK_NUMPAD0 && keyCode <= WXK_NUMPAD9) ||
+		keyCode == WXK_BACK || keyCode == WXK_DELETE) {
+		_stopFreq = wxAtoi(m_textCtrl_Stopfreq->GetValue());
+	}
+	else {
+		m_textCtrl_Stopfreq->SetValue(std::to_string(_stopFreq));
+	}
+}
+
+void DigitalFilter::MainFrame::m_button_StartOnButtonClick(wxCommandEvent& event) {
+	event.Skip();
 }
 
 void DigitalFilter::MainFrame::Quit(wxCommandEvent& WXUNUSED(event)) {
@@ -63,8 +87,39 @@ void DigitalFilter::MainFrame::OnAbout(wxCommandEvent& WXUNUSED(event)) {
 }
 
 void DigitalFilter::MainFrame::LoadingOriginalSignal() {
-	while (!stopFigureDrawing) {
-		//m_Fig1->Refresh();
-		//originalSignal = new Signal(AMPL, FREQ, PSI);
-	}
+	wxPen drawingBluePen(*wxBLUE, 2, wxPENSTYLE_SOLID);
+
+	originalATSignalData = new Calc::Signal(AMPL, FREQ, PSI);
+	originalATSignalData->SetContinuity(true);
+	originalATSignalData->SetPen(drawingBluePen);
+	originalATSignalData->SetATSignalData(100);
+	m_Fig1->AddLayer(originalATSignalData);
+	
+	m_Fig1->Fit(0.0, 1.0, -AMPL, AMPL);
+
+	originalMFSignalData = new DigitalFilter::Calc::Signal(originalATSignalData);
+	originalMFSignalData->SetContinuity(true);
+	originalMFSignalData->SetPen(drawingBluePen);
+	originalMFSignalData->SetMFSignalData(originalATSignalData);
+	m_Fig2->AddLayer(originalMFSignalData);
+	m_Fig2->Fit();
+}
+
+void DigitalFilter::MainFrame::LoadingFilteredSignal() {
+	wxPen drawingBluePen(*wxRED, 2, wxPENSTYLE_SOLID);
+
+	originalATSignalData = new Calc::Signal(AMPL, FREQ, PSI);
+	originalATSignalData->SetContinuity(true);
+	originalATSignalData->SetPen(drawingBluePen);
+	originalATSignalData->SetATSignalData(100);
+	m_Fig1->AddLayer(originalATSignalData);
+
+	m_Fig1->Fit();
+
+	originalMFSignalData = new DigitalFilter::Calc::Signal(originalATSignalData);
+	originalMFSignalData->SetContinuity(true);
+	originalMFSignalData->SetPen(drawingBluePen);
+	originalMFSignalData->SetMFSignalData(originalATSignalData);
+	m_Fig2->AddLayer(originalMFSignalData);
+	m_Fig2->Fit();
 }

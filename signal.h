@@ -1,12 +1,13 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS 1
 #include "mathplot.h"
 #include <complex>
 #include <vector>
+#include <cmath>
 #include <ctime>
 namespace DigitalFilter {
 	namespace Calc {
 		class Signal : public mpFXYVector {
-		private:
 
 		protected:
 			double m_freq;
@@ -16,8 +17,9 @@ namespace DigitalFilter {
 			std::vector<double> y;
 
 		public:
-			Signal(double freq, double amp, double psi);
 			Signal(Signal* origin);
+			Signal(double freq, double amp, double psi);
+			
 
 			void SetATSignalData(int sample);
 			void SetMFSignalData(Signal* sample);

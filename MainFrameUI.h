@@ -52,6 +52,9 @@ protected:
 	wxGridSizer* gSizer_Outputs;
 
 	// Virtual event handlers, overide them in your derived class
+	virtual void m_textCtrl_SamplefreqOnKeyUp(wxKeyEvent& event) { event.Skip(); }
+	virtual void m_textCtrl_PassfreqOnKeyUp(wxKeyEvent& event) { event.Skip(); }
+	virtual void m_textCtrl_StopfreqOnKeyUp(wxKeyEvent& event) { event.Skip(); }
 	virtual void m_button_StartOnButtonClick(wxCommandEvent& event) { event.Skip(); }
 
 
