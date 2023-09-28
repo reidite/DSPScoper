@@ -4,23 +4,6 @@
 #include <vector>
 #include "math.h"
 
-//enum DESIGN_METHOD {
-//    IIR,
-//    FIR
-//};
-//
-//enum FILTER_ORDER {
-//    FIRST,
-//    SECOND
-//};
-//
-//enum RESPOND_TYPE {
-//    LOWPASS,
-//    HIGHPASS,
-//    BANDPASS,
-//    BANDSTOP
-//};
-
 namespace DigitalFilter {
     namespace Calc {
         class Filter {
