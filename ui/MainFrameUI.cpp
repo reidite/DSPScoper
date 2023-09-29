@@ -124,8 +124,8 @@ MainFrameUI::MainFrameUI(wxWindow* parent, wxWindowID id, const wxString& title,
 
 	bSizer_LeftLayout->Add(gSizer_AdjusterLayout, 1, wxALIGN_TOP, 5);
 
-	m_button_Start = new wxButton(this, wxID_ANY, wxT("Start"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
-	bSizer_LeftLayout->Add(m_button_Start, 0, wxALIGN_CENTER | wxALIGN_CENTER_VERTICAL, 5);
+	m_toggle_Start = new wxToggleButton(this, wxID_ANY, wxT("Start"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer_LeftLayout->Add(m_toggle_Start, 0, wxALIGN_CENTER | wxALIGN_CENTER_VERTICAL, 5);
 
 
 	gSizer_OuterLayout->Add(bSizer_LeftLayout, 1, wxEXPAND, 5);
@@ -153,7 +153,7 @@ MainFrameUI::MainFrameUI(wxWindow* parent, wxWindowID id, const wxString& title,
 	m_textCtrl_Samplefreq->Connect(wxEVT_KEY_UP, wxKeyEventHandler(MainFrameUI::m_textCtrl_SamplefreqOnKeyUp), NULL, this);
 	m_textCtrl_Passfreq->Connect(wxEVT_KEY_UP, wxKeyEventHandler(MainFrameUI::m_textCtrl_PassfreqOnKeyUp), NULL, this);
 	m_textCtrl_Stopfreq->Connect(wxEVT_KEY_UP, wxKeyEventHandler(MainFrameUI::m_textCtrl_StopfreqOnKeyUp), NULL, this);
-	m_button_Start->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainFrameUI::m_button_StartOnButtonClick), NULL, this);
+	m_toggle_Start->Connect(wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler(MainFrameUI::m_toggle_StartOnToggleButton), NULL, this);
 }
 
 MainFrameUI::~MainFrameUI()
@@ -170,6 +170,6 @@ MainFrameUI::~MainFrameUI()
 	m_textCtrl_Samplefreq->Disconnect(wxEVT_KEY_UP, wxKeyEventHandler(MainFrameUI::m_textCtrl_SamplefreqOnKeyUp), NULL, this);
 	m_textCtrl_Passfreq->Disconnect(wxEVT_KEY_UP, wxKeyEventHandler(MainFrameUI::m_textCtrl_PassfreqOnKeyUp), NULL, this);
 	m_textCtrl_Stopfreq->Disconnect(wxEVT_KEY_UP, wxKeyEventHandler(MainFrameUI::m_textCtrl_StopfreqOnKeyUp), NULL, this);
-	m_button_Start->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainFrameUI::m_button_StartOnButtonClick), NULL, this);
+	m_toggle_Start->Disconnect(wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler(MainFrameUI::m_toggle_StartOnToggleButton), NULL, this);
 
 }

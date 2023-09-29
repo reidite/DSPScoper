@@ -163,9 +163,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="calc\filter.h" />
+    <ClInclude Include="calc\signal.h" />
     <ClInclude Include="MainFrame.h" />
     <ClInclude Include="plot\mathplot.h" />
-    <ClInclude Include="signal.h" />
     <ClInclude Include="ui\MainFrameUI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

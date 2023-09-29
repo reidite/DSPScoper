@@ -47,10 +47,10 @@ bool App::OnInit() {
         return false;
 
     // create and show the main frame
-    DigitalFilter::MainFrame* frame = new DigitalFilter::MainFrame;
+    DigitalFilter::MainFrame* frame = new DigitalFilter::MainFrame();
     frame->Show(true);
-    std::thread Updater(&DigitalFilter::MainFrame::LoadingOriginalSignal, &(*frame));
-    Updater.detach();
+    std::thread OriginalSignalUpdater(&DigitalFilter::MainFrame::LoadingSignal, &(*frame));
+    OriginalSignalUpdater.detach();
     return true;
 }
 

@@ -1,9 +1,12 @@
 #define MAINFRAME_NAME "Digital Filter"
 #define MAINFRAME_HEIGHT 420
 #define MAINFRAME_WIDTH 840
+
 #define AMPL 2.0
 #define FREQ 220.0
-#define PSI 0.25
+#define PSI 0.1
+#define NUMBER_OF_PTS 100
+
 #define DEFAULT_SAMPLEFREQ 220
 #define DEFAULT_PASSFREQ 50
 #define DEFAULT_STOPFREQ 50
@@ -18,7 +21,7 @@
 namespace DigitalFilter {
     class MainFrame : public MainFrameUI {
     private:
-        std::atomic_bool stopFigureDrawing = false;
+        std::atomic_bool isDrawingFiltedResult = false;
         Calc::Filter* filter;
 
         wxDECLARE_EVENT_TABLE();
@@ -32,7 +35,6 @@ namespace DigitalFilter {
         unsigned int filterOrder = 0;
         unsigned int filterType = 0;
 
-        
         mpWindow* m_Fig1;
         mpWindow* m_Fig2;
 
@@ -57,13 +59,16 @@ namespace DigitalFilter {
         void m_textCtrl_SamplefreqOnKeyUp(wxKeyEvent& event);
         void m_textCtrl_PassfreqOnKeyUp(wxKeyEvent& event);
         void m_textCtrl_StopfreqOnKeyUp(wxKeyEvent& event);
-        void m_button_StartOnButtonClick(wxCommandEvent& event);
+        void m_toggle_StartOnToggleButton(wxCommandEvent& event);
 
         // Plotings
         void Quit(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
         void SettingThePlots();
-        void LoadingOriginalSignal();
+        void SettingSignalProperties();
+
+        void LoadingFilter();
+        void LoadingSignal();
         void LoadingFilteredSignal();
     };
 }

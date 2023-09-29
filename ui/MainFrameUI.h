@@ -20,7 +20,7 @@
 #include <wx/statbox.h>
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
-#include <wx/button.h>
+#include <wx/tglbtn.h>
 #include <wx/frame.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -48,7 +48,7 @@ protected:
 	wxTextCtrl* m_textCtrl_Passfreq;
 	wxStaticText* m_staticText_Stopfreq;
 	wxTextCtrl* m_textCtrl_Stopfreq;
-	wxButton* m_button_Start;
+	wxToggleButton* m_toggle_Start;
 	wxGridSizer* gSizer_Outputs;
 
 	// Virtual event handlers, overide them in your derived class
@@ -63,12 +63,12 @@ protected:
 	virtual void m_textCtrl_SamplefreqOnKeyUp(wxKeyEvent& event) { event.Skip(); }
 	virtual void m_textCtrl_PassfreqOnKeyUp(wxKeyEvent& event) { event.Skip(); }
 	virtual void m_textCtrl_StopfreqOnKeyUp(wxKeyEvent& event) { event.Skip(); }
-	virtual void m_button_StartOnButtonClick(wxCommandEvent& event) { event.Skip(); }
+	virtual void m_toggle_StartOnToggleButton(wxCommandEvent& event) { event.Skip(); }
 
 
 public:
 
-	MainFrameUI(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(736, 378), long style = wxDEFAULT_FRAME_STYLE | wxFRAME_TOOL_WINDOW | wxTAB_TRAVERSAL);
+	MainFrameUI(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(736, 338), long style = wxDEFAULT_FRAME_STYLE | wxFRAME_TOOL_WINDOW | wxTAB_TRAVERSAL);
 
 	~MainFrameUI();
 
