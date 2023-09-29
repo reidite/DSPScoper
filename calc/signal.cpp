@@ -4,7 +4,7 @@ DigitalFilter::Calc::Signal::Signal(Signal* origin) : mpFXYVector(wxT("f(x) = si
 	m_freq = origin->m_freq; m_amp = origin->m_amp;
 	m_psi = origin->m_psi; numsOfPts = origin->numsOfPts;
 
-	m_drawOutsideMargins = false;
+	m_drawOutsideMargins = true;
 };
 
 DigitalFilter::Calc::Signal::Signal(double freq, double amp, double psi, int num) : mpFXYVector(wxT("f(x) = sin(x) + psi"), mpALIGN_LEFT) {
@@ -14,7 +14,7 @@ DigitalFilter::Calc::Signal::Signal(double freq, double amp, double psi, int num
 	x = std::vector<double>(numsOfPts, 0);
 	y = std::vector<double>(numsOfPts, 0);
 
-	m_drawOutsideMargins = false;
+	m_drawOutsideMargins = true;
 };
 
 void DigitalFilter::Calc::Signal::SetATSignalData() {
@@ -26,7 +26,7 @@ void DigitalFilter::Calc::Signal::SetATSignalData() {
 	for (int i = 0; i < numsOfPts; i++) {
 		x[i] = 1.0 / (numsOfPts - 1) * i;
 		y[i] = m_amp * sin(2 * M_PI * m_freq * x[i])
-					//+ m_amp * dist(generator) * sin(2 * M_PI * m_freq * (1 - dist(generator)) * x[i])
+					+ m_amp * dist(generator) * sin(2 * M_PI * m_freq * (1 - dist(generator)) * x[i])
 					+ m_amp * dist(generator) * sin(2 * M_PI * m_freq * (1 - dist(generator)) * x[i]);
 	}
 	this->SetData(x, y);

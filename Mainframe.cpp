@@ -205,11 +205,12 @@ void DigitalFilter::MainFrame::LoadingSignal() {
 		filteredMFSignalData->Clear();
 
 		originalATSignalData->SetATSignalData();
+		originalMFSignalData->SetFreq(_sampleFreq);
 		originalMFSignalData->SetMFSignalData(originalATSignalData);
 		if (isDrawingFiltedResult)
 			LoadingFilteredSignal();
 		m_Fig1->Fit(0, 1, -AMPL * (1 + PSI), AMPL * (1 + PSI));
-		m_Fig2->Fit();
+		m_Fig2->Fit(0, _sampleFreq, 0, 1);
 		isUpdatingSignal = false;
 	}
 }
@@ -217,10 +218,16 @@ void DigitalFilter::MainFrame::LoadingSignal() {
 void DigitalFilter::MainFrame::LoadingFilteredSignal() {
 	filteredATSignalData->SetX(originalATSignalData->GetX());
 	filteredATSignalData->SetY(filter->filting(originalATSignalData->GetY()));
+	filteredATSignalData->SetFreq(_sampleFreq);
 	filteredATSignalData->SetFiltedData();
+	filteredMFSignalData->SetFreq(_sampleFreq);
 	filteredMFSignalData->SetMFSignalData(filteredATSignalData);
 }
 
 void DigitalFilter::MainFrame::TerminatePlotThread() {
+	isLoadingSignal = false;
+}
+
+void DigitalFilter::MainFrame::UpdatingFreq() {
 	isLoadingSignal = false;
 }

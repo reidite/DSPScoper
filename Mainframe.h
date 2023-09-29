@@ -3,13 +3,13 @@
 #define MAINFRAME_WIDTH 840
 
 #define AMPL 2.0
-#define FREQ 220.0
-#define PSI 0.1
-#define NUMBER_OF_PTS 100
+#define FREQ 12.0
+#define PSI 0.3
+#define NUMBER_OF_PTS 2000
 
-#define DEFAULT_SAMPLEFREQ 220
-#define DEFAULT_PASSFREQ 50
-#define DEFAULT_STOPFREQ 50
+#define DEFAULT_SAMPLEFREQ 12
+#define DEFAULT_PASSFREQ 5
+#define DEFAULT_STOPFREQ 5
 
 #include <thread>
 #include <mutex>
@@ -73,7 +73,7 @@ namespace DigitalFilter {
         // Plotings
         void SettingThePlots();
         void SettingSignalProperties();
-
+        void UpdatingFreq();
         void LoadingFilter();
         void LoadingSignal();
         void LoadingFilteredSignal();
