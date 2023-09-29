@@ -11,7 +11,7 @@
 
 MainFrameUI::MainFrameUI(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxFrame(parent, id, title, pos, size, style)
 {
-	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
+	this->SetSizeHints(wxSize(720, 340), wxDefaultSize);
 
 	wxGridSizer* gSizer_OuterLayout;
 	gSizer_OuterLayout = new wxGridSizer(1, 2, 0, 0);
@@ -124,8 +124,23 @@ MainFrameUI::MainFrameUI(wxWindow* parent, wxWindowID id, const wxString& title,
 
 	bSizer_LeftLayout->Add(gSizer_AdjusterLayout, 1, wxALIGN_TOP, 5);
 
-	m_toggle_Start = new wxToggleButton(this, wxID_ANY, wxT("Start"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer_LeftLayout->Add(m_toggle_Start, 0, wxALIGN_CENTER | wxALIGN_CENTER_VERTICAL, 5);
+	wxGridSizer* gSizer_StartButtonLayout;
+	gSizer_StartButtonLayout = new wxGridSizer(3, 1, 0, 0);
+
+
+	gSizer_StartButtonLayout->Add(0, 0, 1, wxEXPAND, 5);
+
+	m_toggle_Start = new wxToggleButton(this, wxID_ANY, wxT("Start"), wxDefaultPosition, wxSize(100, 50), 0);
+	m_toggle_Start->SetFont(wxFont(14, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_SEMIBOLD, false, wxT("Calibri")));
+	m_toggle_Start->SetMinSize(wxSize(100, 50));
+
+	gSizer_StartButtonLayout->Add(m_toggle_Start, 0, wxALIGN_CENTER | wxALIGN_CENTER_VERTICAL, 5);
+
+
+	gSizer_StartButtonLayout->Add(0, 0, 1, wxEXPAND, 0);
+
+
+	bSizer_LeftLayout->Add(gSizer_StartButtonLayout, 1, wxEXPAND, 5);
 
 
 	gSizer_OuterLayout->Add(bSizer_LeftLayout, 1, wxEXPAND, 5);
