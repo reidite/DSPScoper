@@ -1,6 +1,6 @@
 #define MAINFRAME_NAME "Digital Filter"
-#define MAINFRAME_HEIGHT 340
-#define MAINFRAME_WIDTH 720
+#define MAINFRAME_HEIGHT 300
+#define MAINFRAME_WIDTH 840
 
 #define AMPL 2.0
 #define FREQ 220.0

@@ -68,7 +68,7 @@ protected:
 
 public:
 
-	MainFrameUI(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(910, 437), long style = wxDEFAULT_FRAME_STYLE | wxFRAME_TOOL_WINDOW | wxTAB_TRAVERSAL);
+	MainFrameUI(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(840, 300), long style = wxDEFAULT_FRAME_STYLE | wxFRAME_TOOL_WINDOW | wxTAB_TRAVERSAL);
 
 	~MainFrameUI();
 
