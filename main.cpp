@@ -31,11 +31,15 @@ enum {
 
 
 class App : public wxApp {
+private:
+    DigitalFilter::MainFrame* frame;
+    std::thread* OriginalSignalUpdater;
 public:
 	App() { }
 
-    virtual bool OnInit() wxOVERRIDE;
+    bool OnInit() wxOVERRIDE;
 
+    void CleanUp() wxOVERRIDE;
 	wxDECLARE_NO_COPY_CLASS(App);
 };
 
@@ -47,13 +51,17 @@ bool App::OnInit() {
         return false;
 
     // create and show the main frame
-    DigitalFilter::MainFrame* frame = new DigitalFilter::MainFrame();
+    frame = new DigitalFilter::MainFrame();
     frame->Show(true);
-    std::thread OriginalSignalUpdater(&DigitalFilter::MainFrame::LoadingSignal, &(*frame));
-    OriginalSignalUpdater.detach();
+    OriginalSignalUpdater = new std::thread(&DigitalFilter::MainFrame::LoadingSignal, &(*frame));
+    OriginalSignalUpdater->detach();
     return true;
 }
 
+void App::CleanUp() {
+    frame->TerminatePlotThread();
+    OriginalSignalUpdater->join();
+}
+
 wxBEGIN_EVENT_TABLE(DigitalFilter::MainFrame, wxFrame)
-    EVT_MENU(PANE_QUIT, MainFrame::Quit)
 wxEND_EVENT_TABLE()

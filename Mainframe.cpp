@@ -19,38 +19,46 @@ DigitalFilter::MainFrame::~MainFrame() {
 
 void DigitalFilter::MainFrame::m_radioBtn_IIROnRadioButton(wxCommandEvent& event) {
 	designMethod = 0;
+	isUpdatingSignal = true;
 }
 
 void DigitalFilter::MainFrame::m_radioBtn_FIROnRadioButton(wxCommandEvent& event) {
 	designMethod = 1;
+	isUpdatingSignal = true;
 }
 
 void DigitalFilter::MainFrame::m_radioBtn_FirstorderOnRadioButton(wxCommandEvent& event) {
 	filterOrder = 0;
+	isUpdatingSignal = true;
 }
 
 void DigitalFilter::MainFrame::m_radioBtn_SecondorderOnRadioButton(wxCommandEvent& event) {
 	filterOrder = 1;
+	isUpdatingSignal = true;
 }
 
 void DigitalFilter::MainFrame::m_radioBtn_LowpassOnRadioButton(wxCommandEvent& event) {
 	filterType = 0;
 	LoadingFilter();
+	isUpdatingSignal = true;
 }
 
 void DigitalFilter::MainFrame::m_radioBtn_HighpassOnRadioButton(wxCommandEvent& event) {
 	filterType = 1;
 	LoadingFilter();
+	isUpdatingSignal = true;
 }
 
 void DigitalFilter::MainFrame::m_radioBtn_BandpassOnRadioButton(wxCommandEvent& event) {
 	filterType = 2;
 	LoadingFilter();
+	isUpdatingSignal = true;
 }
 
 void DigitalFilter::MainFrame::m_radioBtn_BandstopOnRadioButton(wxCommandEvent& event) {
 	filterType = 3;
 	LoadingFilter();
+	isUpdatingSignal = true;
 }
 
 void DigitalFilter::MainFrame::m_textCtrl_SamplefreqOnKeyUp(wxKeyEvent& event) {
@@ -63,6 +71,7 @@ void DigitalFilter::MainFrame::m_textCtrl_SamplefreqOnKeyUp(wxKeyEvent& event) {
 		}
 		_sampleFreq = wxAtoi(m_textCtrl_Samplefreq->GetValue());
 		originalATSignalData->SetFreq(_sampleFreq);
+		LoadingFilter();
 	}
 	else {
 		m_textCtrl_Samplefreq->SetValue(std::to_string(_sampleFreq));
@@ -78,6 +87,7 @@ void DigitalFilter::MainFrame::m_textCtrl_PassfreqOnKeyUp(wxKeyEvent& event) {
 			m_textCtrl_Passfreq->SetValue(std::to_string(_passFreq));
 		}
 		_passFreq = wxAtoi(m_textCtrl_Passfreq->GetValue());
+		LoadingFilter();
 	}
 	else {
 		m_textCtrl_Passfreq->SetValue(std::to_string(_passFreq));
@@ -93,6 +103,7 @@ void DigitalFilter::MainFrame::m_textCtrl_StopfreqOnKeyUp(wxKeyEvent& event) {
 			m_textCtrl_Stopfreq->SetValue(std::to_string(_stopFreq));
 		}
 		_stopFreq = wxAtoi(m_textCtrl_Stopfreq->GetValue());
+		LoadingFilter();
 	}
 	else {
 		m_textCtrl_Stopfreq->SetValue(std::to_string(_stopFreq));
@@ -109,11 +120,9 @@ void DigitalFilter::MainFrame::m_toggle_StartOnToggleButton(wxCommandEvent& even
 		isDrawingFiltedResult = false;
 		m_toggle_Start->SetLabel("Start");
 	}
+	isUpdatingSignal = true;
 }
 
-void DigitalFilter::MainFrame::Quit(wxCommandEvent& WXUNUSED(event)) {
-	Close(true);
-}
 
 void DigitalFilter::MainFrame::OnAbout(wxCommandEvent& WXUNUSED(event)) {
 	wxAboutDialogInfo info;
@@ -183,10 +192,13 @@ void DigitalFilter::MainFrame::LoadingFilter() {
 			filter->SetAB(_sampleFreq, _passFreq);
 		else filter->SetAB(_sampleFreq, _stopFreq);
 	}
+	isUpdatingSignal = true;
 }
 
 void DigitalFilter::MainFrame::LoadingSignal() {
-	while (true) {
+	while (isLoadingSignal) {
+		while (!isUpdatingSignal) {};
+		
 		originalATSignalData->Clear();
 		originalMFSignalData->Clear();
 		filteredATSignalData->Clear();
@@ -198,15 +210,17 @@ void DigitalFilter::MainFrame::LoadingSignal() {
 			LoadingFilteredSignal();
 		m_Fig1->Fit(0, 1, -AMPL * (1 + PSI), AMPL * (1 + PSI));
 		m_Fig2->Fit();
-		Sleep(100);
+		isUpdatingSignal = false;
 	}
 }
-
-
 
 void DigitalFilter::MainFrame::LoadingFilteredSignal() {
 	filteredATSignalData->SetX(originalATSignalData->GetX());
 	filteredATSignalData->SetY(filter->filting(originalATSignalData->GetY()));
 	filteredATSignalData->SetFiltedData();
 	filteredMFSignalData->SetMFSignalData(filteredATSignalData);
+}
+
+void DigitalFilter::MainFrame::TerminatePlotThread() {
+	isLoadingSignal = false;
 }

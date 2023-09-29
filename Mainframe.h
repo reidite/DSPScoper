@@ -12,6 +12,8 @@
 #define DEFAULT_STOPFREQ 50
 
 #include <thread>
+#include <mutex>
+#include <condition_variable>
 #include "wx/aboutdlg.h"
 
 #include "./ui/MainFrameUI.h"
@@ -21,7 +23,13 @@
 namespace DigitalFilter {
     class MainFrame : public MainFrameUI {
     private:
+        std::atomic_bool isLoadingSignal = true;
+        std::atomic_bool isUpdatingSignal = true;
         std::atomic_bool isDrawingFiltedResult = false;
+
+        std::condition_variable isLoadingPlotInited;
+        std::mutex lockLoadingSignal;
+        std::unique_lock<std::mutex> loadingSignalLocker{ lockLoadingSignal };
         Calc::Filter* filter;
 
         wxDECLARE_EVENT_TABLE();
@@ -60,15 +68,15 @@ namespace DigitalFilter {
         void m_textCtrl_PassfreqOnKeyUp(wxKeyEvent& event);
         void m_textCtrl_StopfreqOnKeyUp(wxKeyEvent& event);
         void m_toggle_StartOnToggleButton(wxCommandEvent& event);
+        void OnAbout(wxCommandEvent& event);
 
         // Plotings
-        void Quit(wxCommandEvent& event);
-        void OnAbout(wxCommandEvent& event);
         void SettingThePlots();
         void SettingSignalProperties();
 
         void LoadingFilter();
         void LoadingSignal();
         void LoadingFilteredSignal();
+        void TerminatePlotThread();
     };
 }
