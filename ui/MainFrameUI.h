@@ -11,18 +11,19 @@
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
 #include <wx/string.h>
-#include <wx/radiobut.h>
+#include <wx/stattext.h>
 #include <wx/gdicmn.h>
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
+#include <wx/choice.h>
+#include <wx/textctrl.h>
 #include <wx/sizer.h>
 #include <wx/statbox.h>
-#include <wx/stattext.h>
-#include <wx/textctrl.h>
+#include <wx/listctrl.h>
+#include <wx/gbsizer.h>
 #include <wx/scrolwin.h>
 #include <wx/tglbtn.h>
-#include <wx/gbsizer.h>
 #include <wx/frame.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -36,42 +37,33 @@ class MainFrameUI : public wxFrame
 	private:
 	
 	protected:
-		wxScrolledWindow* m_scrolledWindow1;
-		wxRadioButton* m_radioBtn_Firstorder;
-		wxRadioButton* m_radioBtn_Secondorder;
-		wxRadioButton* m_radioBtn_IIR;
-		wxRadioButton* m_radioBtn_FIR;
-		wxRadioButton* m_radioBtn_Lowpass;
-		wxRadioButton* m_radioBtn_Highpass;
-		wxRadioButton* m_radioBtn_Bandpass;
-		wxRadioButton* m_radioBtn_Bandstop;
-		wxStaticText* m_staticText_Samplefreq;
-		wxTextCtrl* m_textCtrl_Samplefreq;
-		wxStaticText* m_staticText_Passfreq;
-		wxTextCtrl* m_textCtrl_Passfreq;
-		wxStaticText* m_staticText_Stopfreq;
-		wxTextCtrl* m_textCtrl_Stopfreq;
+		wxScrolledWindow* m_scrolledWindow;
+		wxStaticText* m_staticText_FilterOrder;
+		wxChoice* m_choice_FilterOrder;
+		wxStaticText* m_staticText_DesignMethod;
+		wxChoice* m_choice_DesignMethod;
+		wxStaticText* m_staticText_ResponseType;
+		wxChoice* m_choice_ResponeType;
+		wxStaticText* m_staticText_AppliedFreq;
+		wxTextCtrl* m_textCtrl_AppliedFreq;
+		wxListCtrl* m_listCtrl_SignalInfo;
+		wxStaticText* m_staticText_SampleSize;
+		wxTextCtrl* m_textCtrl_SampleSize;
 		wxToggleButton* m_toggle_Start;
 		wxGridSizer* gSizer_Outputs;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void m_radioBtn_FirstorderOnRadioButton( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_radioBtn_SecondorderOnRadioButton( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_radioBtn_IIROnRadioButton( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_radioBtn_FIROnRadioButton( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_radioBtn_LowpassOnRadioButton( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_radioBtn_HighpassOnRadioButton( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_radioBtn_BandpassOnRadioButton( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_radioBtn_BandstopOnRadioButton( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_textCtrl_SamplefreqOnKeyUp( wxKeyEvent& event ) { event.Skip(); }
-		virtual void m_textCtrl_PassfreqOnKeyUp( wxKeyEvent& event ) { event.Skip(); }
-		virtual void m_textCtrl_StopfreqOnKeyUp( wxKeyEvent& event ) { event.Skip(); }
+		virtual void m_choice_FilterOrderOnChoice( wxCommandEvent& event ) { event.Skip(); }
+		virtual void m_choice_DesignMethodOnChoice( wxCommandEvent& event ) { event.Skip(); }
+		virtual void m_choice_ResponeTypeOnChoice( wxCommandEvent& event ) { event.Skip(); }
+		virtual void m_textCtrl_AppliedFreqOnKeyUp( wxKeyEvent& event ) { event.Skip(); }
+		virtual void m_textCtrl_SampleSizeOnKeyUp( wxKeyEvent& event ) { event.Skip(); }
 		virtual void m_toggle_StartOnToggleButton( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
-		MainFrameUI( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1032,628 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		MainFrameUI( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~MainFrameUI();
 	

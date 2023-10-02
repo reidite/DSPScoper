@@ -1,5 +1,4 @@
-#include "../plot/mathplot.h"
-#include "filter.h"
+#define M_PI 3.14159265358979323846
 #include <complex>
 #include <vector>
 #include <cmath>
@@ -7,29 +6,24 @@
 
 namespace DigitalFilter {
 	namespace Calc {
-		class Signal : public mpFXYVector {
-
-		protected:
+		struct SignalInfo {
 			double m_freq;
 			double m_amp;
 			double m_psi;
-			int numsOfPts;
+		};
 
+		class Signal {
+		public:
+			std::vector<SignalInfo> infos;
 			std::vector<double> x;
 			std::vector<double> y;
 
-		public:
-			Signal(Signal* origin);
-			Signal(double freq, double amp, double psi, int num);
+			Signal();
+			Signal(double amp, double freq, double psi);
+			Signal(std::vector<double> amps, std::vector<double> freqs, std::vector<double> psis);
 			
-			void SetX(std::vector<double> val) { x = val; }
-			void SetY(std::vector<double> val) { y = val; }
-			void SetFreq(double val) { m_freq = val; }
-			void SetFiltedData() { this->SetData(x, y); };
-			std::vector<double> GetX() { return x; }
-			std::vector<double> GetY() { return y; }
-			void SetATSignalData();
-			void SetMFSignalData(Signal* sample);
+			void GenerateSignalData(int numOfSample);
+			
 		};
 	}
 }

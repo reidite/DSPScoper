@@ -11,7 +11,7 @@
 
 MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxSize( 720,320 ), wxDefaultSize );
+	this->SetSizeHints( wxSize( 720,520 ), wxDefaultSize );
 	
 	wxGridBagSizer* gSizer_OuterLayout;
 	gSizer_OuterLayout = new wxGridBagSizer( 0, 0 );
@@ -23,117 +23,108 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 	gbSizer_LeftController ->SetFlexibleDirection( wxBOTH );
 	gbSizer_LeftController ->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_scrolledWindow1 = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL );
-	m_scrolledWindow1->SetScrollRate( 5, 5 );
-	m_scrolledWindow1->SetMinSize( wxSize( 240,100 ) );
+	gbSizer_LeftController ->SetMinSize( wxSize( 210,-1 ) ); 
+	m_scrolledWindow = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL );
+	m_scrolledWindow->SetScrollRate( 5, 5 );
+	m_scrolledWindow->SetMinSize( wxSize( 240,100 ) );
 	
 	wxGridSizer* gSizer_AdjusterLayout;
-	gSizer_AdjusterLayout = new wxGridSizer( 4, 1, 0, 0 );
+	gSizer_AdjusterLayout = new wxGridSizer( 2, 1, 0, 0 );
 	
-	wxStaticBoxSizer* sbSizer_FilterOrder;
-	sbSizer_FilterOrder = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow1, wxID_ANY, wxT("Filter Order") ), wxVERTICAL );
+	wxStaticBoxSizer* sbSizer_FilterControlPanel;
+	sbSizer_FilterControlPanel = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow, wxID_ANY, wxT("Filter Control") ), wxVERTICAL );
 	
-	wxGridSizer* gSizer01;
-	gSizer01 = new wxGridSizer( 2, 1, 0, 0 );
+	wxGridSizer* gSizer_FilterControl;
+	gSizer_FilterControl = new wxGridSizer( 4, 2, 0, 0 );
 	
-	m_radioBtn_Firstorder = new wxRadioButton( sbSizer_FilterOrder->GetStaticBox(), wxID_ANY, wxT("First order"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_radioBtn_Firstorder->SetValue( true ); 
-	gSizer01->Add( m_radioBtn_Firstorder, 0, wxALIGN_CENTER_VERTICAL|wxALIGN_LEFT|wxALL, 5 );
+	m_staticText_FilterOrder = new wxStaticText( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxT("Filter Order"), wxPoint( 0,0 ), wxDefaultSize, 0 );
+	m_staticText_FilterOrder->Wrap( -1 );
+	gSizer_FilterControl->Add( m_staticText_FilterOrder, 0, wxLEFT, 5 );
 	
-	m_radioBtn_Secondorder = new wxRadioButton( sbSizer_FilterOrder->GetStaticBox(), wxID_ANY, wxT("Second order"), wxDefaultPosition, wxDefaultSize, 0 );
-	gSizer01->Add( m_radioBtn_Secondorder, 0, wxALIGN_CENTER_VERTICAL|wxALIGN_LEFT|wxALL, 5 );
+	wxString m_choice_FilterOrderChoices[] = { wxT("First Order"), wxT("Second Order") };
+	int m_choice_FilterOrderNChoices = sizeof( m_choice_FilterOrderChoices ) / sizeof( wxString );
+	m_choice_FilterOrder = new wxChoice( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxPoint( 0,1 ), wxDefaultSize, m_choice_FilterOrderNChoices, m_choice_FilterOrderChoices, wxCB_SORT );
+	m_choice_FilterOrder->SetSelection( 0 );
+	m_choice_FilterOrder->SetMinSize( wxSize( 100,-1 ) );
 	
+	gSizer_FilterControl->Add( m_choice_FilterOrder, 0, 0, 5 );
 	
-	sbSizer_FilterOrder->Add( gSizer01, 1, wxEXPAND, 5 );
+	m_staticText_DesignMethod = new wxStaticText( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxT("Design Method"), wxPoint( 1,0 ), wxDefaultSize, 0 );
+	m_staticText_DesignMethod->Wrap( -1 );
+	gSizer_FilterControl->Add( m_staticText_DesignMethod, 0, wxLEFT, 5 );
 	
+	wxString m_choice_DesignMethodChoices[] = { wxT("IIR"), wxT("FIR") };
+	int m_choice_DesignMethodNChoices = sizeof( m_choice_DesignMethodChoices ) / sizeof( wxString );
+	m_choice_DesignMethod = new wxChoice( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxPoint( 1,1 ), wxDefaultSize, m_choice_DesignMethodNChoices, m_choice_DesignMethodChoices, 0 );
+	m_choice_DesignMethod->SetSelection( 0 );
+	m_choice_DesignMethod->SetMinSize( wxSize( 100,-1 ) );
 	
-	gSizer_AdjusterLayout->Add( sbSizer_FilterOrder, 1, wxEXPAND, 5 );
+	gSizer_FilterControl->Add( m_choice_DesignMethod, 0, 0, 5 );
 	
-	wxStaticBoxSizer* sbSizer_DesignMethod;
-	sbSizer_DesignMethod = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow1, wxID_ANY, wxT("Design Method") ), wxVERTICAL );
+	m_staticText_ResponseType = new wxStaticText( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxT("Design Method"), wxPoint( 2,0 ), wxDefaultSize, 0 );
+	m_staticText_ResponseType->Wrap( -1 );
+	gSizer_FilterControl->Add( m_staticText_ResponseType, 0, wxALL, 5 );
 	
-	wxGridSizer* gSizer00;
-	gSizer00 = new wxGridSizer( 2, 1, 0, 0 );
+	wxString m_choice_ResponeTypeChoices[] = { wxT("Low Pass"), wxT("High Pass"), wxT("Band Pass"), wxT("Band Stop") };
+	int m_choice_ResponeTypeNChoices = sizeof( m_choice_ResponeTypeChoices ) / sizeof( wxString );
+	m_choice_ResponeType = new wxChoice( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxPoint( 2,1 ), wxDefaultSize, m_choice_ResponeTypeNChoices, m_choice_ResponeTypeChoices, 0 );
+	m_choice_ResponeType->SetSelection( 0 );
+	m_choice_ResponeType->SetMinSize( wxSize( 100,-1 ) );
 	
-	m_radioBtn_IIR = new wxRadioButton( sbSizer_DesignMethod->GetStaticBox(), wxID_ANY, wxT("IIR"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_radioBtn_IIR->SetValue( true ); 
-	gSizer00->Add( m_radioBtn_IIR, 0, wxALIGN_CENTER_VERTICAL|wxALIGN_LEFT|wxALL, 5 );
+	gSizer_FilterControl->Add( m_choice_ResponeType, 0, 0, 5 );
 	
-	m_radioBtn_FIR = new wxRadioButton( sbSizer_DesignMethod->GetStaticBox(), wxID_ANY, wxT("FIR"), wxDefaultPosition, wxDefaultSize, 0 );
-	gSizer00->Add( m_radioBtn_FIR, 0, wxALIGN_CENTER_VERTICAL|wxALIGN_LEFT|wxALL, 5 );
+	m_staticText_AppliedFreq = new wxStaticText( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxT("Applied Frequency"), wxPoint( 3,0 ), wxDefaultSize, 0 );
+	m_staticText_AppliedFreq->Wrap( -1 );
+	gSizer_FilterControl->Add( m_staticText_AppliedFreq, 0, wxLEFT, 5 );
 	
+	m_textCtrl_AppliedFreq = new wxTextCtrl( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxEmptyString, wxPoint( 3,1 ), wxDefaultSize, wxTE_CENTRE );
+	m_textCtrl_AppliedFreq->SetMaxLength( 6 ); 
+	m_textCtrl_AppliedFreq->SetMinSize( wxSize( 100,-1 ) );
 	
-	sbSizer_DesignMethod->Add( gSizer00, 1, wxEXPAND, 5 );
-	
-	
-	gSizer_AdjusterLayout->Add( sbSizer_DesignMethod, 1, wxEXPAND, 5 );
-	
-	wxStaticBoxSizer* sbSizer_ResponseType;
-	sbSizer_ResponseType = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow1, wxID_ANY, wxT("Response Type") ), wxVERTICAL );
-	
-	wxGridSizer* gSizer10;
-	gSizer10 = new wxGridSizer( 4, 1, 0, 0 );
-	
-	m_radioBtn_Lowpass = new wxRadioButton( sbSizer_ResponseType->GetStaticBox(), wxID_ANY, wxT("Low-pass"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_radioBtn_Lowpass->SetValue( true ); 
-	gSizer10->Add( m_radioBtn_Lowpass, 0, wxALIGN_CENTER_VERTICAL|wxALIGN_LEFT|wxALL, 5 );
-	
-	m_radioBtn_Highpass = new wxRadioButton( sbSizer_ResponseType->GetStaticBox(), wxID_ANY, wxT("High-pass"), wxDefaultPosition, wxDefaultSize, 0 );
-	gSizer10->Add( m_radioBtn_Highpass, 0, wxALIGN_CENTER_VERTICAL|wxALIGN_LEFT|wxALL, 5 );
-	
-	m_radioBtn_Bandpass = new wxRadioButton( sbSizer_ResponseType->GetStaticBox(), wxID_ANY, wxT("Band-pass"), wxDefaultPosition, wxDefaultSize, 0 );
-	gSizer10->Add( m_radioBtn_Bandpass, 0, wxALIGN_CENTER_VERTICAL|wxALIGN_LEFT|wxALL, 5 );
-	
-	m_radioBtn_Bandstop = new wxRadioButton( sbSizer_ResponseType->GetStaticBox(), wxID_ANY, wxT("Band-stop"), wxDefaultPosition, wxDefaultSize, 0 );
-	gSizer10->Add( m_radioBtn_Bandstop, 0, wxALIGN_CENTER_VERTICAL|wxALIGN_LEFT|wxALL, 5 );
+	gSizer_FilterControl->Add( m_textCtrl_AppliedFreq, 0, 0, 5 );
 	
 	
-	sbSizer_ResponseType->Add( gSizer10, 1, wxEXPAND, 5 );
+	sbSizer_FilterControlPanel->Add( gSizer_FilterControl, 1, wxEXPAND, 5 );
 	
 	
-	gSizer_AdjusterLayout->Add( sbSizer_ResponseType, 1, wxEXPAND, 5 );
+	gSizer_AdjusterLayout->Add( sbSizer_FilterControlPanel, 1, wxEXPAND, 5 );
 	
-	wxStaticBoxSizer* sbSizer_SpecifyFrequency;
-	sbSizer_SpecifyFrequency = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow1, wxID_ANY, wxT("Specify Frequency") ), wxVERTICAL );
+	wxStaticBoxSizer* sbSizer_SignalControlPanel;
+	sbSizer_SignalControlPanel = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow, wxID_ANY, wxT("Signal Control") ), wxVERTICAL );
 	
-	wxGridSizer* gSizer11;
-	gSizer11 = new wxGridSizer( 3, 2, 0, 0 );
+	wxGridBagSizer* gbSizer_SignalControl;
+	gbSizer_SignalControl = new wxGridBagSizer( 0, 0 );
+	gbSizer_SignalControl->SetFlexibleDirection( wxBOTH );
+	gbSizer_SignalControl->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_staticText_Samplefreq = new wxStaticText( sbSizer_SpecifyFrequency->GetStaticBox(), wxID_ANY, wxT("Sample freq"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText_Samplefreq->Wrap( -1 );
-	gSizer11->Add( m_staticText_Samplefreq, 0, wxLEFT, 5 );
+	m_listCtrl_SignalInfo = new wxListCtrl( sbSizer_SignalControlPanel->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_EDIT_LABELS|wxLC_REPORT|wxLC_SORT_ASCENDING );
+	gbSizer_SignalControl->Add( m_listCtrl_SignalInfo, wxGBPosition( 0, 0 ), wxGBSpan( 1, 2 ), wxEXPAND, 5 );
 	
-	m_textCtrl_Samplefreq = new wxTextCtrl( sbSizer_SpecifyFrequency->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE );
-	m_textCtrl_Samplefreq->SetMaxLength( 6 ); 
-	gSizer11->Add( m_textCtrl_Samplefreq, 3, wxSHAPED, 5 );
+	wxGridSizer* gSizer111;
+	gSizer111 = new wxGridSizer( 3, 2, 0, 0 );
 	
-	m_staticText_Passfreq = new wxStaticText( sbSizer_SpecifyFrequency->GetStaticBox(), wxID_ANY, wxT("Pass freq"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText_Passfreq->Wrap( -1 );
-	gSizer11->Add( m_staticText_Passfreq, 0, wxLEFT, 5 );
+	m_staticText_SampleSize = new wxStaticText( sbSizer_SignalControlPanel->GetStaticBox(), wxID_ANY, wxT("Sample Size"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_SampleSize->Wrap( -1 );
+	gSizer111->Add( m_staticText_SampleSize, 0, wxLEFT, 5 );
 	
-	m_textCtrl_Passfreq = new wxTextCtrl( sbSizer_SpecifyFrequency->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE );
-	m_textCtrl_Passfreq->SetMaxLength( 6 ); 
-	gSizer11->Add( m_textCtrl_Passfreq, 0, wxSHAPED, 5 );
-	
-	m_staticText_Stopfreq = new wxStaticText( sbSizer_SpecifyFrequency->GetStaticBox(), wxID_ANY, wxT("Stop freq"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText_Stopfreq->Wrap( -1 );
-	gSizer11->Add( m_staticText_Stopfreq, 0, wxLEFT, 5 );
-	
-	m_textCtrl_Stopfreq = new wxTextCtrl( sbSizer_SpecifyFrequency->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE );
-	m_textCtrl_Stopfreq->SetMaxLength( 6 ); 
-	gSizer11->Add( m_textCtrl_Stopfreq, 0, wxSHAPED, 5 );
+	m_textCtrl_SampleSize = new wxTextCtrl( sbSizer_SignalControlPanel->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE );
+	m_textCtrl_SampleSize->SetMaxLength( 6 ); 
+	gSizer111->Add( m_textCtrl_SampleSize, 3, wxSHAPED, 5 );
 	
 	
-	sbSizer_SpecifyFrequency->Add( gSizer11, 1, wxEXPAND, 5 );
+	gbSizer_SignalControl->Add( gSizer111, wxGBPosition( 1, 0 ), wxGBSpan( 1, 1 ), 0, 5 );
 	
 	
-	gSizer_AdjusterLayout->Add( sbSizer_SpecifyFrequency, 1, wxEXPAND, 5 );
+	sbSizer_SignalControlPanel->Add( gbSizer_SignalControl, 1, wxEXPAND, 5 );
 	
 	
-	m_scrolledWindow1->SetSizer( gSizer_AdjusterLayout );
-	m_scrolledWindow1->Layout();
-	gSizer_AdjusterLayout->Fit( m_scrolledWindow1 );
-	gbSizer_LeftController ->Add( m_scrolledWindow1, wxGBPosition( 0, 0 ), wxGBSpan( 5, 2 ), wxEXPAND | wxALL, 5 );
+	gSizer_AdjusterLayout->Add( sbSizer_SignalControlPanel, 1, wxEXPAND, 5 );
+	
+	
+	m_scrolledWindow->SetSizer( gSizer_AdjusterLayout );
+	m_scrolledWindow->Layout();
+	gSizer_AdjusterLayout->Fit( m_scrolledWindow );
+	gbSizer_LeftController ->Add( m_scrolledWindow, wxGBPosition( 0, 0 ), wxGBSpan( 5, 2 ), wxEXPAND | wxALL, 5 );
 	
 	m_toggle_Start = new wxToggleButton( this, wxID_ANY, wxT("Start"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_toggle_Start->SetValue( true ); 
@@ -167,38 +158,27 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 	
 	this->SetSizer( gSizer_OuterLayout );
 	this->Layout();
+	gSizer_OuterLayout->Fit( this );
 	
 	this->Centre( wxBOTH );
 	
 	// Connect Events
-	m_radioBtn_Firstorder->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( MainFrameUI::m_radioBtn_FirstorderOnRadioButton ), NULL, this );
-	m_radioBtn_Secondorder->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( MainFrameUI::m_radioBtn_SecondorderOnRadioButton ), NULL, this );
-	m_radioBtn_IIR->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( MainFrameUI::m_radioBtn_IIROnRadioButton ), NULL, this );
-	m_radioBtn_FIR->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( MainFrameUI::m_radioBtn_FIROnRadioButton ), NULL, this );
-	m_radioBtn_Lowpass->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( MainFrameUI::m_radioBtn_LowpassOnRadioButton ), NULL, this );
-	m_radioBtn_Highpass->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( MainFrameUI::m_radioBtn_HighpassOnRadioButton ), NULL, this );
-	m_radioBtn_Bandpass->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( MainFrameUI::m_radioBtn_BandpassOnRadioButton ), NULL, this );
-	m_radioBtn_Bandstop->Connect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( MainFrameUI::m_radioBtn_BandstopOnRadioButton ), NULL, this );
-	m_textCtrl_Samplefreq->Connect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_SamplefreqOnKeyUp ), NULL, this );
-	m_textCtrl_Passfreq->Connect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_PassfreqOnKeyUp ), NULL, this );
-	m_textCtrl_Stopfreq->Connect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_StopfreqOnKeyUp ), NULL, this );
+	m_choice_FilterOrder->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_FilterOrderOnChoice ), NULL, this );
+	m_choice_DesignMethod->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_DesignMethodOnChoice ), NULL, this );
+	m_choice_ResponeType->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_ResponeTypeOnChoice ), NULL, this );
+	m_textCtrl_AppliedFreq->Connect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_AppliedFreqOnKeyUp ), NULL, this );
+	m_textCtrl_SampleSize->Connect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_SampleSizeOnKeyUp ), NULL, this );
 	m_toggle_Start->Connect( wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler( MainFrameUI::m_toggle_StartOnToggleButton ), NULL, this );
 }
 
 MainFrameUI::~MainFrameUI()
 {
 	// Disconnect Events
-	m_radioBtn_Firstorder->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( MainFrameUI::m_radioBtn_FirstorderOnRadioButton ), NULL, this );
-	m_radioBtn_Secondorder->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( MainFrameUI::m_radioBtn_SecondorderOnRadioButton ), NULL, this );
-	m_radioBtn_IIR->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( MainFrameUI::m_radioBtn_IIROnRadioButton ), NULL, this );
-	m_radioBtn_FIR->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( MainFrameUI::m_radioBtn_FIROnRadioButton ), NULL, this );
-	m_radioBtn_Lowpass->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( MainFrameUI::m_radioBtn_LowpassOnRadioButton ), NULL, this );
-	m_radioBtn_Highpass->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( MainFrameUI::m_radioBtn_HighpassOnRadioButton ), NULL, this );
-	m_radioBtn_Bandpass->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( MainFrameUI::m_radioBtn_BandpassOnRadioButton ), NULL, this );
-	m_radioBtn_Bandstop->Disconnect( wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler( MainFrameUI::m_radioBtn_BandstopOnRadioButton ), NULL, this );
-	m_textCtrl_Samplefreq->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_SamplefreqOnKeyUp ), NULL, this );
-	m_textCtrl_Passfreq->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_PassfreqOnKeyUp ), NULL, this );
-	m_textCtrl_Stopfreq->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_StopfreqOnKeyUp ), NULL, this );
+	m_choice_FilterOrder->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_FilterOrderOnChoice ), NULL, this );
+	m_choice_DesignMethod->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_DesignMethodOnChoice ), NULL, this );
+	m_choice_ResponeType->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_ResponeTypeOnChoice ), NULL, this );
+	m_textCtrl_AppliedFreq->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_AppliedFreqOnKeyUp ), NULL, this );
+	m_textCtrl_SampleSize->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_SampleSizeOnKeyUp ), NULL, this );
 	m_toggle_Start->Disconnect( wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler( MainFrameUI::m_toggle_StartOnToggleButton ), NULL, this );
 	
 }

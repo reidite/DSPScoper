@@ -5,108 +5,67 @@ DigitalFilter::MainFrame::MainFrame()
 	SettingThePlots();
 	SettingSignalProperties();
 
+	signal = new DigitalFilter::Calc::Signal();
 	filter = new DigitalFilter::Calc::Filter(filterType);
-	filter->SetAB(_sampleFreq, _passFreq);
 
-	m_textCtrl_Samplefreq->SetValue(std::to_string(_sampleFreq));
-	m_textCtrl_Passfreq->SetValue(std::to_string(_passFreq));
-	m_textCtrl_Stopfreq->SetValue(std::to_string(_stopFreq));
+	signal->GenerateSignalData(_numberOfSample);
+	filter->SetAB(_numberOfSample, _appliedFreq);
+	
+	UpdatingSignalInfo();
+	m_textCtrl_SampleSize->SetValue(std::to_string(_numberOfSample));
+	m_textCtrl_AppliedFreq->SetValue(std::to_string(_appliedFreq));
 }
 
 DigitalFilter::MainFrame::~MainFrame() {
 }
 
 
-void DigitalFilter::MainFrame::m_radioBtn_IIROnRadioButton(wxCommandEvent& event) {
-	designMethod = 0;
+void DigitalFilter::MainFrame::m_choice_DesignMethodOnChoice(wxCommandEvent& event) {
+	designMethod = m_choice_DesignMethod->GetSelection();
 	isUpdatingSignal = true;
 }
 
-void DigitalFilter::MainFrame::m_radioBtn_FIROnRadioButton(wxCommandEvent& event) {
-	designMethod = 1;
+void DigitalFilter::MainFrame::m_choice_FilterOrderOnChoice(wxCommandEvent& event) {
+	filterOrder = m_choice_FilterOrder->GetSelection();
 	isUpdatingSignal = true;
 }
 
-void DigitalFilter::MainFrame::m_radioBtn_FirstorderOnRadioButton(wxCommandEvent& event) {
-	filterOrder = 0;
-	isUpdatingSignal = true;
-}
-
-void DigitalFilter::MainFrame::m_radioBtn_SecondorderOnRadioButton(wxCommandEvent& event) {
-	filterOrder = 1;
-	isUpdatingSignal = true;
-}
-
-void DigitalFilter::MainFrame::m_radioBtn_LowpassOnRadioButton(wxCommandEvent& event) {
-	filterType = 0;
+void DigitalFilter::MainFrame::m_choice_ResponeTypeOnChoice(wxCommandEvent& event) {
+	filterType = m_choice_ResponeType->GetSelection();
 	LoadingFilter();
 	isUpdatingSignal = true;
 }
 
-void DigitalFilter::MainFrame::m_radioBtn_HighpassOnRadioButton(wxCommandEvent& event) {
-	filterType = 1;
-	LoadingFilter();
-	isUpdatingSignal = true;
-}
-
-void DigitalFilter::MainFrame::m_radioBtn_BandpassOnRadioButton(wxCommandEvent& event) {
-	filterType = 2;
-	LoadingFilter();
-	isUpdatingSignal = true;
-}
-
-void DigitalFilter::MainFrame::m_radioBtn_BandstopOnRadioButton(wxCommandEvent& event) {
-	filterType = 3;
-	LoadingFilter();
-	isUpdatingSignal = true;
-}
-
-void DigitalFilter::MainFrame::m_textCtrl_SamplefreqOnKeyUp(wxKeyEvent& event) {
+void DigitalFilter::MainFrame::m_textCtrl_SampleSizeOnKeyUp(wxKeyEvent& event) {
 	int keyCode = event.GetKeyCode();
 	if (wxIsdigit(keyCode) || (keyCode >= WXK_NUMPAD0 && keyCode <= WXK_NUMPAD9) ||
 		keyCode == WXK_BACK || keyCode == WXK_DELETE) {
-		if (m_textCtrl_Samplefreq->GetValue().size() == 0) {
-			_sampleFreq = 0;
-			m_textCtrl_Samplefreq->SetValue(std::to_string(_sampleFreq));
+		if (m_textCtrl_SampleSize->GetValue().size() == 0) {
+			_numberOfSample = 0;
+			m_textCtrl_SampleSize->SetValue(std::to_string(_numberOfSample));
 		}
-		_sampleFreq = wxAtoi(m_textCtrl_Samplefreq->GetValue());
-		originalATSignalData->SetFreq(_sampleFreq);
+		_numberOfSample = wxAtoi(m_textCtrl_SampleSize->GetValue());
+		signal->GenerateSignalData(_numberOfSample);
 		LoadingFilter();
 	}
 	else {
-		m_textCtrl_Samplefreq->SetValue(std::to_string(_sampleFreq));
+		m_textCtrl_SampleSize->SetValue(std::to_string(_numberOfSample));
 	}
 }
 
-void DigitalFilter::MainFrame::m_textCtrl_PassfreqOnKeyUp(wxKeyEvent& event) {
+void DigitalFilter::MainFrame::m_textCtrl_AppliedFreqOnKeyUp(wxKeyEvent& event) {
 	int keyCode = event.GetKeyCode();
 	if (wxIsdigit(keyCode) || (keyCode >= WXK_NUMPAD0 && keyCode <= WXK_NUMPAD9) ||
 		keyCode == WXK_BACK || keyCode == WXK_DELETE) {
-		if (m_textCtrl_Passfreq->GetValue().size() == 0) {
-			_passFreq = 0;
-			m_textCtrl_Passfreq->SetValue(std::to_string(_passFreq));
+		if (m_textCtrl_AppliedFreq->GetValue().size() == 0) {
+			_appliedFreq = 0;
+			m_textCtrl_AppliedFreq->SetValue(std::to_string(_appliedFreq));
 		}
-		_passFreq = wxAtoi(m_textCtrl_Passfreq->GetValue());
+		_appliedFreq = wxAtoi(m_textCtrl_AppliedFreq->GetValue());
 		LoadingFilter();
 	}
 	else {
-		m_textCtrl_Passfreq->SetValue(std::to_string(_passFreq));
-	}
-}
-
-void DigitalFilter::MainFrame::m_textCtrl_StopfreqOnKeyUp(wxKeyEvent& event) {
-	int keyCode = event.GetKeyCode();
-	if (wxIsdigit(keyCode) || (keyCode >= WXK_NUMPAD0 && keyCode <= WXK_NUMPAD9) ||
-		keyCode == WXK_BACK || keyCode == WXK_DELETE) {
-		if (m_textCtrl_Stopfreq->GetValue().size() == 0) {
-			_stopFreq = 0;
-			m_textCtrl_Stopfreq->SetValue(std::to_string(_stopFreq));
-		}
-		_stopFreq = wxAtoi(m_textCtrl_Stopfreq->GetValue());
-		LoadingFilter();
-	}
-	else {
-		m_textCtrl_Stopfreq->SetValue(std::to_string(_stopFreq));
+		m_textCtrl_AppliedFreq->SetValue(std::to_string(_appliedFreq));
 	}
 }
 
@@ -164,33 +123,33 @@ void DigitalFilter::MainFrame::SettingSignalProperties() {
 	wxPen drawingBluePen(*wxBLUE, 2, wxPENSTYLE_SOLID);
 	wxPen drawingRedPen(*wxRED, 2, wxPENSTYLE_SOLID);
 
-	originalATSignalData = new Calc::Signal(FREQ, AMPL, PSI, NUMBER_OF_PTS);
-	originalMFSignalData = new DigitalFilter::Calc::Signal(originalATSignalData);
-	filteredATSignalData = new DigitalFilter::Calc::Signal(originalATSignalData);
-	filteredMFSignalData = new DigitalFilter::Calc::Signal(filteredATSignalData);
+	originalATPlot = new DigitalFilter::SignalPlot();
+	filteredATPlot = new DigitalFilter::SignalPlot();
+	originalMFPlot = new DigitalFilter::SignalPlot();
+	filteredMFPlot = new DigitalFilter::SignalPlot();
 
-	originalATSignalData->SetContinuity(true);
-	originalMFSignalData->SetContinuity(true);
-	filteredATSignalData->SetContinuity(true);
-	filteredMFSignalData->SetContinuity(true);
+	originalATPlot->SetContinuity(true);
+	filteredATPlot->SetContinuity(true);
+	originalMFPlot->SetContinuity(true);
+	filteredMFPlot->SetContinuity(true);
 
-	originalATSignalData->SetPen(drawingBluePen);
-	originalMFSignalData->SetPen(drawingBluePen);
-	filteredATSignalData->SetPen(drawingRedPen);
-	filteredMFSignalData->SetPen(drawingRedPen);
+	originalATPlot->SetPen(drawingBluePen);
+	originalMFPlot->SetPen(drawingBluePen);
+	filteredATPlot->SetPen(drawingRedPen);
+	filteredMFPlot->SetPen(drawingRedPen);
 
-	m_Fig1->AddLayer(originalATSignalData);
-	m_Fig2->AddLayer(originalMFSignalData);
-	m_Fig1->AddLayer(filteredATSignalData);
-	m_Fig2->AddLayer(filteredMFSignalData);
+	m_Fig1->AddLayer(originalATPlot);
+	m_Fig2->AddLayer(originalMFPlot);
+	m_Fig1->AddLayer(filteredATPlot);
+	m_Fig2->AddLayer(filteredMFPlot);
 }
 
 void DigitalFilter::MainFrame::LoadingFilter() {
 	if (filterType != filter->getFilterID()) {
 		filter->setFilterID(filterType);
 		if (filterType != 3)
-			filter->SetAB(_sampleFreq, _passFreq);
-		else filter->SetAB(_sampleFreq, _stopFreq);
+			filter->SetAB(_numberOfSample, _appliedFreq);
+		else filter->SetAB(_numberOfSample, _appliedFreq);
 	}
 	isUpdatingSignal = true;
 }
@@ -199,29 +158,25 @@ void DigitalFilter::MainFrame::LoadingSignal() {
 	while (isLoadingSignal) {
 		while (!isUpdatingSignal) {};
 		
-		originalATSignalData->Clear();
-		originalMFSignalData->Clear();
-		filteredATSignalData->Clear();
-		filteredMFSignalData->Clear();
+		originalATPlot->Clear();
+		originalMFPlot->Clear();
+		filteredATPlot->Clear();
+		filteredMFPlot->Clear();
 
-		originalATSignalData->SetATSignalData();
-		originalMFSignalData->SetFreq(_sampleFreq);
-		originalMFSignalData->SetMFSignalData(originalATSignalData);
+		originalATPlot->DrawingSignalData(signal->x, signal->y);
+		originalMFPlot->DrawingDFTData(signal->x, signal->y);
 		if (isDrawingFiltedResult)
 			LoadingFilteredSignal();
-		m_Fig1->Fit(0, 1, -AMPL * (1 + PSI), AMPL * (1 + PSI));
-		m_Fig2->Fit(0, _sampleFreq, 0, 1);
+		m_Fig1->Fit(0, 1, -2, 2);
+		m_Fig2->Fit(0, 100, 0, 1);
 		isUpdatingSignal = false;
 	}
 }
 
 void DigitalFilter::MainFrame::LoadingFilteredSignal() {
-	filteredATSignalData->SetX(originalATSignalData->GetX());
-	filteredATSignalData->SetY(filter->filting(originalATSignalData->GetY()));
-	filteredATSignalData->SetFreq(_sampleFreq);
-	filteredATSignalData->SetFiltedData();
-	filteredMFSignalData->SetFreq(_sampleFreq);
-	filteredMFSignalData->SetMFSignalData(filteredATSignalData);
+	std::vector<double> filted_y = filter->filting(signal->y);
+	filteredATPlot->DrawingSignalData(signal->x, filted_y);
+	filteredMFPlot->DrawingDFTData(signal->x, filted_y);
 }
 
 void DigitalFilter::MainFrame::TerminatePlotThread() {
@@ -230,6 +185,29 @@ void DigitalFilter::MainFrame::TerminatePlotThread() {
 
 void DigitalFilter::MainFrame::UpdatingFreq() {
 	isLoadingSignal = false;
+}
+
+void DigitalFilter::MainFrame::UpdatingSignalInfo() {
+	m_listCtrl_SignalInfo->InsertColumn(0, _("No"), wxLIST_FORMAT_LEFT, 30);
+	m_listCtrl_SignalInfo->InsertColumn(1, _("Ampl"), wxLIST_FORMAT_LEFT, 60);
+	m_listCtrl_SignalInfo->InsertColumn(2, _("Freq"), wxLIST_FORMAT_LEFT, 60);
+	//m_listCtrl_SignalInfo->InsertColumn(3, _("Psi"), wxLIST_FORMAT_LEFT, 60);
+	//m_listCtrl_SignalInfo->IsExposed();
+
+	m_item_signal = new wxListItem();
+	long index = m_listCtrl_SignalInfo->InsertItem(0, _("0"));
+	m_listCtrl_SignalInfo->SetItem(index, 1, _(std::to_string((double)INIT_AMPL)));
+	m_listCtrl_SignalInfo->SetItem(index, 2, _(std::to_string((double)INIT_FREQ)));
+
+	index = m_listCtrl_SignalInfo->InsertItem(0, _("1"));
+	m_listCtrl_SignalInfo->SetItem(index, 1, _(std::to_string((double)0.6)));
+	m_listCtrl_SignalInfo->SetItem(index, 2, _(std::to_string((double)50)));
+
+	index = m_listCtrl_SignalInfo->InsertItem(0, _("2"));
+	m_listCtrl_SignalInfo->SetItem(index, 1, _(std::to_string((double)0.8)));
+	m_listCtrl_SignalInfo->SetItem(index, 2, _(std::to_string((double)80)));
+	/*std::string tmp = std::to_string(INIT_PSI);
+	m_listCtrl_SignalInfo->SetItem(index, 3, _(tmp.substr(0, tmp.find("." + 3))));*/
 }
 
 //m_toggle_Start->SetFont(wxFont(14, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_SEMIBOLD, false, wxT("Calibri")));
