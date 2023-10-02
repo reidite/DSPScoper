@@ -69,6 +69,18 @@ void DigitalFilter::MainFrame::m_textCtrl_AppliedFreqOnKeyUp(wxKeyEvent& event) 
 	}
 }
 
+void DigitalFilter::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemActivated(wxDataViewEvent& event) {
+	wxDataViewItem item = m_dataViewListCtrl_SignalInfo->GetSelection();
+	wxDataViewColumn* col = m_dataViewListCtrl_SignalInfo->GetColumn(event.GetColumn());
+	if (item.IsOk() && event.GetColumn() != 0) {
+		wxDataViewRenderer* renderer = col->GetRenderer();
+		wxRect itemRect = m_dataViewListCtrl_SignalInfo->GetItemRect(item);
+		renderer->StartEditing(item, itemRect);
+		//wxString prev = m_dataViewListCtrl_SignalInfo->GetTextValue(event.GetModel()., event.GetColumn());
+		m_dataViewListCtrl_SignalInfo->EditItem(item, col);
+	}
+}
+
 void DigitalFilter::MainFrame::m_toggle_StartOnToggleButton(wxCommandEvent& event) {
 	LoadingFilter();
 	if (!isDrawingFiltedResult) {
@@ -188,26 +200,20 @@ void DigitalFilter::MainFrame::UpdatingFreq() {
 }
 
 void DigitalFilter::MainFrame::UpdatingSignalInfo() {
-	m_listCtrl_SignalInfo->InsertColumn(0, _("No"), wxLIST_FORMAT_LEFT, 30);
-	m_listCtrl_SignalInfo->InsertColumn(1, _("Ampl"), wxLIST_FORMAT_LEFT, 60);
-	m_listCtrl_SignalInfo->InsertColumn(2, _("Freq"), wxLIST_FORMAT_LEFT, 60);
-	//m_listCtrl_SignalInfo->InsertColumn(3, _("Psi"), wxLIST_FORMAT_LEFT, 60);
-	//m_listCtrl_SignalInfo->IsExposed();
+	cols[0] = new wxDataViewColumn("No", new wxDataViewTextRenderer(), 0, 30);
+	cols[1] = new wxDataViewColumn("Amp", new wxDataViewTextRenderer(), 1, 52);
+	cols[2] = new wxDataViewColumn("Freq", new wxDataViewTextRenderer(), 2, 52);
+	cols[3] = new wxDataViewColumn("Psi", new wxDataViewTextRenderer(), 3, 52);
 
-	m_item_signal = new wxListItem();
-	long index = m_listCtrl_SignalInfo->InsertItem(0, _("0"));
-	m_listCtrl_SignalInfo->SetItem(index, 1, _(std::to_string((double)INIT_AMPL)));
-	m_listCtrl_SignalInfo->SetItem(index, 2, _(std::to_string((double)INIT_FREQ)));
+	for(wxDataViewColumn* col:cols)
+		m_dataViewListCtrl_SignalInfo->AppendColumn(col);
 
-	index = m_listCtrl_SignalInfo->InsertItem(0, _("1"));
-	m_listCtrl_SignalInfo->SetItem(index, 1, _(std::to_string((double)0.6)));
-	m_listCtrl_SignalInfo->SetItem(index, 2, _(std::to_string((double)50)));
-
-	index = m_listCtrl_SignalInfo->InsertItem(0, _("2"));
-	m_listCtrl_SignalInfo->SetItem(index, 1, _(std::to_string((double)0.8)));
-	m_listCtrl_SignalInfo->SetItem(index, 2, _(std::to_string((double)80)));
-	/*std::string tmp = std::to_string(INIT_PSI);
-	m_listCtrl_SignalInfo->SetItem(index, 3, _(tmp.substr(0, tmp.find("." + 3))));*/
+	for (Calc::SignalInfo info : signal->infos) {
+		wxVector<wxVariant> rowData;
+		rowData.push_back(wxString::Format("%d", itemID++));
+		rowData.push_back(wxString::Format("%0.2lf", info.m_amp));
+		rowData.push_back(wxString::Format("%0.2lf", info.m_freq));
+		rowData.push_back(wxString::Format("%0.2lf", info.m_psi)); 
+		m_dataViewListCtrl_SignalInfo->AppendItem(rowData);
+	}
 }
-
-//m_toggle_Start->SetFont(wxFont(14, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_SEMIBOLD, false, wxT("Calibri")));

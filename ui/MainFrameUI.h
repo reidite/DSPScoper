@@ -20,7 +20,7 @@
 #include <wx/textctrl.h>
 #include <wx/sizer.h>
 #include <wx/statbox.h>
-#include <wx/listctrl.h>
+#include <wx/dataview.h>
 #include <wx/gbsizer.h>
 #include <wx/scrolwin.h>
 #include <wx/tglbtn.h>
@@ -46,7 +46,7 @@ class MainFrameUI : public wxFrame
 		wxChoice* m_choice_ResponeType;
 		wxStaticText* m_staticText_AppliedFreq;
 		wxTextCtrl* m_textCtrl_AppliedFreq;
-		wxListCtrl* m_listCtrl_SignalInfo;
+		wxDataViewListCtrl* m_dataViewListCtrl_SignalInfo;
 		wxStaticText* m_staticText_SampleSize;
 		wxTextCtrl* m_textCtrl_SampleSize;
 		wxToggleButton* m_toggle_Start;
@@ -57,6 +57,7 @@ class MainFrameUI : public wxFrame
 		virtual void m_choice_DesignMethodOnChoice( wxCommandEvent& event ) { event.Skip(); }
 		virtual void m_choice_ResponeTypeOnChoice( wxCommandEvent& event ) { event.Skip(); }
 		virtual void m_textCtrl_AppliedFreqOnKeyUp( wxKeyEvent& event ) { event.Skip(); }
+		virtual void m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemActivated( wxDataViewEvent& event ) { event.Skip(); }
 		virtual void m_textCtrl_SampleSizeOnKeyUp( wxKeyEvent& event ) { event.Skip(); }
 		virtual void m_toggle_StartOnToggleButton( wxCommandEvent& event ) { event.Skip(); }
 		

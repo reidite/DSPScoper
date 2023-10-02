@@ -89,6 +89,8 @@ namespace DigitalFilter {
         Calc::Signal* signal;
         Calc::Filter* filter;
 
+        unsigned int itemID = 0;
+
         wxDECLARE_EVENT_TABLE();
         wxDECLARE_NO_COPY_CLASS(MainFrame);
 
@@ -108,20 +110,24 @@ namespace DigitalFilter {
         SignalPlot* originalMFPlot;
         SignalPlot* filteredMFPlot;
 
+        std::vector<wxDataViewColumn*> cols = std::vector<wxDataViewColumn*>(4, nullptr);
+        wxDataViewColumn* col_amp;
+        wxDataViewColumn* col_freq;
+        wxDataViewColumn* col_psi;
+
     public:
         MainFrame();
         virtual ~MainFrame();
 
-        // Signal Items
-        wxListItem* m_item_signal;
-
-
         // Commands
-        virtual void m_choice_DesignMethodOnChoice(wxCommandEvent& event);
-        virtual void m_choice_FilterOrderOnChoice(wxCommandEvent& event);
-        virtual void m_choice_ResponeTypeOnChoice(wxCommandEvent& event);
-        virtual void m_textCtrl_SampleSizeOnKeyUp(wxKeyEvent& event);
-        virtual void m_textCtrl_AppliedFreqOnKeyUp(wxKeyEvent& event);
+        void m_choice_DesignMethodOnChoice(wxCommandEvent& event);
+        void m_choice_FilterOrderOnChoice(wxCommandEvent& event);
+        void m_choice_ResponeTypeOnChoice(wxCommandEvent& event);
+        void m_textCtrl_SampleSizeOnKeyUp(wxKeyEvent& event);
+        void m_textCtrl_AppliedFreqOnKeyUp(wxKeyEvent& event);
+
+        void m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemActivated(wxDataViewEvent& event);
+
         void m_toggle_StartOnToggleButton(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
 
