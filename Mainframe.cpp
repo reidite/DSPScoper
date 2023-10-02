@@ -231,3 +231,5 @@ void DigitalFilter::MainFrame::TerminatePlotThread() {
 void DigitalFilter::MainFrame::UpdatingFreq() {
 	isLoadingSignal = false;
 }
+
+//m_toggle_Start->SetFont(wxFont(14, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_SEMIBOLD, false, wxT("Calibri")));
