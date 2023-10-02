@@ -76,8 +76,27 @@ void DigitalFilter::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlIt
 		wxDataViewRenderer* renderer = col->GetRenderer();
 		wxRect itemRect = m_dataViewListCtrl_SignalInfo->GetItemRect(item);
 		renderer->StartEditing(item, itemRect);
-		//wxString prev = m_dataViewListCtrl_SignalInfo->GetTextValue(event.GetModel()., event.GetColumn());
+		wxString prev = m_dataViewListCtrl_SignalInfo->GetTextValue(m_dataViewListCtrl_SignalInfo->ItemToRow(item), event.GetColumn());
 		m_dataViewListCtrl_SignalInfo->EditItem(item, col);
+		wxString curr = m_dataViewListCtrl_SignalInfo->GetTextValue(m_dataViewListCtrl_SignalInfo->ItemToRow(item), event.GetColumn());
+		if (curr.IsNumber()) {
+			switch (event.GetColumn())
+			{
+			case 1:
+				//signal->infos[m_dataViewListCtrl_SignalInfo->ItemToRow(item)].m_freq = curr.ToDouble();
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			default:
+				break;
+			}
+			
+		}
+		else {
+			m_dataViewListCtrl_SignalInfo->SetTextValue(prev, m_dataViewListCtrl_SignalInfo->ItemToRow(item), event.GetColumn());
+		}
 	}
 }
 
