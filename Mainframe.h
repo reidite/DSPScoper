@@ -9,6 +9,7 @@
 #define DEFAULT_PASSFREQ 5
 #define DEFAULT_STOPFREQ 5
 
+
 #include <thread>
 #include <iomanip>
 #include <mutex>
@@ -45,20 +46,11 @@ namespace DigitalFilter {
         std::atomic_bool isUpdatingSignal = true;
         std::atomic_bool isDrawingFiltedResult = false;
 
-        std::condition_variable isLoadingPlotInited;
-        std::mutex lockLoadingSignal;
-        std::unique_lock<std::mutex> loadingSignalLocker{ lockLoadingSignal };
-        
-
-        
-
         Calc::Signal* signal;
         Calc::Filter* filter;
 
         unsigned int itemID = 0;
         
-
-        wxDECLARE_EVENT_TABLE();
         wxDECLARE_NO_COPY_CLASS(MainFrame);
 
     protected:
@@ -68,7 +60,9 @@ namespace DigitalFilter {
         unsigned int designMethod = 0;
         unsigned int filterOrder = 0;
         unsigned int filterType = 0;
+
         wxMenu* m_infoPopMenu;
+
         mpWindow* m_Fig1;
         mpWindow* m_Fig2;
 
@@ -106,7 +100,6 @@ namespace DigitalFilter {
 
         // InfoDataViewing
         void UpdatingSignalInfo();
-        void AddingInfo(wxCommandEvent& event);
-        void RemovingInfo(wxCommandEvent& event);
+        void OnMenuSelect(wxCommandEvent& WXUNUSED(event));
     };
 }

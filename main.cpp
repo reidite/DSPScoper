@@ -17,19 +17,6 @@
 
 #include "./Mainframe.h"
 
-enum {
-    PANE_COLLAPSE = 100,
-    PANE_EXPAND,
-    PANE_SETLABEL,
-    PANE_SHOWDLG,
-    PANE_ABOUT = wxID_ABOUT,
-    PANE_QUIT = wxID_EXIT,
-
-    PANE_BUTTON,
-    PANE_TEXTCTRL
-};
-
-
 class App : public wxApp {
 private:
     DigitalFilter::MainFrame* frame;
@@ -43,8 +30,6 @@ public:
 	wxDECLARE_NO_COPY_CLASS(App);
 };
 
-
-wxIMPLEMENT_APP(App);
 
 bool App::OnInit() {
     if (!wxApp::OnInit())
@@ -62,8 +47,4 @@ void App::CleanUp() {
     frame->TerminatePlotThread();
     OriginalSignalUpdater->join();
 }
-
-wxBEGIN_EVENT_TABLE(DigitalFilter::MainFrame, wxFrame)
-    EVT_MENU(INFOCMD::mpINFO_NEW, DigitalFilter::MainFrame::AddingInfo)
-    EVT_MENU(INFOCMD::mpINFO_REMOVE, DigitalFilter::MainFrame::RemovingInfo)
-wxEND_EVENT_TABLE()
+wxIMPLEMENT_APP(App);

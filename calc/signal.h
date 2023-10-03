@@ -22,7 +22,8 @@ namespace DigitalFilter {
 			Signal(double amp, double freq, double psi);
 			
 			void GenerateSignalData(int numOfSample);
-			
+			double GetMaxAmp();
+			double GetMaxFreq();
 		};
 	}
 }

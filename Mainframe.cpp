@@ -111,6 +111,7 @@ void DigitalFilter::MainFrame::m_textCtrl_AppliedFreqOnKeyUp(wxKeyEvent& event) 
 }
 
 void DigitalFilter::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemActivated(wxDataViewEvent& event) {
+	if(event.GetColumn() < 0) return;
 	wxDataViewItem item = m_dataViewListCtrl_SignalInfo->GetSelection();
 	wxDataViewColumn* col = m_dataViewListCtrl_SignalInfo->GetColumn(event.GetColumn());
 	if (item.IsOk() && event.GetColumn() != 0) {
@@ -147,7 +148,14 @@ void DigitalFilter::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlIt
 }
 
 void DigitalFilter::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemContextMenu(wxDataViewEvent& event) {
-	PopupMenu(m_infoPopMenu);
+	if (m_dataViewListCtrl_SignalInfo->GetSelection()) {
+		m_infoPopMenu->FindItemByPosition(1)->Enable(true);
+		PopupMenu(m_infoPopMenu);
+	}
+	else {
+		m_infoPopMenu->FindItemByPosition(1)->Enable(false);
+		PopupMenu(m_infoPopMenu);
+	}
 }
 
 void DigitalFilter::MainFrame::m_toggle_StartOnToggleButton(wxCommandEvent& event) {
@@ -173,24 +181,25 @@ void DigitalFilter::MainFrame::OnAbout(wxCommandEvent& WXUNUSED(event)) {
 }
 
 void DigitalFilter::MainFrame::SettingThePlots() {
-	mpScaleX* timeAxis = new mpScaleX(wxT("Time"), mpALIGN_BORDER_BOTTOM, true, mpX_NORMAL);
-	mpScaleY* amplitudeAxis = new mpScaleY(wxT("Amplitude"), mpALIGN_BORDER_LEFT, true);
-	mpScaleX* freqAxis = new mpScaleX(wxT("Frequency"), mpALIGN_BORDER_BOTTOM, true, mpX_NORMAL);
-	mpScaleY* modulusAxis = new mpScaleY(wxT("Modulus"), mpALIGN_BORDER_LEFT, true);
+	mpScaleX* timeAxis = new mpScaleX(wxT("Time"), mpALIGN_BORDER_BOTTOM, false, mpX_NORMAL);
+	mpScaleY* amplitudeAxis = new mpScaleY(wxT("Amplitude"), mpALIGN_BORDER_LEFT, false);
+	mpScaleX* freqAxis = new mpScaleX(wxT("Frequency"), mpALIGN_BORDER_BOTTOM, false, mpX_NORMAL);
+	mpScaleY* modulusAxis = new mpScaleY(wxT("Modulus"), mpALIGN_BORDER_LEFT, false);
+
 	timeAxis->SetContinuity(true);
 	freqAxis->SetContinuity(true);
 	amplitudeAxis->SetContinuity(true);
 
-	timeAxis->SetDrawOutsideMargins(true);
-	freqAxis->SetDrawOutsideMargins(true);
-	amplitudeAxis->SetDrawOutsideMargins(true);
+	timeAxis->SetDrawOutsideMargins(false);
+	freqAxis->SetDrawOutsideMargins(false);
+	amplitudeAxis->SetDrawOutsideMargins(false);
 
-	m_Fig1 = new mpWindow(this, -1, wxPoint(0, 0), wxSize(100, 100), wxSUNKEN_BORDER);
+	m_Fig1 = new mpWindow(this, -1, wxPoint(0, 0), wxSize(-1, -1), wxSUNKEN_BORDER);
 	m_Fig1->EnableMousePanZoom(false);
 	m_Fig1->AddLayer(timeAxis);
 	m_Fig1->AddLayer(amplitudeAxis);
 
-	m_Fig2 = new mpWindow(this, -1, wxPoint(0, 0), wxSize(100, 100), wxSUNKEN_BORDER);
+	m_Fig2 = new mpWindow(this, -1, wxPoint(0, 0), wxSize(-1, -1), wxSUNKEN_BORDER);
 	m_Fig2->EnableMousePanZoom(false);
 	m_Fig2->AddLayer(freqAxis);
 	m_Fig2->AddLayer(modulusAxis);
@@ -243,8 +252,10 @@ void DigitalFilter::MainFrame::LoadingSignal() {
 		originalMFPlot->DrawingDFTData(signal->x, signal->y);
 		if (isDrawingFiltedResult)
 			LoadingFilteredSignal();
-		m_Fig1->Fit(0, 1, -2, 2);
-		m_Fig2->Fit(0, 100, 0, 1);
+		double maxAmp = signal->GetMaxAmp() + 0.2;
+		double maxFreq = signal->GetMaxFreq() + 10;
+		m_Fig1->Fit(0, 1, -maxAmp, maxAmp );
+		m_Fig2->Fit(0.9, maxFreq, 0, 1);
 		isUpdatingSignal = false;
 	}
 }
@@ -282,25 +293,27 @@ void DigitalFilter::MainFrame::UpdatingSignalInfo() {
 	}
 
 	m_infoPopMenu = new wxMenu();
-	m_infoPopMenu->Append(INFOCMD::mpINFO_NEW, _("New"), _("Create a new signal"));
-	m_infoPopMenu->Append(INFOCMD::mpINFO_REMOVE, _("Remove"), _("Remove the selected signal"));
+	m_infoPopMenu->Append(wxID_ADD, _("New"), _("Create a new signal"));
+	m_infoPopMenu->Append(wxID_DELETE, _("Remove"), _("Remove the selected signal"));
+	Bind(wxEVT_MENU, &MainFrame::OnMenuSelect, this);
 }
 
-void DigitalFilter::MainFrame::AddingInfo(wxCommandEvent& event) {
-	wxVector<wxVariant> rowData;
-	rowData.push_back(wxString::Format("%d", itemID++));
-	rowData.push_back(wxString::Format("%0.2lf", 0.0));
-	rowData.push_back(wxString::Format("%0.2lf", 0.0));
-	rowData.push_back(wxString::Format("%0.2lf", 0.0));
-	m_dataViewListCtrl_SignalInfo->AppendItem(rowData);
-	signal->infos.push_back({ 0.0, 0.0, 0.0 });
-}
-
-void DigitalFilter::MainFrame::RemovingInfo(wxCommandEvent& event) {
-	unsigned int n_row = m_dataViewListCtrl_SignalInfo->ItemToRow(m_dataViewListCtrl_SignalInfo->GetSelection());
-	m_dataViewListCtrl_SignalInfo->DeleteItem(n_row);
-	signal->infos.erase(signal->infos.begin() + n_row);
-	itemID--;
-	signal->GenerateSignalData(_numberOfSample);
-	isUpdatingSignal = true;
+void DigitalFilter::MainFrame::OnMenuSelect(wxCommandEvent& event) {
+	if (event.GetId() == wxID_ADD) {
+		wxVector<wxVariant> rowData;
+		rowData.push_back(wxString::Format("%d", itemID++));
+		rowData.push_back(wxString::Format("%0.2lf", 0.0));
+		rowData.push_back(wxString::Format("%0.2lf", 0.0));
+		rowData.push_back(wxString::Format("%0.2lf", 0.0));
+		m_dataViewListCtrl_SignalInfo->AppendItem(rowData);
+		signal->infos.push_back({ 0.0, 0.0, 0.0 });
+	}
+	else if(event.GetId() == wxID_DELETE) {
+		unsigned int n_row = m_dataViewListCtrl_SignalInfo->ItemToRow(m_dataViewListCtrl_SignalInfo->GetSelection());
+		m_dataViewListCtrl_SignalInfo->DeleteItem(n_row);
+		signal->infos.erase(signal->infos.begin() + n_row);
+		itemID--;
+		signal->GenerateSignalData(_numberOfSample);
+		isUpdatingSignal = true;
+	}
 }
