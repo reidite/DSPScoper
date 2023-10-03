@@ -24,6 +24,11 @@
 #include "./calc/filter.h"
 #include "./calc/signal.h"
 
+enum {
+    mpINFO_NEW,
+    mpINFO_REMOVE
+};
+
 namespace DigitalFilter {
     class SignalPlot : public mpFXYVector {
     public:
@@ -86,10 +91,14 @@ namespace DigitalFilter {
         std::mutex lockLoadingSignal;
         std::unique_lock<std::mutex> loadingSignalLocker{ lockLoadingSignal };
         
+
+        
+
         Calc::Signal* signal;
         Calc::Filter* filter;
 
         unsigned int itemID = 0;
+        
 
         wxDECLARE_EVENT_TABLE();
         wxDECLARE_NO_COPY_CLASS(MainFrame);
@@ -101,7 +110,7 @@ namespace DigitalFilter {
         unsigned int designMethod = 0;
         unsigned int filterOrder = 0;
         unsigned int filterType = 0;
-
+        wxMenu* m_infoPopMenu;
         mpWindow* m_Fig1;
         mpWindow* m_Fig2;
 
@@ -111,9 +120,6 @@ namespace DigitalFilter {
         SignalPlot* filteredMFPlot;
 
         std::vector<wxDataViewColumn*> cols = std::vector<wxDataViewColumn*>(4, nullptr);
-        wxDataViewColumn* col_amp;
-        wxDataViewColumn* col_freq;
-        wxDataViewColumn* col_psi;
 
     public:
         MainFrame();
@@ -127,7 +133,7 @@ namespace DigitalFilter {
         void m_textCtrl_AppliedFreqOnKeyUp(wxKeyEvent& event);
 
         void m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemActivated(wxDataViewEvent& event);
-
+        void m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemContextMenu(wxDataViewEvent& event);
         void m_toggle_StartOnToggleButton(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
 
@@ -139,6 +145,10 @@ namespace DigitalFilter {
         void LoadingSignal();
         void LoadingFilteredSignal();
         void TerminatePlotThread();
+
+        // InfoDataViewing
         void UpdatingSignalInfo();
+        void AddingInfo(wxCommandEvent& event);
+        void RemovingInfo(wxCommandEvent& event);
     };
 }

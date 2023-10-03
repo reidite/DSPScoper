@@ -174,6 +174,7 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 	m_choice_ResponeType->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_ResponeTypeOnChoice ), NULL, this );
 	m_textCtrl_AppliedFreq->Connect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_AppliedFreqOnKeyUp ), NULL, this );
 	this->Connect( wxID_ANY, wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, wxDataViewEventHandler( MainFrameUI::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemActivated ) );
+	this->Connect( wxID_ANY, wxEVT_COMMAND_DATAVIEW_ITEM_CONTEXT_MENU, wxDataViewEventHandler( MainFrameUI::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemContextMenu ) );
 	m_textCtrl_SampleSize->Connect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_SampleSizeOnKeyUp ), NULL, this );
 	m_toggle_Start->Connect( wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler( MainFrameUI::m_toggle_StartOnToggleButton ), NULL, this );
 }
@@ -186,6 +187,7 @@ MainFrameUI::~MainFrameUI()
 	m_choice_ResponeType->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_ResponeTypeOnChoice ), NULL, this );
 	m_textCtrl_AppliedFreq->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_AppliedFreqOnKeyUp ), NULL, this );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, wxDataViewEventHandler( MainFrameUI::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemActivated ) );
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_DATAVIEW_ITEM_CONTEXT_MENU, wxDataViewEventHandler( MainFrameUI::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemContextMenu ) );
 	m_textCtrl_SampleSize->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_SampleSizeOnKeyUp ), NULL, this );
 	m_toggle_Start->Disconnect( wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler( MainFrameUI::m_toggle_StartOnToggleButton ), NULL, this );
 	

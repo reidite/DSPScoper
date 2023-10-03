@@ -73,31 +73,41 @@ void DigitalFilter::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlIt
 	wxDataViewItem item = m_dataViewListCtrl_SignalInfo->GetSelection();
 	wxDataViewColumn* col = m_dataViewListCtrl_SignalInfo->GetColumn(event.GetColumn());
 	if (item.IsOk() && event.GetColumn() != 0) {
+		wxString prevValue = (m_dataViewListCtrl_SignalInfo->GetTextValue(m_dataViewListCtrl_SignalInfo->ItemToRow(item), event.GetColumn()));
+
 		wxDataViewRenderer* renderer = col->GetRenderer();
 		wxRect itemRect = m_dataViewListCtrl_SignalInfo->GetItemRect(item);
 		renderer->StartEditing(item, itemRect);
-		wxString prev = m_dataViewListCtrl_SignalInfo->GetTextValue(m_dataViewListCtrl_SignalInfo->ItemToRow(item), event.GetColumn());
 		m_dataViewListCtrl_SignalInfo->EditItem(item, col);
-		wxString curr = m_dataViewListCtrl_SignalInfo->GetTextValue(m_dataViewListCtrl_SignalInfo->ItemToRow(item), event.GetColumn());
-		if (curr.IsNumber()) {
-			switch (event.GetColumn())
-			{
-			case 1:
-				//signal->infos[m_dataViewListCtrl_SignalInfo->ItemToRow(item)].m_freq = curr.ToDouble();
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-			default:
-				break;
+		m_dataViewListCtrl_SignalInfo->Bind(wxEVT_DATAVIEW_ITEM_VALUE_CHANGED, [=](wxDataViewEvent& event) {
+			double newValue;
+			if (m_dataViewListCtrl_SignalInfo->GetTextValue(m_dataViewListCtrl_SignalInfo->ItemToRow(item), event.GetColumn()).ToDouble(&newValue)) {
+				switch (event.GetColumn()) {
+				case 1:
+					signal->infos[m_dataViewListCtrl_SignalInfo->ItemToRow(item)].m_freq = newValue;
+					break;
+				case 2:
+					signal->infos[m_dataViewListCtrl_SignalInfo->ItemToRow(item)].m_amp = newValue;
+					break;
+				case 3:
+					signal->infos[m_dataViewListCtrl_SignalInfo->ItemToRow(item)].m_psi = newValue;
+					break;
+				default:
+					break;
+				}
+				signal->GenerateSignalData(_numberOfSample);
+				isUpdatingSignal = true;
 			}
-			
-		}
-		else {
-			m_dataViewListCtrl_SignalInfo->SetTextValue(prev, m_dataViewListCtrl_SignalInfo->ItemToRow(item), event.GetColumn());
-		}
+			else {
+				m_dataViewListCtrl_SignalInfo->SetTextValue(prevValue, m_dataViewListCtrl_SignalInfo->ItemToRow(item), event.GetColumn());
+			}
+		});
 	}
+}
+
+void DigitalFilter::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemContextMenu(wxDataViewEvent& event) {
+	PopupMenu(m_infoPopMenu);
+
 }
 
 void DigitalFilter::MainFrame::m_toggle_StartOnToggleButton(wxCommandEvent& event) {
@@ -220,8 +230,8 @@ void DigitalFilter::MainFrame::UpdatingFreq() {
 
 void DigitalFilter::MainFrame::UpdatingSignalInfo() {
 	cols[0] = new wxDataViewColumn("No", new wxDataViewTextRenderer(), 0, 30);
-	cols[1] = new wxDataViewColumn("Amp", new wxDataViewTextRenderer(), 1, 52);
-	cols[2] = new wxDataViewColumn("Freq", new wxDataViewTextRenderer(), 2, 52);
+	cols[1] = new wxDataViewColumn("Freq", new wxDataViewTextRenderer(), 1, 52);
+	cols[2] = new wxDataViewColumn("Amp", new wxDataViewTextRenderer(), 2, 52);
 	cols[3] = new wxDataViewColumn("Psi", new wxDataViewTextRenderer(), 3, 52);
 
 	for(wxDataViewColumn* col:cols)
@@ -230,9 +240,32 @@ void DigitalFilter::MainFrame::UpdatingSignalInfo() {
 	for (Calc::SignalInfo info : signal->infos) {
 		wxVector<wxVariant> rowData;
 		rowData.push_back(wxString::Format("%d", itemID++));
-		rowData.push_back(wxString::Format("%0.2lf", info.m_amp));
 		rowData.push_back(wxString::Format("%0.2lf", info.m_freq));
+		rowData.push_back(wxString::Format("%0.2lf", info.m_amp));
 		rowData.push_back(wxString::Format("%0.2lf", info.m_psi)); 
 		m_dataViewListCtrl_SignalInfo->AppendItem(rowData);
 	}
+
+	m_infoPopMenu = new wxMenu();
+	m_infoPopMenu->Append(mpINFO_NEW, _("New"), _("Create a new signal"));
+	m_infoPopMenu->Append(mpINFO_REMOVE, _("Remove"), _("Remove the selected signal"));
+}
+
+void DigitalFilter::MainFrame::AddingInfo(wxCommandEvent& WXUNUSED(event)) {
+	wxVector<wxVariant> rowData;
+	rowData.push_back(wxString::Format("%d", itemID++));
+	rowData.push_back(wxString::Format("%0.2lf", 0.0));
+	rowData.push_back(wxString::Format("%0.2lf", 0.0));
+	rowData.push_back(wxString::Format("%0.2lf", 0.0));
+	m_dataViewListCtrl_SignalInfo->AppendItem(rowData);
+	signal->infos.push_back({ 0.0, 0.0, 0.0 });
+}
+
+void DigitalFilter::MainFrame::RemovingInfo(wxCommandEvent& WXUNUSED(event)) {
+	unsigned int n_row = m_dataViewListCtrl_SignalInfo->ItemToRow(m_dataViewListCtrl_SignalInfo->GetSelection());
+	m_dataViewListCtrl_SignalInfo->DeleteItem(n_row);
+	signal->infos.erase(signal->infos.begin() + n_row);
+	itemID--;
+	signal->GenerateSignalData(_numberOfSample);
+	isUpdatingSignal = true;
 }

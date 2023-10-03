@@ -20,7 +20,6 @@ namespace DigitalFilter {
 
 			Signal();
 			Signal(double amp, double freq, double psi);
-			Signal(std::vector<double> amps, std::vector<double> freqs, std::vector<double> psis);
 			
 			void GenerateSignalData(int numOfSample);
 			

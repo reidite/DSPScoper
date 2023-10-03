@@ -10,12 +10,6 @@ DigitalFilter::Calc::Signal::Signal(double amp, double freq, double psi) {
 	infos.push_back({ freq, amp, psi });
 }
 
-DigitalFilter::Calc::Signal::Signal(std::vector<double> amps, std::vector<double> freqs, std::vector<double> psis)  {
-	if (freqs.size() != amps.size() || amps.size() != psis.size())
-		return;
-	
-};
-
 void DigitalFilter::Calc::Signal::GenerateSignalData(int numOfSample) {
 	x.clear();
 	y.clear();

@@ -64,4 +64,6 @@ void App::CleanUp() {
 }
 
 wxBEGIN_EVENT_TABLE(DigitalFilter::MainFrame, wxFrame)
+    EVT_MENU(mpINFO_NEW, DigitalFilter::MainFrame::AddingInfo)
+    EVT_MENU(mpINFO_REMOVE, DigitalFilter::MainFrame::RemovingInfo)
 wxEND_EVENT_TABLE()

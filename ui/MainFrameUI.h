@@ -58,6 +58,7 @@ class MainFrameUI : public wxFrame
 		virtual void m_choice_ResponeTypeOnChoice( wxCommandEvent& event ) { event.Skip(); }
 		virtual void m_textCtrl_AppliedFreqOnKeyUp( wxKeyEvent& event ) { event.Skip(); }
 		virtual void m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemActivated( wxDataViewEvent& event ) { event.Skip(); }
+		virtual void m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemContextMenu( wxDataViewEvent& event ) { event.Skip(); }
 		virtual void m_textCtrl_SampleSizeOnKeyUp( wxKeyEvent& event ) { event.Skip(); }
 		virtual void m_toggle_StartOnToggleButton( wxCommandEvent& event ) { event.Skip(); }
 		

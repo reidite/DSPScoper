@@ -211,14 +211,14 @@
                                     <property name="non_flexible_grow_mode">wxFLEX_GROWMODE_SPECIFIED</property>
                                     <property name="permission">none</property>
                                     <property name="vgap">0</property>
-                                    <object class="gbsizeritem" expanded="1">
+                                    <object class="gbsizeritem" expanded="0">
                                         <property name="border">5</property>
                                         <property name="colspan">2</property>
                                         <property name="column">0</property>
                                         <property name="flag">wxEXPAND</property>
                                         <property name="row">0</property>
                                         <property name="rowspan">5</property>
-                                        <object class="wxStaticBoxSizer" expanded="1">
+                                        <object class="wxStaticBoxSizer" expanded="0">
                                             <property name="id">wxID_ANY</property>
                                             <property name="label">Filter Control</property>
                                             <property name="minimum_size"></property>
@@ -226,11 +226,11 @@
                                             <property name="orient">wxVERTICAL</property>
                                             <property name="permission">none</property>
                                             <event name="OnUpdateUI"></event>
-                                            <object class="sizeritem" expanded="1">
+                                            <object class="sizeritem" expanded="0">
                                                 <property name="border">5</property>
                                                 <property name="flag">wxEXPAND</property>
                                                 <property name="proportion">1</property>
-                                                <object class="wxGridSizer" expanded="1">
+                                                <object class="wxGridSizer" expanded="0">
                                                     <property name="cols">2</property>
                                                     <property name="hgap">0</property>
                                                     <property name="minimum_size"></property>
@@ -1024,20 +1024,20 @@
                                                             <event name="OnPaint"></event>
                                                             <event name="OnRightDClick"></event>
                                                             <event name="OnRightDown"></event>
-                                                            <event name="OnRightUp"></event>
+                                                            <event name="OnRightUp">m_dataViewListCtrl_SignalInfoOnRightUp</event>
                                                             <event name="OnSetFocus"></event>
                                                             <event name="OnSize"></event>
                                                             <event name="OnUpdateUI"></event>
                                                         </object>
                                                     </object>
-                                                    <object class="gbsizeritem" expanded="1">
+                                                    <object class="gbsizeritem" expanded="0">
                                                         <property name="border">5</property>
                                                         <property name="colspan">2</property>
                                                         <property name="column">0</property>
                                                         <property name="flag"></property>
                                                         <property name="row">10</property>
                                                         <property name="rowspan">1</property>
-                                                        <object class="wxGridSizer" expanded="1">
+                                                        <object class="wxGridSizer" expanded="0">
                                                             <property name="cols">2</property>
                                                             <property name="hgap">0</property>
                                                             <property name="minimum_size"></property>
@@ -1337,6 +1337,11 @@
                         <property name="vgap">0</property>
                     </object>
                 </object>
+            </object>
+            <object class="wxMenu" expanded="0">
+                <property name="label">InfoMenu</property>
+                <property name="name">m_infoPopMenu</property>
+                <property name="permission">protected</property>
             </object>
         </object>
     </object>
