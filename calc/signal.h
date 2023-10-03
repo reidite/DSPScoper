@@ -7,9 +7,9 @@
 namespace DigitalFilter {
 	namespace Calc {
 		struct SignalInfo {
-			double m_freq;
 			double m_amp;
-			double m_psi;
+			double m_freq;
+			double m_stddev;
 		};
 
 		class Signal {

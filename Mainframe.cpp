@@ -125,13 +125,13 @@ void DigitalFilter::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlIt
 			if (m_dataViewListCtrl_SignalInfo->GetTextValue(m_dataViewListCtrl_SignalInfo->ItemToRow(item), event.GetColumn()).ToDouble(&newValue)) {
 				switch (event.GetColumn()) {
 				case 1:
-					signal->infos[m_dataViewListCtrl_SignalInfo->ItemToRow(item)].m_freq = newValue;
-					break;
-				case 2:
 					signal->infos[m_dataViewListCtrl_SignalInfo->ItemToRow(item)].m_amp = newValue;
 					break;
+				case 2:
+					signal->infos[m_dataViewListCtrl_SignalInfo->ItemToRow(item)].m_freq = newValue;
+					break;
 				case 3:
-					signal->infos[m_dataViewListCtrl_SignalInfo->ItemToRow(item)].m_psi = newValue;
+					signal->infos[m_dataViewListCtrl_SignalInfo->ItemToRow(item)].m_stddev = newValue;
 					break;
 				default:
 					break;
@@ -265,9 +265,9 @@ void DigitalFilter::MainFrame::UpdatingFreq() {
 
 void DigitalFilter::MainFrame::UpdatingSignalInfo() {
 	cols[0] = new wxDataViewColumn("No", new wxDataViewTextRenderer(), 0, 30);
-	cols[1] = new wxDataViewColumn("Freq", new wxDataViewTextRenderer(), 1, 52);
-	cols[2] = new wxDataViewColumn("Amp", new wxDataViewTextRenderer(), 2, 52);
-	cols[3] = new wxDataViewColumn("Psi", new wxDataViewTextRenderer(), 3, 52);
+	cols[1] = new wxDataViewColumn("Amp", new wxDataViewTextRenderer(), 1, 52);
+	cols[2] = new wxDataViewColumn("Freq", new wxDataViewTextRenderer(), 2, 52);
+	cols[3] = new wxDataViewColumn("Stddev", new wxDataViewTextRenderer(), 3, 52);
 
 	for(wxDataViewColumn* col:cols)
 		m_dataViewListCtrl_SignalInfo->AppendColumn(col);
@@ -275,9 +275,9 @@ void DigitalFilter::MainFrame::UpdatingSignalInfo() {
 	for (Calc::SignalInfo info : signal->infos) {
 		wxVector<wxVariant> rowData;
 		rowData.push_back(wxString::Format("%d", itemID++));
-		rowData.push_back(wxString::Format("%0.2lf", info.m_freq));
 		rowData.push_back(wxString::Format("%0.2lf", info.m_amp));
-		rowData.push_back(wxString::Format("%0.2lf", info.m_psi)); 
+		rowData.push_back(wxString::Format("%0.2lf", info.m_freq));
+		rowData.push_back(wxString::Format("%0.2lf", info.m_stddev));
 		m_dataViewListCtrl_SignalInfo->AppendItem(rowData);
 	}
 

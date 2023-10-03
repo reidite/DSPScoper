@@ -1,9 +1,9 @@
 #include "signal.h"
 
 DigitalFilter::Calc::Signal::Signal() {
-	infos.push_back({ 5, 1, 0.1 });
-	infos.push_back({ 50, 0.6, 0.1 });
-	infos.push_back({ 80, 0.8, 0.1 });
+	infos.push_back({ 1.0, 5, 0.10 });
+	infos.push_back({ 0.6, 50, 0.15 });
+	infos.push_back({ 0.8, 80, 0.30 });
 }
 
 DigitalFilter::Calc::Signal::Signal(double amp, double freq, double psi) {
@@ -16,15 +16,15 @@ void DigitalFilter::Calc::Signal::GenerateSignalData(int numOfSample) {
 
 	x = std::vector<double>(numOfSample, 0);
 	y = std::vector<double>(numOfSample, 0);
-	/*const double mean = 0.0;
-	const double stddev_freq = m_psi;
-	std::default_random_engine generator;
-	std::normal_distribution<double> dist(mean, stddev_freq);*/
+
+	std::default_random_engine gen;
+
 	for (int i = 0; i < numOfSample; i++) {
 		x[i] = 1.0 / (numOfSample - 1) * i;
 		y[i] = 0;
 		for (Calc::SignalInfo info : infos) {
-			y[i] += info.m_amp * sin(2 * M_PI * info.m_freq * x[i]);
+			std::normal_distribution<double> dist(info.m_freq, info.m_stddev);
+			y[i] += info.m_amp * sin(2 * M_PI * dist(gen) * x[i]);
 		}
 	}
 }
