@@ -189,18 +189,22 @@ void DigitalFilter::MainFrame::SettingThePlots() {
 	timeAxis->SetContinuity(true);
 	freqAxis->SetContinuity(true);
 	amplitudeAxis->SetContinuity(true);
+	modulusAxis->SetContinuity(true);
 
 	timeAxis->SetDrawOutsideMargins(false);
 	freqAxis->SetDrawOutsideMargins(false);
 	amplitudeAxis->SetDrawOutsideMargins(false);
+	modulusAxis->SetDrawOutsideMargins(false);
 
 	m_Fig1 = new mpWindow(this, -1, wxPoint(0, 0), wxSize(-1, -1), wxSUNKEN_BORDER);
 	m_Fig1->EnableMousePanZoom(false);
+	m_Fig1->SetMargins(PLOT_MARGIN, PLOT_MARGIN, PLOT_MARGIN, PLOT_MARGIN);
 	m_Fig1->AddLayer(timeAxis);
 	m_Fig1->AddLayer(amplitudeAxis);
-
+	
 	m_Fig2 = new mpWindow(this, -1, wxPoint(0, 0), wxSize(-1, -1), wxSUNKEN_BORDER);
 	m_Fig2->EnableMousePanZoom(false);
+	m_Fig2->SetMargins(PLOT_MARGIN, PLOT_MARGIN, PLOT_MARGIN, PLOT_MARGIN);
 	m_Fig2->AddLayer(freqAxis);
 	m_Fig2->AddLayer(modulusAxis);
 

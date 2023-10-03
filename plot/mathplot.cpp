@@ -808,10 +808,10 @@ void mpScaleX::Plot(wxDC& dc, mpWindow& w)
 		dc.DrawLine(0, orgy, w.GetScrX(), orgy);
 
 		// To cut the axis line when draw outside margin is false, use this code
-		/*if (m_drawOutsideMargins == true)
+		if (m_drawOutsideMargins == true)
 			dc.DrawLine( 0, orgy, w.GetScrX(), orgy);
 		else
-			dc.DrawLine( w.GetMarginLeft(), orgy, w.GetScrX() - w.GetMarginRight(), orgy); */
+			dc.DrawLine( w.GetMarginLeft(), orgy, w.GetScrX() - w.GetMarginRight(), orgy); 
 
 		const double dig = floor(log(128.0 / w.GetScaleX()) / mpLN10);
 		const double step = exp(mpLN10 * dig);

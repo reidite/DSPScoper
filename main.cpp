@@ -1,14 +1,3 @@
-/////////////////////////////////////////////////////////////////////////////
-// Name:        collpane.cpp
-// Purpose:     wxCollapsiblePane sample
-// Author:      Francesco Montorsi
-// Modified by:
-// Created:     14/10/06
-// Copyright:   (c) Francesco Montorsi
-// Licence:     wxWindows licence
-/////////////////////////////////////////////////////////////////////////////
-#define WXSUPPRESS_SIZER_FLAGS_CHECK = 1
-
 #include "wx/wxprec.h"
 #include "wx/log.h"
 #include "wx/app.h"
