@@ -1,11 +1,17 @@
 #include "filter.h"
 
+DigitalFilter::Calc::Filter::Filter(unsigned int filterType) { 
+	_filterID = filterType;
+	a = std::vector<double>(3, 0.0);
+	b = std::vector<double>(3, 0.0);
+}
+
 std::vector<double> DigitalFilter::Calc::Filter::filting(std::vector<double> y) {
     std::vector<double> filtered(y.size(), 0.0);
     for (int i = 3; i < y.size(); i++)
     {
-        filtered[i] = _a[1] * filtered[i - 1] + _a[2] * filtered[i - 2]
-            + _b[0] * y[i] + _b[1] * y[i - 1] + _b[2] * y[i - 2];
+        filtered[i] = a[1] * filtered[i - 1] + a[2] * filtered[i - 2]
+            + b[0] * y[i] + b[1] * y[i - 1] + b[2] * y[i - 2];
     }
 
     return filtered;
@@ -31,9 +37,6 @@ void DigitalFilter::Calc::Filter::SetAB(int sample_freq, int cutoff_freq) {
 }
 
 void DigitalFilter::Calc::Filter::applyingLowPass(int sample_freq, int cutoff_freq) {
-	std::vector<double> a(3);
-	std::vector<double> b(3);
-
 	double omega0 = 2 * M_PI * cutoff_freq;
 	double dt = 1.0 / sample_freq;
 	double alpha = omega0 * dt;
@@ -48,14 +51,9 @@ void DigitalFilter::Calc::Filter::applyingLowPass(int sample_freq, int cutoff_fr
 
 	a[1] = -(2 * alphaSq * beta[0] - 8 * beta[2]) / D;
 	a[2] = -(beta[0] * alphaSq - 2 * beta[1] * alpha + 4 * beta[2]) / D;
-
-	_a = a; _b = b;
 }
 
 void DigitalFilter::Calc::Filter::applyingHighPass(int sample_freq, int cutoff_freq) {
-	std::vector<double> a(3);
-	std::vector<double> b(3);
-
 	double omega0 = 2 * M_PI * cutoff_freq;
 	double dt = 1.0 / sample_freq;
 
@@ -69,14 +67,9 @@ void DigitalFilter::Calc::Filter::applyingHighPass(int sample_freq, int cutoff_f
 
 	a[1] = -(2 * c[0] * dtSq - 8 * c[2]) / E;
 	a[2] = -(c[0] * dtSq - 2 * c[1] * dt + 4 * c[2]) / E;
-
-	_a = a; _b = b;
 }
 
 void DigitalFilter::Calc::Filter::applyingBandPass(int sample_freq, int cutoff_freq) {
-	std::vector<double> a(3);
-	std::vector<double> b(3);
-
 	int band_width = 6;
 
 	double omega0 = 2 * M_PI * cutoff_freq;
@@ -93,14 +86,9 @@ void DigitalFilter::Calc::Filter::applyingBandPass(int sample_freq, int cutoff_f
 
 	a[1] = -(2 * pow(alpha, 2) - 8) / G;
 	a[2] = -(pow(alpha, 2) - 2 * alpha / Q + 4) / G;
-
-	_a = a; _b = b;
 }
 
 void DigitalFilter::Calc::Filter::applyingBandStop(int sample_freq, int cutoff_freq) {
-	std::vector<double> a(3);
-	std::vector<double> b(3);
-
 	int band_width = 6;
 
 	double omega0 = 2 * M_PI * cutoff_freq;
@@ -117,6 +105,4 @@ void DigitalFilter::Calc::Filter::applyingBandStop(int sample_freq, int cutoff_f
 
 	a[1] = -(2 * alpha * alpha - 8) / G;
 	a[2] = -(alpha * alpha - 2 * alpha / Q + 4) / G;
-
-	_a = a; _b = b;
 }

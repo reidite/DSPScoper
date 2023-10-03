@@ -63,7 +63,7 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 	
 	gSizer_FilterControl->Add( m_choice_DesignMethod, 0, 0, 5 );
 	
-	m_staticText_ResponseType = new wxStaticText( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxT("Design Method"), wxPoint( 2,0 ), wxDefaultSize, 0 );
+	m_staticText_ResponseType = new wxStaticText( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxT("Response Type"), wxPoint( 2,0 ), wxDefaultSize, 0 );
 	m_staticText_ResponseType->Wrap( -1 );
 	gSizer_FilterControl->Add( m_staticText_ResponseType, 0, wxALL, 5 );
 	

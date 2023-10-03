@@ -8,14 +8,14 @@ namespace DigitalFilter {
     namespace Calc {
         class Filter {
         private:
-            std::vector<double> _a;
-            std::vector<double> _b;
+            std::vector<double> a;
+            std::vector<double> b;
 
         protected:
             unsigned int _filterID;
             
         public:
-            Filter(unsigned int filterType) { _filterID = filterType; }
+            Filter(unsigned int filterType);
             ~Filter();
 
             std::vector<double> filting(std::vector<double> y);

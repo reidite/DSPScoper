@@ -20,7 +20,7 @@
 #include "./calc/filter.h"
 #include "./calc/signal.h"
 
-enum {
+enum INFOCMD {
     mpINFO_NEW,
     mpINFO_REMOVE
 };
@@ -36,45 +36,7 @@ namespace DigitalFilter {
             this->SetData(x, y);
         }
 
-        void DrawingDFTData(std::vector<double> x, std::vector<double> y) {
-            int N = y.size();
-            int K = x.size();
-
-            std::complex<double> intSum;
-
-            std::vector<std::complex<double>> output;
-            output.reserve(K);
-
-            for (int k = 0; k < K; k++) {
-                intSum = std::complex<double>(0.0, 0.0);
-                for (int n = 0; n < N; n++) {
-                    double realPart = cos((2 * M_PI / N) * k * n);
-                    double imagPart = sin((2 * M_PI / N) * k * n);
-
-                    std::complex<double> w(realPart, -imagPart);
-
-                    intSum += y[n] * w;
-                }
-
-                output.push_back(intSum);
-            }
-
-            std::vector<double> freqs;
-            std::vector<double> modus;
-
-            for (int n = 0; n < K; n++)
-            {
-                freqs.push_back(n);
-            }
-
-            for (auto& ii : output)
-            {
-                ii = ii / static_cast<double>(N);
-                modus.push_back(std::abs(ii));
-            }
-
-            this->SetData(freqs, modus);
-        }
+        void DrawingDFTData(std::vector<double> x, std::vector<double> y);
     };
 
     class MainFrame : public MainFrameUI {

@@ -19,6 +19,45 @@ DigitalFilter::MainFrame::MainFrame()
 DigitalFilter::MainFrame::~MainFrame() {
 }
 
+void DigitalFilter::SignalPlot::DrawingDFTData(std::vector<double> x, std::vector<double> y) {
+	int N = y.size();
+	int K = x.size();
+
+	std::complex<double> intSum;
+
+	std::vector<std::complex<double>> output;
+	output.reserve(K);
+
+	for (int k = 0; k < K; k++) {
+		intSum = std::complex<double>(0.0, 0.0);
+		for (int n = 0; n < N; n++) {
+			double realPart = cos((2 * M_PI / N) * k * n);
+			double imagPart = sin((2 * M_PI / N) * k * n);
+
+			std::complex<double> w(realPart, -imagPart);
+
+			intSum += y[n] * w;
+		}
+
+		output.push_back(intSum);
+	}
+
+	std::vector<double> freqs;
+	std::vector<double> modus;
+
+	for (int n = 0; n < K; n++)
+	{
+		freqs.push_back(n);
+	}
+
+	for (auto& ii : output)
+	{
+		ii = ii / static_cast<double>(N);
+		modus.push_back(std::abs(ii));
+	}
+
+	this->SetData(freqs, modus);
+}
 
 void DigitalFilter::MainFrame::m_choice_DesignMethodOnChoice(wxCommandEvent& event) {
 	designMethod = m_choice_DesignMethod->GetSelection();
@@ -31,9 +70,11 @@ void DigitalFilter::MainFrame::m_choice_FilterOrderOnChoice(wxCommandEvent& even
 }
 
 void DigitalFilter::MainFrame::m_choice_ResponeTypeOnChoice(wxCommandEvent& event) {
-	filterType = m_choice_ResponeType->GetSelection();
-	LoadingFilter();
-	isUpdatingSignal = true;
+	if (filterType != m_choice_ResponeType->GetSelection()) {
+		filterType = m_choice_ResponeType->GetSelection();
+		LoadingFilter();
+		isUpdatingSignal = true;
+	}
 }
 
 void DigitalFilter::MainFrame::m_textCtrl_SampleSizeOnKeyUp(wxKeyEvent& event) {
@@ -107,7 +148,6 @@ void DigitalFilter::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlIt
 
 void DigitalFilter::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemContextMenu(wxDataViewEvent& event) {
 	PopupMenu(m_infoPopMenu);
-
 }
 
 void DigitalFilter::MainFrame::m_toggle_StartOnToggleButton(wxCommandEvent& event) {
@@ -185,12 +225,8 @@ void DigitalFilter::MainFrame::SettingSignalProperties() {
 }
 
 void DigitalFilter::MainFrame::LoadingFilter() {
-	if (filterType != filter->getFilterID()) {
-		filter->setFilterID(filterType);
-		if (filterType != 3)
-			filter->SetAB(_numberOfSample, _appliedFreq);
-		else filter->SetAB(_numberOfSample, _appliedFreq);
-	}
+	filter->setFilterID(filterType);
+	filter->SetAB(_numberOfSample, _appliedFreq);
 	isUpdatingSignal = true;
 }
 
@@ -246,11 +282,11 @@ void DigitalFilter::MainFrame::UpdatingSignalInfo() {
 	}
 
 	m_infoPopMenu = new wxMenu();
-	m_infoPopMenu->Append(mpINFO_NEW, _("New"), _("Create a new signal"));
-	m_infoPopMenu->Append(mpINFO_REMOVE, _("Remove"), _("Remove the selected signal"));
+	m_infoPopMenu->Append(INFOCMD::mpINFO_NEW, _("New"), _("Create a new signal"));
+	m_infoPopMenu->Append(INFOCMD::mpINFO_REMOVE, _("Remove"), _("Remove the selected signal"));
 }
 
-void DigitalFilter::MainFrame::AddingInfo(wxCommandEvent& WXUNUSED(event)) {
+void DigitalFilter::MainFrame::AddingInfo(wxCommandEvent& event) {
 	wxVector<wxVariant> rowData;
 	rowData.push_back(wxString::Format("%d", itemID++));
 	rowData.push_back(wxString::Format("%0.2lf", 0.0));
@@ -260,7 +296,7 @@ void DigitalFilter::MainFrame::AddingInfo(wxCommandEvent& WXUNUSED(event)) {
 	signal->infos.push_back({ 0.0, 0.0, 0.0 });
 }
 
-void DigitalFilter::MainFrame::RemovingInfo(wxCommandEvent& WXUNUSED(event)) {
+void DigitalFilter::MainFrame::RemovingInfo(wxCommandEvent& event) {
 	unsigned int n_row = m_dataViewListCtrl_SignalInfo->ItemToRow(m_dataViewListCtrl_SignalInfo->GetSelection());
 	m_dataViewListCtrl_SignalInfo->DeleteItem(n_row);
 	signal->infos.erase(signal->infos.begin() + n_row);
