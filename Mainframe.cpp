@@ -123,7 +123,6 @@ void DigitalFilter::MainFrame::m_toggle_StartOnToggleButton(wxCommandEvent& even
 	isUpdatingSignal = true;
 }
 
-
 void DigitalFilter::MainFrame::OnAbout(wxCommandEvent& WXUNUSED(event)) {
 	wxAboutDialogInfo info;
 	info.SetName(_(MAINFRAME_NAME));

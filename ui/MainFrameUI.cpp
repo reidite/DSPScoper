@@ -11,7 +11,7 @@
 
 MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxSize( 720,520 ), wxDefaultSize );
+	this->SetSizeHints( wxSize( -1,-1 ), wxDefaultSize );
 	
 	wxGridBagSizer* gSizer_OuterLayout;
 	gSizer_OuterLayout = new wxGridBagSizer( 0, 0 );
@@ -23,7 +23,7 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 	gbSizer_LeftController ->SetFlexibleDirection( wxBOTH );
 	gbSizer_LeftController ->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	gbSizer_LeftController ->SetMinSize( wxSize( 210,-1 ) ); 
+	gbSizer_LeftController ->SetMinSize( wxSize( 240,-1 ) ); 
 	m_scrolledWindow = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL );
 	m_scrolledWindow->SetScrollRate( 5, 5 );
 	m_scrolledWindow->SetMinSize( wxSize( 240,100 ) );
@@ -89,7 +89,7 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 	sbSizer_FilterControlPanel->Add( gSizer_FilterControl, 1, wxEXPAND, 5 );
 	
 	
-	gbSizer_AdjusterLayout->Add( sbSizer_FilterControlPanel, wxGBPosition( 0, 0 ), wxGBSpan( 5, 2 ), wxEXPAND, 5 );
+	gbSizer_AdjusterLayout->Add( sbSizer_FilterControlPanel, wxGBPosition( 0, 0 ), wxGBSpan( 5, 2 ), wxALIGN_CENTER|wxALL, 5 );
 	
 	wxStaticBoxSizer* sbSizer_SignalControlPanel;
 	sbSizer_SignalControlPanel = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow, wxID_ANY, wxT("Signal Control") ), wxVERTICAL );
@@ -124,7 +124,7 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 	sbSizer_SignalControlPanel->Add( gbSizer_SignalControl, 1, wxEXPAND, 5 );
 	
 	
-	gbSizer_AdjusterLayout->Add( sbSizer_SignalControlPanel, wxGBPosition( 5, 0 ), wxGBSpan( 11, 2 ), wxEXPAND, 5 );
+	gbSizer_AdjusterLayout->Add( sbSizer_SignalControlPanel, wxGBPosition( 5, 0 ), wxGBSpan( 11, 2 ), wxALIGN_CENTER|wxALL, 5 );
 	
 	
 	m_scrolledWindow->SetSizer( gbSizer_AdjusterLayout );
@@ -164,7 +164,6 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 	
 	this->SetSizer( gSizer_OuterLayout );
 	this->Layout();
-	gSizer_OuterLayout->Fit( this );
 	
 	this->Centre( wxBOTH );
 	
