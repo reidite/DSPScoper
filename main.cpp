@@ -14,6 +14,7 @@ public:
 	App() { }
 
     bool OnInit() wxOVERRIDE;
+
 	wxDECLARE_NO_COPY_CLASS(App);
 };
 
@@ -27,5 +28,6 @@ bool App::OnInit() {
     frame->Show(true);
     return true;
 }
+
 
 wxIMPLEMENT_APP(App);
