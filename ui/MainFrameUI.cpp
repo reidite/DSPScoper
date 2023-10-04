@@ -12,6 +12,8 @@
 MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxSize( -1,-1 ), wxDefaultSize );
+	this->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
+	this->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
 	
 	wxGridBagSizer* gSizer_OuterLayout;
 	gSizer_OuterLayout = new wxGridBagSizer( 0, 0 );
@@ -174,6 +176,7 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 	this->Centre( wxBOTH );
 	
 	// Connect Events
+	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrameUI::MainFrameUIOnClose ) );
 	m_choice_FilterOrder->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_FilterOrderOnChoice ), NULL, this );
 	m_choice_DesignMethod->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_DesignMethodOnChoice ), NULL, this );
 	m_choice_ResponeType->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_ResponeTypeOnChoice ), NULL, this );
@@ -187,6 +190,7 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 MainFrameUI::~MainFrameUI()
 {
 	// Disconnect Events
+	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrameUI::MainFrameUIOnClose ) );
 	m_choice_FilterOrder->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_FilterOrderOnChoice ), NULL, this );
 	m_choice_DesignMethod->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_DesignMethodOnChoice ), NULL, this );
 	m_choice_ResponeType->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_ResponeTypeOnChoice ), NULL, this );

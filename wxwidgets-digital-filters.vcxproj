@@ -166,7 +166,14 @@
     <ClInclude Include="calc\signal.h" />
     <ClInclude Include="MainFrame.h" />
     <ClInclude Include="plot\mathplot.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="ui\MainFrameUI.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="wxwidgets-digital-filters.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\icon_32x32.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -53,6 +53,7 @@ class MainFrameUI : public wxFrame
 		wxGridSizer* gSizer_Outputs;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void MainFrameUIOnClose( wxCloseEvent& event ) { event.Skip(); }
 		virtual void m_choice_FilterOrderOnChoice( wxCommandEvent& event ) { event.Skip(); }
 		virtual void m_choice_DesignMethodOnChoice( wxCommandEvent& event ) { event.Skip(); }
 		virtual void m_choice_ResponeTypeOnChoice( wxCommandEvent& event ) { event.Skip(); }
@@ -65,7 +66,7 @@ class MainFrameUI : public wxFrame
 	
 	public:
 		
-		MainFrameUI( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 720,620 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		MainFrameUI( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 720,620 ), long style = wxDEFAULT_FRAME_STYLE|wxSUNKEN_BORDER );
 		
 		~MainFrameUI();
 	

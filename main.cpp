@@ -3,19 +3,17 @@
 #include "wx/app.h"
 #include "wx/scrolwin.h"
 #include "wx/fontpicker.h"
+#include "wx/settings.h"
 
 #include "./Mainframe.h"
 
 class App : public wxApp {
 private:
     DigitalFilter::MainFrame* frame;
-    std::thread* OriginalSignalUpdater;
 public:
 	App() { }
 
     bool OnInit() wxOVERRIDE;
-
-    void CleanUp() wxOVERRIDE;
 	wxDECLARE_NO_COPY_CLASS(App);
 };
 
@@ -23,17 +21,11 @@ public:
 bool App::OnInit() {
     if (!wxApp::OnInit())
         return false;
-
-    // create and show the main frame
     frame = new DigitalFilter::MainFrame();
+    wxIcon icon("IDI_ICON", 32, 32);
+    frame->SetIcon(icon);
     frame->Show(true);
-    OriginalSignalUpdater = new std::thread(&DigitalFilter::MainFrame::LoadingSignal, &(*frame));
-    OriginalSignalUpdater->detach();
     return true;
 }
 
-void App::CleanUp() {
-    frame->TerminatePlotThread();
-    OriginalSignalUpdater->join();
-}
 wxIMPLEMENT_APP(App);
