@@ -132,9 +132,15 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 	gbSizer_AdjusterLayout->Fit( m_scrolledWindow );
 	gbSizer_LeftController ->Add( m_scrolledWindow, wxGBPosition( 0, 0 ), wxGBSpan( 15, 2 ), wxEXPAND | wxALL, 5 );
 	
+	wxGridSizer* gSizer_Start;
+	gSizer_Start = new wxGridSizer( 1, 1, 0, 0 );
+	
 	m_toggle_Start = new wxToggleButton( this, wxID_ANY, wxT("Start"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_toggle_Start->SetValue( true ); 
-	gbSizer_LeftController ->Add( m_toggle_Start, wxGBPosition( 15, 0 ), wxGBSpan( 1, 2 ), wxALIGN_CENTER, 5 );
+	gSizer_Start->Add( m_toggle_Start, 0, wxALIGN_CENTER|wxALL, 5 );
+	
+	
+	gbSizer_LeftController ->Add( gSizer_Start, wxGBPosition( 15, 0 ), wxGBSpan( 1, 2 ), wxEXPAND, 5 );
 	
 	
 	gbSizer_LeftController ->AddGrowableCol( 0 );
