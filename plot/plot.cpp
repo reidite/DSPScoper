@@ -58,6 +58,10 @@ DigitalFilter::Plot::ATPlotWindow::ATPlotWindow(wxWindow* parent) : mpWindow(par
 	timeAxis->SetDrawOutsideMargins(false);
 	amplitudeAxis->SetDrawOutsideMargins(false);
 
+	m_popmenu.Remove(mpID_CENTER);
+	m_popmenu.Remove(mpID_LOCKASPECT);
+	m_popmenu.Remove(mpID_HELP_MOUSE);
+
 	this->EnableMousePanZoom(false);
 	this->SetMargins(PLOT_MARGIN, PLOT_MARGIN, PLOT_MARGIN, PLOT_MARGIN);
 	this->AddLayer(timeAxis);
@@ -84,6 +88,10 @@ DigitalFilter::Plot::MFPlotWindow::MFPlotWindow(wxWindow* parent) : mpWindow(par
 
 	freqAxis->SetDrawOutsideMargins(false);
 	modulusAxis->SetDrawOutsideMargins(false);
+
+	m_popmenu.Remove(mpID_CENTER);
+	m_popmenu.Remove(mpID_LOCKASPECT);
+	m_popmenu.Remove(mpID_HELP_MOUSE);
 
 	this->EnableMousePanZoom(false);
 	this->SetMargins(PLOT_MARGIN, PLOT_MARGIN, PLOT_MARGIN, PLOT_MARGIN);
