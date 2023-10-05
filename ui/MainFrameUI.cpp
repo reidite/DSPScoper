@@ -123,19 +123,19 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 	
 	m_staticText_SamplingRate = new wxStaticText( sbSizer_SignalControlPanel->GetStaticBox(), wxID_ANY, wxT("Sampling Rate"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText_SamplingRate->Wrap( -1 );
-	gSizer111->Add( m_staticText_SamplingRate, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	gSizer111->Add( m_staticText_SamplingRate, 0, wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT|wxALL, 5 );
 	
 	m_textCtrl_SamplingRate = new wxTextCtrl( sbSizer_SignalControlPanel->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE );
 	m_textCtrl_SamplingRate->SetMaxLength( 6 ); 
 	m_textCtrl_SamplingRate->SetMinSize( wxSize( 100,-1 ) );
 	
-	gSizer111->Add( m_textCtrl_SamplingRate, 3, wxALL, 5 );
+	gSizer111->Add( m_textCtrl_SamplingRate, 3, wxALL|wxEXPAND, 5 );
 	
 	
 	gbSizer_SignalControl->Add( gSizer111, wxGBPosition( 5, 0 ), wxGBSpan( 1, 2 ), 0, 5 );
 	
 	
-	sbSizer_SignalControlPanel->Add( gbSizer_SignalControl, 1, wxEXPAND, 5 );
+	sbSizer_SignalControlPanel->Add( gbSizer_SignalControl, 1, 0, 5 );
 	
 	
 	gbSizer_AdjusterLayout->Add( sbSizer_SignalControlPanel, wxGBPosition( 6, 0 ), wxGBSpan( 6, 2 ), wxALIGN_CENTER|wxALL, 5 );
