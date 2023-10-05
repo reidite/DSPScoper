@@ -12,15 +12,14 @@ DigitalFilter::MainFrame::MainFrame()
 	filter->SetAB(_numberOfSample, _appliedFreq);
 	
 	UpdatingSignalInfo();
-	m_textCtrl_SampleSize->SetValue(std::to_string(_numberOfSample));
-	m_textCtrl_AppliedFreq->SetValue(std::to_string(_appliedFreq));
+	LoadingSignalUpdater();
 }
 
 DigitalFilter::MainFrame::~MainFrame() {
 }
 
-void DigitalFilter::SignalPlot::DrawingDFTData(std::vector<double> x, std::vector<double> y) {
-	int N = y.size();
+void DigitalFilter::SignalPlot::DrawingDFTData(std::vector<double> x, std::vector<double> y, int maxFreq) {
+	double N = y.size();
 	int K = x.size();
 
 	std::complex<double> intSum;
@@ -45,15 +44,11 @@ void DigitalFilter::SignalPlot::DrawingDFTData(std::vector<double> x, std::vecto
 	std::vector<double> freqs;
 	std::vector<double> modus;
 
-	for (int n = 0; n < K; n++)
+	int dataPts = (maxFreq <= N) ? maxFreq : N;
+	for (int i = 0; i < dataPts; i++)
 	{
-		freqs.push_back(n);
-	}
-
-	for (auto& ii : output)
-	{
-		ii = ii / static_cast<double>(N);
-		modus.push_back(std::abs(ii));
+		freqs.push_back(i);
+		modus.push_back(std::abs(output[i]/N));
 	}
 
 	this->SetData(freqs, modus);
@@ -121,6 +116,7 @@ void DigitalFilter::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlIt
 		wxRect itemRect = m_dataViewListCtrl_SignalInfo->GetItemRect(item);
 		renderer->StartEditing(item, itemRect);
 		m_dataViewListCtrl_SignalInfo->EditItem(item, col);
+		
 		m_dataViewListCtrl_SignalInfo->Bind(wxEVT_DATAVIEW_ITEM_VALUE_CHANGED, [=](wxDataViewEvent& event) {
 			double newValue;
 			if (m_dataViewListCtrl_SignalInfo->GetTextValue(m_dataViewListCtrl_SignalInfo->ItemToRow(item), event.GetColumn()).ToDouble(&newValue)) {
@@ -169,6 +165,13 @@ void DigitalFilter::MainFrame::m_toggle_StartOnToggleButton(wxCommandEvent& even
 		m_toggle_Start->SetLabel("Start");
 	}
 	isUpdatingSignal = true;
+}
+
+void DigitalFilter::MainFrame::MainFrameUIOnClose(wxCloseEvent& event) {
+	isLoadingSignal = false;
+	isUpdatingSignal = true;
+	PlotUpdater->join();
+	exit(0);
 }
 
 void DigitalFilter::MainFrame::OnAbout(wxCommandEvent& WXUNUSED(event)) {
@@ -243,42 +246,44 @@ void DigitalFilter::MainFrame::LoadingFilter() {
 	isUpdatingSignal = true;
 }
 
-void DigitalFilter::MainFrame::LoadingSignal() {
-	while (isLoadingSignal) {
-		while (!isUpdatingSignal) {};
-		
-		originalATPlot->Clear();
-		originalMFPlot->Clear();
-		filteredATPlot->Clear();
-		filteredMFPlot->Clear();
+void DigitalFilter::MainFrame::LoadingSignalUpdater() {
+	PlotUpdater = new std::thread( [&]() {
+		while (isLoadingSignal) {
+			originalATPlot->Clear();
+			originalMFPlot->Clear();
+			filteredATPlot->Clear();
+			filteredMFPlot->Clear();
 
-		originalATPlot->DrawingSignalData(signal->x, signal->y);
-		originalMFPlot->DrawingDFTData(signal->x, signal->y);
-		if (isDrawingFiltedResult)
-			LoadingFilteredSignal();
-		double maxAmp = signal->GetMaxAmp() + 0.2;
-		double maxFreq = signal->GetMaxFreq() + 10;
-		m_Fig1->Fit(0, 1, -maxAmp, maxAmp );
-		m_Fig2->Fit(0.9, maxFreq, 0, 1);
-		isUpdatingSignal = false;
-	}
-}
+			double maxAmp = signal->GetMaxAmp() + 0.2;
+			double maxFreq = signal->GetMaxFreq() + 10;
 
-void DigitalFilter::MainFrame::LoadingFilteredSignal() {
-	std::vector<double> filted_y = filter->filting(signal->y);
-	filteredATPlot->DrawingSignalData(signal->x, filted_y);
-	filteredMFPlot->DrawingDFTData(signal->x, filted_y);
-}
+			originalATPlot->DrawingSignalData(signal->x, signal->y);
+			originalMFPlot->DrawingDFTData(signal->x, signal->y, maxFreq);
 
-void DigitalFilter::MainFrame::TerminatePlotThread() {
-	isLoadingSignal = false;
-}
-
-void DigitalFilter::MainFrame::UpdatingFreq() {
-	isLoadingSignal = false;
+			if (isDrawingFiltedResult) {
+				std::vector<double> filted_y;
+				if (filterOrder == 0 || filterType > 1) {
+					filted_y = filter->filting(signal->y, designMethod);
+				}
+				else {
+					filted_y = filter->filting(filter->filting(signal->y, designMethod), designMethod);
+				}
+				filteredATPlot->DrawingSignalData(signal->x, filted_y);
+				filteredMFPlot->DrawingDFTData(signal->x, filted_y, maxFreq);
+			}
+			
+			m_Fig1->Fit(0, 1, -maxAmp, maxAmp);
+			m_Fig2->Fit(0.9, maxFreq, 0, 1);
+			isUpdatingSignal = false;
+			while (!isUpdatingSignal);
+		}
+	});
 }
 
 void DigitalFilter::MainFrame::UpdatingSignalInfo() {
+	m_textCtrl_SampleSize->SetValue(std::to_string(_numberOfSample));
+	m_textCtrl_AppliedFreq->SetValue(std::to_string(_appliedFreq));
+
 	cols[0] = new wxDataViewColumn("No", new wxDataViewTextRenderer(), 0, 30);
 	cols[1] = new wxDataViewColumn("Amp", new wxDataViewTextRenderer(), 1, 52);
 	cols[2] = new wxDataViewColumn("Freq", new wxDataViewTextRenderer(), 2, 52);

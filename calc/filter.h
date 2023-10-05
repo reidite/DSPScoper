@@ -18,7 +18,7 @@ namespace DigitalFilter {
             Filter(unsigned int filterType);
             ~Filter();
 
-            std::vector<double> filting(std::vector<double> y);
+            std::vector<double> filting(std::vector<double> y, unsigned int method);
             void SetAB(int sample_freq, int cutoff_freq);
             unsigned int getFilterID() { return _filterID; }
             void setFilterID(unsigned int filterID) { _filterID = filterID; }

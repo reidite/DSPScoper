@@ -39,11 +39,12 @@ namespace DigitalFilter {
             this->SetData(x, y);
         }
 
-        void DrawingDFTData(std::vector<double> x, std::vector<double> y);
+        void DrawingDFTData(std::vector<double> x, std::vector<double> y, int maxFreq);
     };
 
     class MainFrame : public MainFrameUI {
     private:
+        std::thread* PlotUpdater;
         std::atomic_bool isLoadingSignal = true;
         std::atomic_bool isUpdatingSignal = true;
         std::atomic_bool isDrawingFiltedResult = false;
@@ -89,16 +90,14 @@ namespace DigitalFilter {
         void m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemActivated(wxDataViewEvent& event);
         void m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemContextMenu(wxDataViewEvent& event);
         void m_toggle_StartOnToggleButton(wxCommandEvent& event);
+        void MainFrameUIOnClose(wxCloseEvent& event);
         void OnAbout(wxCommandEvent& event);
 
         // Plotings
         void SettingThePlots();
         void SettingSignalProperties();
-        void UpdatingFreq();
         void LoadingFilter();
-        void LoadingSignal();
-        void LoadingFilteredSignal();
-        void TerminatePlotThread();
+        void LoadingSignalUpdater();
 
         // InfoDataViewing
         void UpdatingSignalInfo();

@@ -6,13 +6,22 @@ DigitalFilter::Calc::Filter::Filter(unsigned int filterType) {
 	b = std::vector<double>(3, 0.0);
 }
 
-std::vector<double> DigitalFilter::Calc::Filter::filting(std::vector<double> y) {
+std::vector<double> DigitalFilter::Calc::Filter::filting(std::vector<double> y, unsigned int method) {
     std::vector<double> filtered(y.size(), 0.0);
-    for (int i = 3; i < y.size(); i++)
-    {
-        filtered[i] = a[1] * filtered[i - 1] + a[2] * filtered[i - 2]
-            + b[0] * y[i] + b[1] * y[i - 1] + b[2] * y[i - 2];
-    }
+	switch (method) {
+	case 0:
+		for (int i = 3; i < y.size(); i++) {
+			filtered[i] = a[1] * filtered[i - 1] + a[2] * filtered[i - 2]
+				+ b[0] * y[i] + b[1] * y[i - 1] + b[2] * y[i - 2];
+		}
+		break;
+	case 1:
+		for (int i = 3; i < y.size(); i++) {
+			filtered[i] = (1 * y[i] - 2 * y[i - 1] + 1 * y[i - 2]);
+		}
+		break;
+	}
+    
 
     return filtered;
 }
