@@ -40,33 +40,36 @@ class MainFrameUI : public wxFrame
 		wxScrolledWindow* m_scrolledWindow;
 		wxStaticText* m_staticText_FilterOrder;
 		wxChoice* m_choice_FilterOrder;
-		wxStaticText* m_staticText_DesignMethod;
-		wxChoice* m_choice_DesignMethod;
-		wxStaticText* m_staticText_ResponseType;
-		wxChoice* m_choice_ResponeType;
+		wxStaticText* m_staticText_FilterType;
+		wxChoice* m_choice_FilterType;
+		wxStaticText* m_staticText_FilterClass;
+		wxChoice* m_choice_FilterClass;
+		wxStaticText* m_staticText_FilterResponse;
+		wxChoice* m_choice_FilterResponse;
 		wxStaticText* m_staticText_AppliedFreq;
 		wxTextCtrl* m_textCtrl_AppliedFreq;
 		wxDataViewListCtrl* m_dataViewListCtrl_SignalInfo;
-		wxStaticText* m_staticText_SampleSize;
-		wxTextCtrl* m_textCtrl_SampleSize;
+		wxStaticText* m_staticText_SamplingRate;
+		wxTextCtrl* m_textCtrl_SamplingRate;
 		wxToggleButton* m_toggle_Start;
 		wxGridSizer* gSizer_Outputs;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void MainFrameUIOnClose( wxCloseEvent& event ) { event.Skip(); }
 		virtual void m_choice_FilterOrderOnChoice( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_choice_DesignMethodOnChoice( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_choice_ResponeTypeOnChoice( wxCommandEvent& event ) { event.Skip(); }
+		virtual void m_choice_FilterTypeOnChoice( wxCommandEvent& event ) { event.Skip(); }
+		virtual void m_choice_FilterClassOnChoice( wxCommandEvent& event ) { event.Skip(); }
+		virtual void m_choice_FilterResponseOnChoice( wxCommandEvent& event ) { event.Skip(); }
 		virtual void m_textCtrl_AppliedFreqOnKeyUp( wxKeyEvent& event ) { event.Skip(); }
 		virtual void m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemActivated( wxDataViewEvent& event ) { event.Skip(); }
 		virtual void m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemContextMenu( wxDataViewEvent& event ) { event.Skip(); }
-		virtual void m_textCtrl_SampleSizeOnKeyUp( wxKeyEvent& event ) { event.Skip(); }
+		virtual void m_textCtrl_SamplingRateOnKeyUp( wxKeyEvent& event ) { event.Skip(); }
 		virtual void m_toggle_StartOnToggleButton( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
-		MainFrameUI( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 720,620 ), long style = wxDEFAULT_FRAME_STYLE|wxSUNKEN_BORDER );
+		MainFrameUI( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 689,567 ), long style = wxDEFAULT_FRAME_STYLE|wxSUNKEN_BORDER );
 		
 		~MainFrameUI();
 	

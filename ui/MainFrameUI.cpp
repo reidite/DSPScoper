@@ -26,9 +26,9 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 	gbSizer_LeftController ->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
 	gbSizer_LeftController ->SetMinSize( wxSize( 240,-1 ) ); 
-	m_scrolledWindow = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL );
-	m_scrolledWindow->SetScrollRate( 5, 5 );
-	m_scrolledWindow->SetMinSize( wxSize( 240,100 ) );
+	m_scrolledWindow = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxSize( 240,500 ), wxVSCROLL );
+	m_scrolledWindow->SetScrollRate( 0, 5 );
+	m_scrolledWindow->SetMinSize( wxSize( 240,300 ) );
 	
 	wxGridBagSizer* gbSizer_AdjusterLayout;
 	gbSizer_AdjusterLayout = new wxGridBagSizer( 0, 0 );
@@ -39,7 +39,7 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 	sbSizer_FilterControlPanel = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow, wxID_ANY, wxT("Filter Control") ), wxVERTICAL );
 	
 	wxGridSizer* gSizer_FilterControl;
-	gSizer_FilterControl = new wxGridSizer( 4, 2, 0, 0 );
+	gSizer_FilterControl = new wxGridSizer( 5, 2, 0, 0 );
 	
 	m_staticText_FilterOrder = new wxStaticText( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxT("Filter Order"), wxPoint( 0,0 ), wxDefaultSize, 0 );
 	m_staticText_FilterOrder->Wrap( -1 );
@@ -53,29 +53,41 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 	
 	gSizer_FilterControl->Add( m_choice_FilterOrder, 0, 0, 5 );
 	
-	m_staticText_DesignMethod = new wxStaticText( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxT("Design Method"), wxPoint( 1,0 ), wxDefaultSize, 0 );
-	m_staticText_DesignMethod->Wrap( -1 );
-	gSizer_FilterControl->Add( m_staticText_DesignMethod, 0, wxALL, 5 );
+	m_staticText_FilterType = new wxStaticText( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxT("Filter Type"), wxPoint( 1,0 ), wxDefaultSize, 0 );
+	m_staticText_FilterType->Wrap( -1 );
+	gSizer_FilterControl->Add( m_staticText_FilterType, 0, wxALL, 5 );
 	
-	wxString m_choice_DesignMethodChoices[] = { wxT("IIR"), wxT("FIR") };
-	int m_choice_DesignMethodNChoices = sizeof( m_choice_DesignMethodChoices ) / sizeof( wxString );
-	m_choice_DesignMethod = new wxChoice( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxPoint( 1,1 ), wxDefaultSize, m_choice_DesignMethodNChoices, m_choice_DesignMethodChoices, 0 );
-	m_choice_DesignMethod->SetSelection( 0 );
-	m_choice_DesignMethod->SetMinSize( wxSize( 100,-1 ) );
+	wxString m_choice_FilterTypeChoices[] = { wxT("IIR"), wxT("FIR") };
+	int m_choice_FilterTypeNChoices = sizeof( m_choice_FilterTypeChoices ) / sizeof( wxString );
+	m_choice_FilterType = new wxChoice( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxPoint( 1,1 ), wxDefaultSize, m_choice_FilterTypeNChoices, m_choice_FilterTypeChoices, 0 );
+	m_choice_FilterType->SetSelection( 0 );
+	m_choice_FilterType->SetMinSize( wxSize( 100,-1 ) );
 	
-	gSizer_FilterControl->Add( m_choice_DesignMethod, 0, 0, 5 );
+	gSizer_FilterControl->Add( m_choice_FilterType, 0, 0, 5 );
 	
-	m_staticText_ResponseType = new wxStaticText( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxT("Response Type"), wxPoint( 2,0 ), wxDefaultSize, 0 );
-	m_staticText_ResponseType->Wrap( -1 );
-	gSizer_FilterControl->Add( m_staticText_ResponseType, 0, wxALL, 5 );
+	m_staticText_FilterClass = new wxStaticText( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxT("Filter Class"), wxPoint( 1,0 ), wxDefaultSize, 0 );
+	m_staticText_FilterClass->Wrap( -1 );
+	gSizer_FilterControl->Add( m_staticText_FilterClass, 0, wxALL, 5 );
 	
-	wxString m_choice_ResponeTypeChoices[] = { wxT("Low Pass"), wxT("High Pass"), wxT("Band Pass"), wxT("Band Stop") };
-	int m_choice_ResponeTypeNChoices = sizeof( m_choice_ResponeTypeChoices ) / sizeof( wxString );
-	m_choice_ResponeType = new wxChoice( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxPoint( 2,1 ), wxDefaultSize, m_choice_ResponeTypeNChoices, m_choice_ResponeTypeChoices, 0 );
-	m_choice_ResponeType->SetSelection( 0 );
-	m_choice_ResponeType->SetMinSize( wxSize( 100,-1 ) );
+	wxString m_choice_FilterClassChoices[] = { wxT("Butterworth"), wxT("Chebyshev"), wxT("Elliptic"), wxT("Bessel"), wxT("Gaussian"), wxT("Legendre"), wxT("Linkwitz-Riley") };
+	int m_choice_FilterClassNChoices = sizeof( m_choice_FilterClassChoices ) / sizeof( wxString );
+	m_choice_FilterClass = new wxChoice( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxPoint( 1,1 ), wxDefaultSize, m_choice_FilterClassNChoices, m_choice_FilterClassChoices, 0 );
+	m_choice_FilterClass->SetSelection( 0 );
+	m_choice_FilterClass->SetMinSize( wxSize( 100,-1 ) );
 	
-	gSizer_FilterControl->Add( m_choice_ResponeType, 0, 0, 5 );
+	gSizer_FilterControl->Add( m_choice_FilterClass, 0, 0, 5 );
+	
+	m_staticText_FilterResponse = new wxStaticText( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxT("Filter Response"), wxPoint( 2,0 ), wxDefaultSize, 0 );
+	m_staticText_FilterResponse->Wrap( -1 );
+	gSizer_FilterControl->Add( m_staticText_FilterResponse, 0, wxALL, 5 );
+	
+	wxString m_choice_FilterResponseChoices[] = { wxT("Low-pass"), wxT("High-pass"), wxT("Band-pass"), wxT("Band-stop") };
+	int m_choice_FilterResponseNChoices = sizeof( m_choice_FilterResponseChoices ) / sizeof( wxString );
+	m_choice_FilterResponse = new wxChoice( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxPoint( 2,1 ), wxDefaultSize, m_choice_FilterResponseNChoices, m_choice_FilterResponseChoices, 0 );
+	m_choice_FilterResponse->SetSelection( 0 );
+	m_choice_FilterResponse->SetMinSize( wxSize( 100,-1 ) );
+	
+	gSizer_FilterControl->Add( m_choice_FilterResponse, 0, 0, 5 );
 	
 	m_staticText_AppliedFreq = new wxStaticText( sbSizer_FilterControlPanel->GetStaticBox(), wxID_ANY, wxT("Applied Frequency"), wxPoint( 3,0 ), wxDefaultSize, 0 );
 	m_staticText_AppliedFreq->Wrap( -1 );
@@ -91,7 +103,7 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 	sbSizer_FilterControlPanel->Add( gSizer_FilterControl, 1, wxEXPAND, 5 );
 	
 	
-	gbSizer_AdjusterLayout->Add( sbSizer_FilterControlPanel, wxGBPosition( 0, 0 ), wxGBSpan( 5, 2 ), wxALIGN_CENTER|wxALL, 5 );
+	gbSizer_AdjusterLayout->Add( sbSizer_FilterControlPanel, wxGBPosition( 0, 0 ), wxGBSpan( 6, 2 ), wxALIGN_CENTER|wxALL, 5 );
 	
 	wxStaticBoxSizer* sbSizer_SignalControlPanel;
 	sbSizer_SignalControlPanel = new wxStaticBoxSizer( new wxStaticBox( m_scrolledWindow, wxID_ANY, wxT("Signal Control") ), wxVERTICAL );
@@ -102,63 +114,66 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 	gbSizer_SignalControl->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
 	m_dataViewListCtrl_SignalInfo = new wxDataViewListCtrl( sbSizer_SignalControlPanel->GetStaticBox(), wxID_ANY, wxPoint( 0,0 ), wxDefaultSize, wxDV_ROW_LINES|wxDV_VERT_RULES );
-	m_dataViewListCtrl_SignalInfo->SetMinSize( wxSize( -1,250 ) );
+	m_dataViewListCtrl_SignalInfo->SetMinSize( wxSize( -1,240 ) );
 	
-	gbSizer_SignalControl->Add( m_dataViewListCtrl_SignalInfo, wxGBPosition( 0, 0 ), wxGBSpan( 10, 2 ), wxALL|wxEXPAND, 5 );
+	gbSizer_SignalControl->Add( m_dataViewListCtrl_SignalInfo, wxGBPosition( 0, 0 ), wxGBSpan( 5, 2 ), wxALL|wxEXPAND, 5 );
 	
 	wxGridSizer* gSizer111;
-	gSizer111 = new wxGridSizer( 3, 2, 0, 0 );
+	gSizer111 = new wxGridSizer( 1, 2, 0, 0 );
 	
-	m_staticText_SampleSize = new wxStaticText( sbSizer_SignalControlPanel->GetStaticBox(), wxID_ANY, wxT("Sample Size"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText_SampleSize->Wrap( -1 );
-	gSizer111->Add( m_staticText_SampleSize, 0, wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT|wxALL, 5 );
+	m_staticText_SamplingRate = new wxStaticText( sbSizer_SignalControlPanel->GetStaticBox(), wxID_ANY, wxT("Sampling Rate"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_SamplingRate->Wrap( -1 );
+	gSizer111->Add( m_staticText_SamplingRate, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	m_textCtrl_SampleSize = new wxTextCtrl( sbSizer_SignalControlPanel->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE );
-	m_textCtrl_SampleSize->SetMaxLength( 6 ); 
-	m_textCtrl_SampleSize->SetMinSize( wxSize( 100,-1 ) );
+	m_textCtrl_SamplingRate = new wxTextCtrl( sbSizer_SignalControlPanel->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE );
+	m_textCtrl_SamplingRate->SetMaxLength( 6 ); 
+	m_textCtrl_SamplingRate->SetMinSize( wxSize( 100,-1 ) );
 	
-	gSizer111->Add( m_textCtrl_SampleSize, 3, wxALL, 5 );
+	gSizer111->Add( m_textCtrl_SamplingRate, 3, wxALL, 5 );
 	
 	
-	gbSizer_SignalControl->Add( gSizer111, wxGBPosition( 10, 0 ), wxGBSpan( 1, 2 ), 0, 5 );
+	gbSizer_SignalControl->Add( gSizer111, wxGBPosition( 5, 0 ), wxGBSpan( 1, 2 ), 0, 5 );
 	
 	
 	sbSizer_SignalControlPanel->Add( gbSizer_SignalControl, 1, wxEXPAND, 5 );
 	
 	
-	gbSizer_AdjusterLayout->Add( sbSizer_SignalControlPanel, wxGBPosition( 5, 0 ), wxGBSpan( 11, 2 ), wxALIGN_CENTER|wxALL, 5 );
+	gbSizer_AdjusterLayout->Add( sbSizer_SignalControlPanel, wxGBPosition( 6, 0 ), wxGBSpan( 6, 2 ), wxALIGN_CENTER|wxALL, 5 );
 	
 	
 	m_scrolledWindow->SetSizer( gbSizer_AdjusterLayout );
 	m_scrolledWindow->Layout();
-	gbSizer_AdjusterLayout->Fit( m_scrolledWindow );
-	gbSizer_LeftController ->Add( m_scrolledWindow, wxGBPosition( 0, 0 ), wxGBSpan( 15, 2 ), wxEXPAND | wxALL, 5 );
+	gbSizer_LeftController ->Add( m_scrolledWindow, wxGBPosition( 0, 0 ), wxGBSpan( 10, 2 ), wxALL|wxEXPAND, 5 );
 	
 	wxGridSizer* gSizer_Start;
 	gSizer_Start = new wxGridSizer( 1, 1, 0, 0 );
 	
+	gSizer_Start->SetMinSize( wxSize( 100,30 ) ); 
 	m_toggle_Start = new wxToggleButton( this, wxID_ANY, wxT("Start"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_toggle_Start->SetValue( true ); 
 	gSizer_Start->Add( m_toggle_Start, 0, wxALIGN_CENTER|wxALL, 5 );
 	
 	
-	gbSizer_LeftController ->Add( gSizer_Start, wxGBPosition( 15, 0 ), wxGBSpan( 1, 2 ), wxEXPAND, 5 );
+	gbSizer_LeftController ->Add( gSizer_Start, wxGBPosition( 10, 0 ), wxGBSpan( 1, 2 ), wxALIGN_CENTER, 5 );
 	
 	
-	gbSizer_LeftController ->AddGrowableCol( 0 );
-	gbSizer_LeftController ->AddGrowableCol( 1 );
 	gbSizer_LeftController ->AddGrowableRow( 0 );
 	gbSizer_LeftController ->AddGrowableRow( 1 );
 	gbSizer_LeftController ->AddGrowableRow( 2 );
 	gbSizer_LeftController ->AddGrowableRow( 3 );
 	gbSizer_LeftController ->AddGrowableRow( 4 );
+	gbSizer_LeftController ->AddGrowableRow( 5 );
+	gbSizer_LeftController ->AddGrowableRow( 6 );
+	gbSizer_LeftController ->AddGrowableRow( 7 );
+	gbSizer_LeftController ->AddGrowableRow( 8 );
+	gbSizer_LeftController ->AddGrowableRow( 9 );
 	
-	gSizer_OuterLayout->Add( gbSizer_LeftController , wxGBPosition( 0, 0 ), wxGBSpan( 6, 2 ), wxEXPAND, 5 );
+	gSizer_OuterLayout->Add( gbSizer_LeftController , wxGBPosition( 0, 0 ), wxGBSpan( 4, 2 ), wxALL|wxEXPAND, 5 );
 	
 	gSizer_Outputs = new wxGridSizer( 2, 1, 0, 0 );
 	
 	
-	gSizer_OuterLayout->Add( gSizer_Outputs, wxGBPosition( 0, 2 ), wxGBSpan( 6, 5 ), wxEXPAND, 5 );
+	gSizer_OuterLayout->Add( gSizer_Outputs, wxGBPosition( 0, 2 ), wxGBSpan( 4, 6 ), wxEXPAND, 5 );
 	
 	
 	gSizer_OuterLayout->AddGrowableCol( 2 );
@@ -166,9 +181,11 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 	gSizer_OuterLayout->AddGrowableCol( 4 );
 	gSizer_OuterLayout->AddGrowableCol( 5 );
 	gSizer_OuterLayout->AddGrowableCol( 6 );
+	gSizer_OuterLayout->AddGrowableCol( 7 );
 	gSizer_OuterLayout->AddGrowableRow( 0 );
 	gSizer_OuterLayout->AddGrowableRow( 1 );
 	gSizer_OuterLayout->AddGrowableRow( 2 );
+	gSizer_OuterLayout->AddGrowableRow( 3 );
 	
 	this->SetSizer( gSizer_OuterLayout );
 	this->Layout();
@@ -178,12 +195,13 @@ MainFrameUI::MainFrameUI( wxWindow* parent, wxWindowID id, const wxString& title
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrameUI::MainFrameUIOnClose ) );
 	m_choice_FilterOrder->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_FilterOrderOnChoice ), NULL, this );
-	m_choice_DesignMethod->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_DesignMethodOnChoice ), NULL, this );
-	m_choice_ResponeType->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_ResponeTypeOnChoice ), NULL, this );
+	m_choice_FilterType->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_FilterTypeOnChoice ), NULL, this );
+	m_choice_FilterClass->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_FilterClassOnChoice ), NULL, this );
+	m_choice_FilterResponse->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_FilterResponseOnChoice ), NULL, this );
 	m_textCtrl_AppliedFreq->Connect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_AppliedFreqOnKeyUp ), NULL, this );
 	this->Connect( wxID_ANY, wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, wxDataViewEventHandler( MainFrameUI::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemActivated ) );
 	this->Connect( wxID_ANY, wxEVT_COMMAND_DATAVIEW_ITEM_CONTEXT_MENU, wxDataViewEventHandler( MainFrameUI::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemContextMenu ) );
-	m_textCtrl_SampleSize->Connect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_SampleSizeOnKeyUp ), NULL, this );
+	m_textCtrl_SamplingRate->Connect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_SamplingRateOnKeyUp ), NULL, this );
 	m_toggle_Start->Connect( wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler( MainFrameUI::m_toggle_StartOnToggleButton ), NULL, this );
 }
 
@@ -192,12 +210,13 @@ MainFrameUI::~MainFrameUI()
 	// Disconnect Events
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrameUI::MainFrameUIOnClose ) );
 	m_choice_FilterOrder->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_FilterOrderOnChoice ), NULL, this );
-	m_choice_DesignMethod->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_DesignMethodOnChoice ), NULL, this );
-	m_choice_ResponeType->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_ResponeTypeOnChoice ), NULL, this );
+	m_choice_FilterType->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_FilterTypeOnChoice ), NULL, this );
+	m_choice_FilterClass->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_FilterClassOnChoice ), NULL, this );
+	m_choice_FilterResponse->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrameUI::m_choice_FilterResponseOnChoice ), NULL, this );
 	m_textCtrl_AppliedFreq->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_AppliedFreqOnKeyUp ), NULL, this );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, wxDataViewEventHandler( MainFrameUI::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemActivated ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_DATAVIEW_ITEM_CONTEXT_MENU, wxDataViewEventHandler( MainFrameUI::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemContextMenu ) );
-	m_textCtrl_SampleSize->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_SampleSizeOnKeyUp ), NULL, this );
+	m_textCtrl_SamplingRate->Disconnect( wxEVT_KEY_UP, wxKeyEventHandler( MainFrameUI::m_textCtrl_SamplingRateOnKeyUp ), NULL, this );
 	m_toggle_Start->Disconnect( wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler( MainFrameUI::m_toggle_StartOnToggleButton ), NULL, this );
 	
 }

@@ -1,14 +1,14 @@
 #include "filter.h"
 
-DigitalFilter::Calc::Filter::Filter(unsigned int filterType) { 
-	_filterID = filterType;
-	a = std::vector<double>(3, 0.0);
-	b = std::vector<double>(3, 0.0);
+DigitalFilter::Calc::Filter::Filter(unsigned int respone) {
+	_responeID = respone;
+	a = std::vector<double>(3, 1.0);
+	b = std::vector<double>(3, 1.0);
 }
 
-std::vector<double> DigitalFilter::Calc::Filter::filting(std::vector<double> y, unsigned int method) {
+std::vector<double> DigitalFilter::Calc::Filter::filting(std::vector<double> y, unsigned int filterType) {
     std::vector<double> filtered(y.size(), 0.0);
-	switch (method) {
+	switch (filterType) {
 	case 0:
 		for (int i = 3; i < y.size(); i++) {
 			filtered[i] = a[1] * filtered[i - 1] + a[2] * filtered[i - 2]
@@ -27,7 +27,7 @@ std::vector<double> DigitalFilter::Calc::Filter::filting(std::vector<double> y, 
 }
 
 void DigitalFilter::Calc::Filter::SetAB(int sample_freq, int cutoff_freq) {
-	switch (_filterID) {
+	switch (_responeID) {
 		case 0:
 			applyingLowPass(sample_freq, cutoff_freq);
 			break;

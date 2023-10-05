@@ -13,15 +13,16 @@ namespace DigitalFilter {
 
         protected:
             unsigned int _filterID;
+            unsigned int _responeID;
             
         public:
-            Filter(unsigned int filterType);
+            Filter(unsigned int respone);
             ~Filter();
 
-            std::vector<double> filting(std::vector<double> y, unsigned int method);
+            std::vector<double> filting(std::vector<double> y, unsigned int filterType);
             void SetAB(int sample_freq, int cutoff_freq);
             unsigned int getFilterID() { return _filterID; }
-            void setFilterID(unsigned int filterID) { _filterID = filterID; }
+            void setResponeID(unsigned int respone) { _responeID = respone; }
             void applyingLowPass(int sample_freq, int cutoff_freq);
             void applyingHighPass(int sample_freq, int cutoff_freq);
             void applyingBandPass(int sample_freq, int cutoff_freq);
