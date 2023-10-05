@@ -1,5 +1,7 @@
 # A simple visualize tool for some digital filter algorithms
 
+![alt text](https://github.com/reidite/wxwidgets-digital-filters/blob/master/doc/img.JPG?raw=true)
+
 Author: __Vincent Nguyen__
 
 ## Table of Contents
@@ -14,7 +16,7 @@ Author: __Vincent Nguyen__
 
 ### Introduction
 
-![alt text](https://github.com/reidite/wxwidgets-digital-filters/blob/master/doc/img.JPG?raw=true)
+
 
 A cross-platform application nicely visualizes and computes coefficients for some sequential signal digital filters. Initial testing of this code was on Windows but will work on any other Linux/Windows/Mac machine with little effort.
 
