@@ -17,32 +17,22 @@ void DigitalFilter::Calc::Signal::GenerateSignalData(int numOfSample) {
 
 	x = std::vector<double>(numOfSample, 0);
 	y = std::vector<double>(numOfSample, 0);
-
-	std::default_random_engine gen;
-
+	std::random_device rd;
+	std::default_random_engine gen(rd());
+	std::vector<std::normal_distribution<double>> dists(infos.size());
+	for (int i = 0; i < infos.size(); i++) {
+		if (infos[i].m_stddev > 0) {
+			dists[i] = std::normal_distribution<double>(infos[i].m_freq, infos[i].m_stddev);
+		}
+	}
 	for (int i = 0; i < numOfSample; i++) {
 		x[i] = 1.0 / (numOfSample - 1) * i;
 		y[i] = 0;
-		for (Calc::SignalInfo info : infos) {
-			if (info.m_stddev > 0) {
-				std::normal_distribution<double> dist(info.m_freq, info.m_stddev);
-				y[i] += info.m_amp * sin(2 * M_PI * dist(gen) * x[i]);
+		for (int j = 0; j < infos.size(); j++) {
+			if (infos[j].m_stddev > 0) {
+				y[i] += infos[j].m_amp * sin(2 * M_PI * dists[j](gen) * x[i]);
 			}
-			else y[i] += info.m_amp * sin(2 * M_PI * info.m_freq * x[i]);
+			else y[i] += infos[j].m_amp * sin(2 * M_PI * infos[j].m_freq * x[i]);
 		}
 	}
-}
-
-double DigitalFilter::Calc::Signal::GetMaxAmp() {
-	double result = 0.0;
-	for (int i = 0; i < infos.size(); i++)
-		result += infos[i].m_amp;
-	return result;
-}
-
-double DigitalFilter::Calc::Signal::GetMaxFreq() {
-	double result = INT_MIN;
-	for (int i = 0; i < infos.size(); i++)
-		result = std::max(result, infos[i].m_freq);
-	return result;
 }

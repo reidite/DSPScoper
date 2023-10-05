@@ -159,6 +159,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainFrame.cpp" />
     <ClCompile Include="plot\mathplot.cpp" />
+    <ClCompile Include="plot\plot.cpp" />
     <ClCompile Include="ui\MainFrameUI.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +167,7 @@
     <ClInclude Include="calc\signal.h" />
     <ClInclude Include="MainFrame.h" />
     <ClInclude Include="plot\mathplot.h" />
+    <ClInclude Include="plot\plot.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ui\MainFrameUI.h" />
   </ItemGroup>

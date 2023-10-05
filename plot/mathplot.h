@@ -1183,15 +1183,15 @@ protected:
     void OnShowPopupMenu(wxMouseEvent& event); //!< Mouse handler, will show context menu
     void OnMouseRightDown(wxMouseEvent& event); //!< Mouse handler, for detecting when the user drags with the right button or just "clicks" for the menu
     void OnCenter(wxCommandEvent& event); //!< Context menu handler
-    void OnFit(wxCommandEvent& event); //!< Context menu handler
+    virtual void OnFit(wxCommandEvent& event); //!< Context menu handler
     void OnZoomIn(wxCommandEvent& event); //!< Context menu handler
     void OnZoomOut(wxCommandEvent& event); //!< Context menu handler
     void OnLockAspect(wxCommandEvent& event); //!< Context menu handler
     void OnMouseHelp(wxCommandEvent& event); //!< Context menu handler
     void OnMouseWheel(wxMouseEvent& event); //!< Mouse handler for the wheel
     void OnMouseMove(wxMouseEvent& event); //!< Mouse handler for mouse motion (for pan)
-    void OnMouseLeftDown(wxMouseEvent& event); //!< Mouse left click (for rect zoom)
-    void OnMouseLeftRelease(wxMouseEvent& event); //!< Mouse left click (for rect zoom)
+    virtual void OnMouseLeftDown(wxMouseEvent& event); //!< Mouse left click (for rect zoom)
+    virtual void OnMouseLeftRelease(wxMouseEvent& event); //!< Mouse left click (for rect zoom)
     void OnScrollThumbTrack(wxScrollWinEvent& event); //!< Scroll thumb on scroll bar moving
     void OnScrollPageUp(wxScrollWinEvent& event); //!< Scroll page up 
     void OnScrollPageDown(wxScrollWinEvent& event); //!< Scroll page down 
