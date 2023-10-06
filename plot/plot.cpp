@@ -1,17 +1,35 @@
 #include "plot.h"
-DigitalFilter::Plot::SignalPlot::SignalPlot(const wxColour& colour) : mpFXYVector(wxT("f(x) = A*sin(2*PI*Freq*x)"), mpALIGN_LEFT) {
+DSP::Plot::SignalPlot::SignalPlot(const wxColour& colour) : mpFXYVector(wxT("f(x) = A*sin(2*PI*Freq*x)"), mpALIGN_LEFT) {
+	/**
+	* Setting up resources on initializing time of the application.
+	*
+	* @param colour The chosen colour to draw the figure.
+	*/
 	wxPen drawingPen(colour, 2, wxPENSTYLE_SOLID);
 	this->SetDrawOutsideMargins(true);
 	this->SetContinuity(true);
 	this->SetPen(drawingPen);
 };
 
-void DigitalFilter::Plot::SignalPlot::DrawingSignalData(std::vector<double> x, std::vector<double> y) {
+void DSP::Plot::SignalPlot::DrawingSignalData(std::vector<double> x, std::vector<double> y) {
+	/**
+	* Drawing the assigned signal data.
+	*
+	* @param x The assigned x-axis signal data.
+	* @param y The assigned y-axis signal data.
+	*/
 	this->Clear();
 	this->SetData(x, y);
 }
 
-void DigitalFilter::Plot::SignalPlot::DrawingDFTData(std::vector<double> x, std::vector<double> y, int maxFreq) {
+void DSP::Plot::SignalPlot::DrawingDFTData(std::vector<double> x, std::vector<double> y, int maxFreq) {
+	/**
+	* Drawing the assigned signal data after DFT.
+	*
+	* @param x The assigned x-axis signal data.
+	* @param y The assigned y-axis signal data.
+	* @param maxFreq The maximum frequency existing.
+	*/
 	double N = y.size();
 	int K = x.size();
 
@@ -48,7 +66,12 @@ void DigitalFilter::Plot::SignalPlot::DrawingDFTData(std::vector<double> x, std:
 }
 
 
-DigitalFilter::Plot::ATPlotWindow::ATPlotWindow(wxWindow* parent) : mpWindow(parent, -1, wxPoint(0, 0), wxSize(-1, -1), wxSUNKEN_BORDER) {
+DSP::Plot::ATPlotWindow::ATPlotWindow(wxWindow* parent) : mpWindow(parent, -1, wxPoint(0, 0), wxSize(-1, -1), wxSUNKEN_BORDER) {
+	/**
+	* Setting up the properties for the plot window.
+	*
+	* @param parent Pointer to the parent that this UI component belongs.
+	*/
 	mpScaleX* timeAxis = new mpScaleX(wxT("Time"), mpALIGN_BORDER_BOTTOM, false, mpX_NORMAL);
 	mpScaleY* amplitudeAxis = new mpScaleY(wxT("Amplitude"), mpALIGN_BORDER_LEFT, false);
 
@@ -68,18 +91,28 @@ DigitalFilter::Plot::ATPlotWindow::ATPlotWindow(wxWindow* parent) : mpWindow(par
 	this->AddLayer(amplitudeAxis);
 };
 
-void DigitalFilter::Plot::ATPlotWindow::UpdatingBoundingBox(double maxAmp) {
-	_minX = 0; _maxX = 1;
-	_minY = -maxAmp - 0.2; _maxY = maxAmp + 0.2;
-	this->Fit(_minX, _maxX, _minY, _maxY);
+void DSP::Plot::ATPlotWindow::UpdatingBoundingBox(double sumAmp) {
+	/**
+	* Updating the new values for the viewing bounding box.
+	*
+	* @param maxAmp The sum of all signal amplitude existing.
+	*/
+	lf_minX = 0; lf_maxX = 1;
+	lf_minY = -sumAmp - 0.2; lf_maxY = sumAmp + 0.2;
+	this->Fit(lf_minX, lf_maxX, lf_minY, lf_maxY);
 };
 
-void DigitalFilter::Plot::ATPlotWindow::OnFit(wxCommandEvent& event) {
-	this->Fit(_minX, _maxX, _minY, _maxY);
+void DSP::Plot::ATPlotWindow::OnFit(wxCommandEvent& event) {
+	this->Fit(lf_minX, lf_maxX, lf_minY, lf_maxY);
 };
 
 
-DigitalFilter::Plot::MFPlotWindow::MFPlotWindow(wxWindow* parent) : mpWindow(parent, -1, wxPoint(0, 0), wxSize(-1, -1), wxSUNKEN_BORDER) {
+DSP::Plot::MFPlotWindow::MFPlotWindow(wxWindow* parent) : mpWindow(parent, -1, wxPoint(0, 0), wxSize(-1, -1), wxSUNKEN_BORDER) {
+	/**
+	* Setting up the properties for the plot window.
+	*
+	* @param parent Pointer to the parent that this UI component belongs.
+	*/
 	mpScaleX* freqAxis = new mpScaleX(wxT("Frequency"), mpALIGN_BORDER_BOTTOM, false, mpX_NORMAL);
 	mpScaleY* modulusAxis = new mpScaleY(wxT("Modulus"), mpALIGN_BORDER_LEFT, false);
 
@@ -99,12 +132,18 @@ DigitalFilter::Plot::MFPlotWindow::MFPlotWindow(wxWindow* parent) : mpWindow(par
 	this->AddLayer(modulusAxis);
 };
 
-void DigitalFilter::Plot::MFPlotWindow::UpdatingBoundingBox(double maxAmp, double maxFreq) {
-	_minX = 0; _maxX = maxFreq + 10;
-	_minY = 0; _maxY = maxAmp / 2 + 0.1;
-	this->Fit(_minX, _maxX, _minY, _maxY);
+void DSP::Plot::MFPlotWindow::UpdatingBoundingBox(double maxAmp, double maxFreq) {
+	/**
+	* Updating the new values for the viewing bounding box.
+	*
+	* @param maxAmp The maximum amplitude of all signals existing.
+	* @param maxFreq The maximum frequency of all signals existing.
+	*/
+	lf_minX = 0; lf_maxX = maxFreq + 10;
+	lf_minY = 0; lf_maxY = maxAmp / 2 + 0.1;
+	this->Fit(lf_minX, lf_maxX, lf_minY, lf_maxY);
 };
 
-void DigitalFilter::Plot::MFPlotWindow::OnFit(wxCommandEvent& event) {
-	this->Fit(_minX, _maxX, _minY, _maxY);
+void DSP::Plot::MFPlotWindow::OnFit(wxCommandEvent& event) {
+	this->Fit(lf_minX, lf_maxX, lf_minY, lf_maxY);
 }

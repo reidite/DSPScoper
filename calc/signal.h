@@ -11,29 +11,44 @@
 // Licence:         GPL-3.0 license
 /////////////////////////////////////////////////////////////////////////////
 
+//---------------------------------------------------------------------------
+// Signal
+//---------------------------------------------------------------------------
+
+#pragma once
 #define M_PI 3.14159265358979323846
 #include <vector>
 #include <cmath>
 #include <random>
 
-namespace DigitalFilter {
+namespace DSP {
 	namespace Calc {
+		// Signal metadata
 		struct SignalInfo {
-			double m_amp;
-			double m_freq;
-			double m_stddev;
+			double lf_amp;
+			double lf_freq;
+			double lf_stddev;
 		};
 
 		class Signal {
+		/** A class contains various properties and methods that are 
+		*	relevant to the representation and processing of digital signals.
+		*/
 		public:
-			std::vector<SignalInfo> infos;
-			std::vector<double> x;
-			std::vector<double> y;
+			//!< Relevant metadata associated with the signal.
+			std::vector<SignalInfo> vec_infos;
+			//!< X-axis data representing a signal.
+			std::vector<double> vec_lf_x;
+			//!< Y-axis data representing a signal.
+			std::vector<double> vec_lf_y;
 
 			Signal();
-			Signal(double amp, double freq, double psi);
+			Signal(double amp, double freq, double std);
+
+			~Signal();
 			
-			void GenerateSignalData(int numOfSample);
+			//!< Amplitude-Y = f(Time-X) signal data generator.
+			void SynthesizeSignalData(int numOfSample);
 		};
 	}
 }

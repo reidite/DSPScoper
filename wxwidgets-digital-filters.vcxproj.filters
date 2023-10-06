@@ -22,6 +22,9 @@
     <Filter Include="Source Files\plot">
       <UniqueIdentifier>{6c0455a5-d380-4e80-978e-e9abc24fb3f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\calc\algo">
+      <UniqueIdentifier>{015a810b-edda-4178-a35f-7c87b77727e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

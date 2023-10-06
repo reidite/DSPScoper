@@ -12,15 +12,20 @@
 #include "./Mainframe.h"
 
 //---------------------------------------------------------------------------
-// DSPInspector
+// DSPScoper
 //---------------------------------------------------------------------------
 
 class DSPScoper : public wxApp {
+/** Main class of the application, initializing the program, 
+*   setting up any necessary resources.
+*/
 private:
-    DigitalFilter::MainFrame* frame;
+    //!< Container of the main frame instance
+    DSP::MainFrame* mp_frame;
 public:
     DSPScoper() { }
 
+    //!< Called before OnRun() to do initialization
     bool OnInit() wxOVERRIDE;
 
 	wxDECLARE_NO_COPY_CLASS(DSPScoper);
@@ -28,12 +33,16 @@ public:
 
 
 bool DSPScoper::OnInit() {
+    /**
+    * Setting up resources on initializing time of the application.
+    *
+    */
     if (!wxApp::OnInit())
         return false;
-    frame = new DigitalFilter::MainFrame();
+    mp_frame = new DSP::MainFrame();
     wxIcon icon("IDI_ICON", 32, 32);
-    frame->SetIcon(icon);
-    frame->Show(true);
+    mp_frame->SetIcon(icon);
+    mp_frame->Show(true);
     return true;
 }
 

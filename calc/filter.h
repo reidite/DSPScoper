@@ -10,35 +10,52 @@
 // Copyright:       Anyone
 // Licence:         GPL-3.0 license
 /////////////////////////////////////////////////////////////////////////////
+
+//---------------------------------------------------------------------------
+// Filter
+//---------------------------------------------------------------------------
+
 #pragma once
-#define _USE_MATH_DEFINES
+#define M_PI 3.14159265358979323846
 #include <thread>
 #include <vector>
 #include "math.h"
 
-namespace DigitalFilter {
+namespace DSP {
     namespace Calc {
         class Filter {
+        /** A class contains properties and methods that are relevant for 
+        *   performing various filter operations.
+        */
         private:
-            std::vector<double> a;
-            std::vector<double> b;
+            //!< Alpha-Beta filter coefficients
+            std::vector<double> vec_lf_a;
+            std::vector<double> vec_lf_b;
 
         protected:
-            unsigned int _filterID;
-            unsigned int _responeID;
+            //!< ID presenting the filter type
+            unsigned int un_filterID;
+            //!< ID presenting the filter response
+            unsigned int un_responseID;
             
         public:
-            Filter(unsigned int respone);
+            Filter(unsigned int filterResponse);
             ~Filter();
 
+            //!< Applying a digital filter to a signal.
             std::vector<double> filting(std::vector<double> y, unsigned int filterType);
-            void SetAB(int sample_freq, int cutoff_freq);
-            unsigned int getFilterID() { return _filterID; }
-            void setResponeID(unsigned int respone) { _responeID = respone; }
-            void applyingLowPass(int sample_freq, int cutoff_freq);
-            void applyingHighPass(int sample_freq, int cutoff_freq);
-            void applyingBandPass(int sample_freq, int cutoff_freq);
-            void applyingBandStop(int sample_freq, int cutoff_freq);
+            //!< Setting Alpha-Beta filter coefficients.
+            void SetAB(int samplingRate, int cutoffFreq);
+            //!< Setting ID of filter response.
+            void setResponeID(unsigned int filterResponse) { un_responseID = filterResponse; }
+            //!< Applying Low-pass response.
+            void applyingLowPass(int samplingRate, int cutoffFreq);
+            //!< Applying High-pass response.
+            void applyingHighPass(int samplingRate, int cutoffFreq);
+            //!< Applying Band-pass response.
+            void applyingBandPass(int samplingRate, int cutoffFreq);
+            //!< Applying Band-stop response.
+            void applyingBandStop(int samplingRate, int cutoffFreq);
         };
     }
 }

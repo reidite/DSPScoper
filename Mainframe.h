@@ -34,7 +34,7 @@
 #include "./calc/filter.h"
 #include "./calc/signal.h"
 
-namespace DigitalFilter {
+namespace DSP {
     class MainFrame : public MainFrameUI {
     /** Main frame of the application handling user inputs and events generated
         by the GUI elements contained within it. This class defines plot

@@ -1,18 +1,29 @@
 #include "filter.h"
 
-DigitalFilter::Calc::Filter::Filter(unsigned int respone) {
-	_responeID = respone;
-	a = std::vector<double>(3, 1.0);
-	b = std::vector<double>(3, 1.0);
+DSP::Calc::Filter::Filter(unsigned int filterResponse) {
+	/**
+	* Constructs a new filter object with some default filter parameters.
+	* 
+	* @param filterResponse Chosen ID of the filter response.
+	*/
+	un_responseID = filterResponse;
+	vec_lf_a = std::vector<double>(3, 1.0);
+	vec_lf_b = std::vector<double>(3, 1.0);
 }
 
-std::vector<double> DigitalFilter::Calc::Filter::filting(std::vector<double> y, unsigned int filterType) {
+std::vector<double> DSP::Calc::Filter::filting(std::vector<double> y, unsigned int filterType) {
+	/**
+	* Appling the settle filter to remove the unwanted frequencies
+	*
+	* @param y The y-axis input signal data.
+	* @param filterType Chosen ID of the filter type.
+	*/
     std::vector<double> filtered(y.size(), 0.0);
 	switch (filterType) {
 	case 0:
 		for (int i = 3; i < y.size(); i++) {
-			filtered[i] = a[1] * filtered[i - 1] + a[2] * filtered[i - 2]
-				+ b[0] * y[i] + b[1] * y[i - 1] + b[2] * y[i - 2];
+			filtered[i] = vec_lf_a[1] * filtered[i - 1] + vec_lf_a[2] * filtered[i - 2]
+				+ vec_lf_b[0] * y[i] + vec_lf_b[1] * y[i - 1] + vec_lf_b[2] * y[i - 2];
 		}
 		break;
 	case 1:
@@ -22,96 +33,126 @@ std::vector<double> DigitalFilter::Calc::Filter::filting(std::vector<double> y, 
 		break;
 	}
     
-
     return filtered;
 }
 
-void DigitalFilter::Calc::Filter::SetAB(int sample_freq, int cutoff_freq) {
-	switch (_responeID) {
+void DSP::Calc::Filter::SetAB(int samplingRate, int cutoffFreq) {
+	/**
+	* Setting Alpha-Beta filter coefficients based on the current settle
+	* properties.
+	* 
+	* @param samplingRate The rate at which the synthesized signal is sampled.
+	* @param cutoffFreq Applied frequency for the digital filter.
+	*/
+	switch (un_responseID) {
 		case 0:
-			applyingLowPass(sample_freq, cutoff_freq);
+			applyingLowPass(samplingRate, cutoffFreq);
 			break;
 		case 1:
-			applyingHighPass(sample_freq, cutoff_freq);
+			applyingHighPass(samplingRate, cutoffFreq);
 			break;
 		case 2:
-			applyingBandPass(sample_freq, cutoff_freq);
+			applyingBandPass(samplingRate, cutoffFreq);
 			break;
 		case 3:
-			applyingBandStop(sample_freq, cutoff_freq);
+			applyingBandStop(samplingRate, cutoffFreq);
 			break;
 		default:
 			break;
 	}
 }
 
-void DigitalFilter::Calc::Filter::applyingLowPass(int sample_freq, int cutoff_freq) {
-	double omega0 = 2 * M_PI * cutoff_freq;
-	double dt = 1.0 / sample_freq;
+void DSP::Calc::Filter::applyingLowPass(int samplingRate, int cutoffFreq) {
+	/**
+	* Setting Alpha-Beta filter coefficients to perform Low-pass filter response.
+	*
+	* @param samplingRate The rate at which the synthesized signal is sampled.
+	* @param cutoffFreq Applied frequency for the digital filter.
+	*/
+	double omega0 = 2 * M_PI * cutoffFreq;
+	double dt = 1.0 / samplingRate;
 	double alpha = omega0 * dt;
 
 	double alphaSq = alpha * alpha;
 	std::vector<double> beta = { 1, sqrt(2), 1 };
 	double D = alphaSq * beta[0] + 2 * alpha * beta[1] + 4 * beta[2];
 
-	b[0] = alphaSq / D;
-	b[1] = 2 * b[0];
-	b[2] = b[0];
+	vec_lf_b[0] = alphaSq / D;
+	vec_lf_b[1] = 2 * vec_lf_b[0];
+	vec_lf_b[2] = vec_lf_b[0];
 
-	a[1] = -(2 * alphaSq * beta[0] - 8 * beta[2]) / D;
-	a[2] = -(beta[0] * alphaSq - 2 * beta[1] * alpha + 4 * beta[2]) / D;
+	vec_lf_a[1] = -(2 * alphaSq * beta[0] - 8 * beta[2]) / D;
+	vec_lf_a[2] = -(beta[0] * alphaSq - 2 * beta[1] * alpha + 4 * beta[2]) / D;
 }
 
-void DigitalFilter::Calc::Filter::applyingHighPass(int sample_freq, int cutoff_freq) {
-	double omega0 = 2 * M_PI * cutoff_freq;
-	double dt = 1.0 / sample_freq;
+void DSP::Calc::Filter::applyingHighPass(int samplingRate, int cutoffFreq) {
+	/**
+	* Setting Alpha-Beta filter coefficients to perform High-pass filter response.
+	*
+	* @param samplingRate The rate at which the synthesized signal is sampled.
+	* @param cutoffFreq Applied frequency for the digital filter.
+	*/
+	double omega0 = 2 * M_PI * cutoffFreq;
+	double dt = 1.0 / samplingRate;
 
 	double dtSq = dt * dt;
 	std::vector<double> c = { omega0 * omega0, sqrt(2) * omega0, 1 };
 	double E = c[0] * dtSq + 2 * c[1] * dt + 4 * c[2];
 
-	b[0] = 4.0 / E;
-	b[1] = -8.0 / E;
-	b[2] = 4.0 / E;
+	vec_lf_b[0] = 4.0 / E;
+	vec_lf_b[1] = -8.0 / E;
+	vec_lf_b[2] = 4.0 / E;
 
-	a[1] = -(2 * c[0] * dtSq - 8 * c[2]) / E;
-	a[2] = -(c[0] * dtSq - 2 * c[1] * dt + 4 * c[2]) / E;
+	vec_lf_a[1] = -(2 * c[0] * dtSq - 8 * c[2]) / E;
+	vec_lf_a[2] = -(c[0] * dtSq - 2 * c[1] * dt + 4 * c[2]) / E;
 }
 
-void DigitalFilter::Calc::Filter::applyingBandPass(int sample_freq, int cutoff_freq) {
+void DSP::Calc::Filter::applyingBandPass(int samplingRate, int cutoffFreq) {
+	/**
+	* Setting Alpha-Beta filter coefficients to perform Band-pass filter response.
+	*
+	* @param samplingRate The rate at which the synthesized signal is sampled.
+	* @param cutoffFreq Applied frequency for the digital filter.
+	*/
 	int band_width = 6;
 
-	double omega0 = 2 * M_PI * cutoff_freq;
-	double dt = 1.0 / sample_freq;
+	double omega0 = 2 * M_PI * cutoffFreq;
+	double dt = 1.0 / samplingRate;
 	double alpha = omega0 * dt;
 
 	double domega = 2 * M_PI * band_width;
 	double Q = omega0 / domega;
 	double G = alpha * alpha + 2 * alpha / Q + 4;
 
-	b[0] = 2 * alpha / (Q * G);
-	b[1] = 0;
-	b[2] = -(b[0]);
+	vec_lf_b[0] = 2 * alpha / (Q * G);
+	vec_lf_b[1] = 0;
+	vec_lf_b[2] = -(vec_lf_b[0]);
 
-	a[1] = -(2 * pow(alpha, 2) - 8) / G;
-	a[2] = -(pow(alpha, 2) - 2 * alpha / Q + 4) / G;
+	vec_lf_a[1] = -(2 * pow(alpha, 2) - 8) / G;
+	vec_lf_a[2] = -(pow(alpha, 2) - 2 * alpha / Q + 4) / G;
 }
 
-void DigitalFilter::Calc::Filter::applyingBandStop(int sample_freq, int cutoff_freq) {
+void DSP::Calc::Filter::applyingBandStop(int samplingRate, int cutoffFreq) {
+	/**
+	* Setting Alpha-Beta filter coefficients to perform Band-stop filter response.
+	*
+	* @param samplingRate The rate at which the synthesized signal is sampled.
+	* @param cutoffFreq Applied frequency for the digital filter.
+	*/
 	int band_width = 6;
 
-	double omega0 = 2 * M_PI * cutoff_freq;
-	double dt = 1.0 / sample_freq;
+	double omega0 = 2 * M_PI * cutoffFreq;
+	double dt = 1.0 / samplingRate;
 	double alpha = omega0 * dt;
 
 	double domega = 2 * M_PI * band_width;
 	double Q = omega0 / domega;
 	double G = alpha * alpha + 2 * alpha / Q + 4;
 
-	b[0] = (alpha * alpha + 4) / G;
-	b[1] = (2 * alpha * alpha - 8) / G;
-	b[2] = b[0];
+	vec_lf_b[0] = (alpha * alpha + 4) / G;
+	vec_lf_b[1] = (2 * alpha * alpha - 8) / G;
+	vec_lf_b[2] = vec_lf_b[0];
 
-	a[1] = -(2 * alpha * alpha - 8) / G;
-	a[2] = -(alpha * alpha - 2 * alpha / Q + 4) / G;
+	vec_lf_a[1] = -(2 * alpha * alpha - 8) / G;
+	vec_lf_a[2] = -(alpha * alpha - 2 * alpha / Q + 4) / G;
 }

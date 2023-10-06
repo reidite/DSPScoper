@@ -10,6 +10,12 @@
 // Copyright:       Anyone
 // Licence:         GPL-3.0 license
 /////////////////////////////////////////////////////////////////////////////
+
+//---------------------------------------------------------------------------
+// Customized Plots
+//---------------------------------------------------------------------------
+
+//!< Definition of the default margin value of the plot windows
 #define PLOT_MARGIN 5
 
 #pragma once
@@ -17,9 +23,12 @@
 #include <vector>
 #include <complex>
 
-namespace DigitalFilter {
+namespace DSP {
 	namespace Plot {
         class SignalPlot : public mpFXYVector {
+        /** A customized class inheriting mpFXYVector to present some  
+        *	properties of the output figure.
+        */
         public:
             SignalPlot(const wxColour& colour);
             void DrawingSignalData(std::vector<double> x, std::vector<double> y);
@@ -27,24 +36,38 @@ namespace DigitalFilter {
         };
 
         class ATPlotWindow : public mpWindow {
+        /** A customized class inheriting mpWindow to operate some GUI
+        *	interacting on the plot figure.
+        */
         private:
-            double _minX, _maxX, _minY, _maxY;
+            //!< Constraint viewing the bounding box of the plot figure.
+            double lf_minX, lf_maxX, lf_minY, lf_maxY;
         public:
             ATPlotWindow(wxWindow* parent);
 
-            void UpdatingBoundingBox(double maxAmp);
+            //!< Updating new constraint bounding box.
+            void UpdatingBoundingBox(double sumAmp);
+
+            //!< Override interaction events.
             void OnFit(wxCommandEvent& event);
             void OnMouseLeftDown(wxMouseEvent& event) {}
             void OnMouseLeftRelease(wxMouseEvent& event) {}
         };
 
         class MFPlotWindow : public mpWindow {
+        /** A customized class inheriting mpWindow to operate some GUI
+        *	interacting on the plot figure.
+        */
         private:
-            double _minX, _maxX, _minY, _maxY;
+            //!< Constraint viewing the bounding box of the plot figure.
+            double lf_minX, lf_maxX, lf_minY, lf_maxY;
         public:
             MFPlotWindow(wxWindow* parent);
 
+            //!< Updating new constraint bounding box.
             void UpdatingBoundingBox(double maxAmp, double maxFreq);
+
+            //!< Override interaction events.
             void OnFit(wxCommandEvent& event);
             void OnMouseLeftDown(wxMouseEvent& event) {}
             void OnMouseLeftRelease(wxMouseEvent& event) {}
