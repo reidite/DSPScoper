@@ -15,7 +15,7 @@
         <property name="first_id">1000</property>
         <property name="help_provider">none</property>
         <property name="internationalize">0</property>
-        <property name="name">DigitalFilter</property>
+        <property name="name">DSPScoper</property>
         <property name="namespace"></property>
         <property name="path">.\ui</property>
         <property name="precompiled_header"></property>
