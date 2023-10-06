@@ -69,7 +69,7 @@ class MainFrameUI : public wxFrame
 	
 	public:
 		
-		MainFrameUI( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 689,567 ), long style = wxDEFAULT_FRAME_STYLE|wxSUNKEN_BORDER );
+		MainFrameUI( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 780,570 ), long style = wxDEFAULT_FRAME_STYLE|wxSUNKEN_BORDER );
 		
 		~MainFrameUI();
 	

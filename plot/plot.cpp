@@ -101,7 +101,7 @@ DigitalFilter::Plot::MFPlotWindow::MFPlotWindow(wxWindow* parent) : mpWindow(par
 
 void DigitalFilter::Plot::MFPlotWindow::UpdatingBoundingBox(double maxAmp, double maxFreq) {
 	_minX = 0; _maxX = maxFreq + 10;
-	_minY = 0; _maxY = maxAmp / 2 + 0.2;
+	_minY = 0; _maxY = maxAmp / 2 + 0.1;
 	this->Fit(_minX, _maxX, _minY, _maxY);
 };
 

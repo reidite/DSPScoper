@@ -1,3 +1,15 @@
+/////////////////////////////////////////////////////////////////////////////
+// Name:            plot.cpp
+// Purpose:         Definition for the plotting classes providing functionality 
+//                  for creating plots and graph
+// Author:          Vincent Nguyen
+// Maintainer:      Vincent Nguyen
+// Contributors:    N/A
+// Created:         25/09/2023
+// Last edit:       06/10/2023
+// Copyright:       Anyone
+// Licence:         GPL-3.0 license
+/////////////////////////////////////////////////////////////////////////////
 #define PLOT_MARGIN 5
 
 #pragma once

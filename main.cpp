@@ -1,25 +1,33 @@
-#include "wx/wxprec.h"
-#include "wx/log.h"
-#include "wx/app.h"
-#include "wx/scrolwin.h"
-#include "wx/fontpicker.h"
-#include "wx/settings.h"
-
+/////////////////////////////////////////////////////////////////////////////
+// Name:            main.cpp
+// Purpose:         Initialize the entry point of the program
+// Author:          Vincent Nguyen
+// Maintainer:      Vincent Nguyen
+// Contributors:    N/A
+// Created:         25/09/2023
+// Last edit:       06/10/2023
+// Copyright:       Anyone
+// Licence:         GPL-3.0 license
+/////////////////////////////////////////////////////////////////////////////
 #include "./Mainframe.h"
 
-class App : public wxApp {
+//---------------------------------------------------------------------------
+// DSPInspector
+//---------------------------------------------------------------------------
+
+class DSPScoper : public wxApp {
 private:
     DigitalFilter::MainFrame* frame;
 public:
-	App() { }
+    DSPScoper() { }
 
     bool OnInit() wxOVERRIDE;
 
-	wxDECLARE_NO_COPY_CLASS(App);
+	wxDECLARE_NO_COPY_CLASS(DSPScoper);
 };
 
 
-bool App::OnInit() {
+bool DSPScoper::OnInit() {
     if (!wxApp::OnInit())
         return false;
     frame = new DigitalFilter::MainFrame();
@@ -30,4 +38,4 @@ bool App::OnInit() {
 }
 
 
-wxIMPLEMENT_APP(App);
+wxIMPLEMENT_APP(DSPScoper);
