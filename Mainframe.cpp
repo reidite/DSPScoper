@@ -301,4 +301,3 @@ void DSP::MainFrame::m_toggle_StartOnToggleButton(wxCommandEvent& event) {
 	}
 	atomic_b_updatingPlotsRaised = true;
 }
-

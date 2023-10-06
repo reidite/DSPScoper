@@ -172,10 +172,10 @@
     <ClInclude Include="ui\MainFrameUI.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="wxwidgets-digital-filters.rc" />
+    <Image Include="res\icon_32x32.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\icon_32x32.ico" />
+    <ResourceCompile Include="DSPScoper.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
