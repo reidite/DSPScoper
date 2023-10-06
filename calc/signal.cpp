@@ -4,10 +4,10 @@ DSP::Calc::Signal::Signal() {
 	/**
 	* Constructs a new signal object with some default signal metadata.
 	*/
-	vec_infos = std::vector<SignalInfo>({{ 1.0, 05, 0.10 },
-									{ 0.8, 35, 0.15 },
-									{ 0.6, 50, 0.25 },
-									{ 0.4, 80, 0.30 } });
+	vec_infos = std::vector<SignalInfo>({{ 1.0, 05, 0.01 },
+									{ 0.8, 35, 0.01 },
+									{ 0.6, 50, 0.01 },
+									{ 0.4, 80, 0.01 } });
 }
 
 DSP::Calc::Signal::~Signal() {
@@ -39,8 +39,8 @@ void DSP::Calc::Signal::SynthesizeSignalData(int numOfSample) {
 
 	vec_lf_x = std::vector<double>(numOfSample, 0);
 	vec_lf_y = std::vector<double>(numOfSample, 0);
-	std::random_device rd;
-	std::default_random_engine gen(rd());
+
+	std::default_random_engine gen(std::random_device{}());
 	std::vector<std::normal_distribution<double>> dists(vec_infos.size());
 	for (int i = 0; i < vec_infos.size(); i++) {
 		if (vec_infos[i].lf_stddev > 0) {
