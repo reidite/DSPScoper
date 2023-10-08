@@ -5,8 +5,8 @@
 // PLEASE DO "NOT" EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
-#ifndef __MAINFRAMEUI_H__
-#define __MAINFRAMEUI_H__
+#ifndef __GUI_H__
+#define __GUI_H__
 
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
@@ -75,4 +75,4 @@ class MainFrameUI : public wxFrame
 	
 };
 
-#endif //__MAINFRAMEUI_H__
+#endif //__GUI_H__

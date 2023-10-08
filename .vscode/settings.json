@@ -1,0 +1,14 @@
+{
+    "makefile.configurations": [
+        
+    ],
+    "sonarlint.pathToCompileCommands": "${workspaceFolder}/build/compile_commands.json",
+    "files.associations": {
+        "atomic": "cpp"
+    },
+    "makefile.alwaysPreConfigure": false,
+    "makefile.makefilePath": "CMakeLists.txt",
+    "makefile.additionalCompilerNames": [
+        "cmake"
+    ]
+}

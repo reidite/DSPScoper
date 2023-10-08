@@ -1,6 +1,6 @@
 #include "filter.h"
 
-DSP::Calc::Filter::Filter(unsigned int filterResponse) {
+Calc::Filter::Filter(unsigned int filterResponse) {
 	/**
 	* Constructs a new filter object with some default filter parameters.
 	* 
@@ -11,7 +11,7 @@ DSP::Calc::Filter::Filter(unsigned int filterResponse) {
 	vec_lf_b = std::vector<double>(3, 1.0);
 }
 
-std::vector<double> DSP::Calc::Filter::filting(std::vector<double> y, unsigned int filterType) {
+std::vector<double> Calc::Filter::filting(std::vector<double> y, unsigned int filterType) {
 	/**
 	* Appling the settle filter to remove the unwanted frequencies
 	*
@@ -36,7 +36,7 @@ std::vector<double> DSP::Calc::Filter::filting(std::vector<double> y, unsigned i
     return filtered;
 }
 
-void DSP::Calc::Filter::SetAB(int samplingRate, int cutoffFreq) {
+void Calc::Filter::SetAB(int samplingRate, int cutoffFreq) {
 	/**
 	* Setting Alpha-Beta filter coefficients based on the current settle
 	* properties.
@@ -62,7 +62,7 @@ void DSP::Calc::Filter::SetAB(int samplingRate, int cutoffFreq) {
 	}
 }
 
-void DSP::Calc::Filter::applyingLowPass(int samplingRate, int cutoffFreq) {
+void Calc::Filter::applyingLowPass(int samplingRate, int cutoffFreq) {
 	/**
 	* Setting Alpha-Beta filter coefficients to perform Low-pass filter response.
 	*
@@ -85,7 +85,7 @@ void DSP::Calc::Filter::applyingLowPass(int samplingRate, int cutoffFreq) {
 	vec_lf_a[2] = -(beta[0] * alphaSq - 2 * beta[1] * alpha + 4 * beta[2]) / D;
 }
 
-void DSP::Calc::Filter::applyingHighPass(int samplingRate, int cutoffFreq) {
+void Calc::Filter::applyingHighPass(int samplingRate, int cutoffFreq) {
 	/**
 	* Setting Alpha-Beta filter coefficients to perform High-pass filter response.
 	*
@@ -107,7 +107,7 @@ void DSP::Calc::Filter::applyingHighPass(int samplingRate, int cutoffFreq) {
 	vec_lf_a[2] = -(c[0] * dtSq - 2 * c[1] * dt + 4 * c[2]) / E;
 }
 
-void DSP::Calc::Filter::applyingBandPass(int samplingRate, int cutoffFreq) {
+void Calc::Filter::applyingBandPass(int samplingRate, int cutoffFreq) {
 	/**
 	* Setting Alpha-Beta filter coefficients to perform Band-pass filter response.
 	*
@@ -132,7 +132,7 @@ void DSP::Calc::Filter::applyingBandPass(int samplingRate, int cutoffFreq) {
 	vec_lf_a[2] = -(pow(alpha, 2) - 2 * alpha / Q + 4) / G;
 }
 
-void DSP::Calc::Filter::applyingBandStop(int samplingRate, int cutoffFreq) {
+void Calc::Filter::applyingBandStop(int samplingRate, int cutoffFreq) {
 	/**
 	* Setting Alpha-Beta filter coefficients to perform Band-stop filter response.
 	*

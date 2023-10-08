@@ -26,17 +26,18 @@
 #define DEFAULT_SAMPLING_RATE 1024
 
 #include <thread>
+#include <atomic>
 
 #include "wx/aboutdlg.h"
 
+#include "../calc/filter.h"
+#include "../calc/signal.h"
 #include "./plot/plot.h"
-#include "./ui/MainFrameUI.h"
-#include "./calc/filter.h"
-#include "./calc/signal.h"
+#include "GUI.h"
 
-namespace DSP {
+namespace UI {
     class MainFrame : public MainFrameUI {
-    /** Main frame of the application handling user inputs and events generated
+    /** @brief The main frame of the application handling user inputs and events generated
         by the GUI elements contained within it. This class defines plot
         windows for signal visualizations, and input data from the user to
         control the application.
@@ -46,9 +47,9 @@ namespace DSP {
         std::thread* pthrd_PlotUpdater;
 
         //!< Tracking states of a drawing plots thread.
-        std::atomic_bool atomic_b_drawingPlotsInProgress = true;
-        std::atomic_bool atomic_b_updatingPlotsRaised = true;
-        std::atomic_bool atomic_b_drawingFiltedResultRaised = false;
+        std::atomic_bool atomic_b_drawingPlotsInProgress;
+        std::atomic_bool atomic_b_updatingPlotsRaised;
+        std::atomic_bool atomic_b_drawingFiltedResultRaised;
 
         //!< Operating signal synthesizing
         Calc::Signal* p_signal;

@@ -1,13 +1,13 @@
-#include "Mainframe.h"
+#include "MainFrame.h"
 
-DSP::MainFrame::MainFrame()
+UI::MainFrame::MainFrame()
 	: MainFrameUI(nullptr, wxID_ANY, MAINFRAME_NAME, wxDefaultPosition, wxSize(MAINFRAME_WIDTH, MAINFRAME_HEIGHT)) {
 	/**
 	* Constructs a new wxMainFrame object with the specified parameters.
 	*/
 
-	p_signal = new DSP::Calc::Signal();
-	p_filter = new DSP::Calc::Filter(un_filterRespone);
+	p_signal = new Calc::Signal();
+	p_filter = new Calc::Filter(un_filterRespone);
 	
 	p_signal->SynthesizeSignalData(n_numSampling);
 	p_filter->SetAB(n_numSampling, n_appliedFreq);
@@ -18,13 +18,13 @@ DSP::MainFrame::MainFrame()
 	LoadingPlotsUpdater();
 }
 
-DSP::MainFrame::~MainFrame() {
+UI::MainFrame::~MainFrame() {
 	/**
 	* Destroys the wxMainFrame object and frees any allocated resources.
 	*/
 }
 
-void DSP::MainFrame::LoadingFilter() {
+void UI::MainFrame::LoadingFilter() {
 	/**
 	* Modifies the digital signal filter being loaded into the program.
 	*/
@@ -33,7 +33,7 @@ void DSP::MainFrame::LoadingFilter() {
 	atomic_b_updatingPlotsRaised = true;
 }
 
-void DSP::MainFrame::LoadingSignalInfos() {
+void UI::MainFrame::LoadingSignalInfos() {
 	/**
 	* Loading and retrieving information about the available signal.
 	*/
@@ -67,7 +67,7 @@ void DSP::MainFrame::LoadingSignalInfos() {
 	Bind(wxEVT_MENU, &MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlOnMenuSelect, this);
 }
 
-void DSP::MainFrame::SettingPlotsUI() {
+void UI::MainFrame::SettingPlotsUI() {
 	/**
 	* Configuring and setting up the user interface for displaying signal plots.
 	*/
@@ -80,10 +80,10 @@ void DSP::MainFrame::SettingPlotsUI() {
 	gSizer_Outputs->Add(mp_FigAT, 0, wxEXPAND, 5);
 	gSizer_Outputs->Add(mp_FigMF, 1, wxEXPAND, 5);
 
-	mp_originalATPlot = new DSP::Plot::SignalPlot(*wxBLUE);
-	mp_filteredATPlot = new DSP::Plot::SignalPlot(*wxRED);
-	mp_originalMFPlot = new DSP::Plot::SignalPlot(*wxBLUE);
-	mp_filteredMFPlot = new DSP::Plot::SignalPlot(*wxRED);
+	mp_originalATPlot = new UI::Plot::SignalPlot(*wxBLUE);
+	mp_filteredATPlot = new UI::Plot::SignalPlot(*wxRED);
+	mp_originalMFPlot = new UI::Plot::SignalPlot(*wxBLUE);
+	mp_filteredMFPlot = new UI::Plot::SignalPlot(*wxRED);
 
 	mp_FigAT->AddLayer(mp_originalATPlot);
 	mp_FigMF->AddLayer(mp_originalMFPlot);
@@ -91,7 +91,7 @@ void DSP::MainFrame::SettingPlotsUI() {
 	mp_FigMF->AddLayer(mp_filteredMFPlot);
 }
 
-void DSP::MainFrame::LoadingPlotsUpdater() {
+void UI::MainFrame::LoadingPlotsUpdater() {
 	/**
 	* Loading a thread to update or refresh the signal plots in response to changes
 	* in the processed signal data.
@@ -126,14 +126,14 @@ void DSP::MainFrame::LoadingPlotsUpdater() {
 		});
 }
 
-void DSP::MainFrame::MainFrameUIOnClose(wxCloseEvent& event) {
+void UI::MainFrame::MainFrameUIOnClose(wxCloseEvent& event) {
 	atomic_b_drawingPlotsInProgress = false;
 	atomic_b_updatingPlotsRaised = true;
 	pthrd_PlotUpdater->join();
 	exit(0);
 }
 
-void DSP::MainFrame::MainFrameUIOnAbout(wxCommandEvent& WXUNUSED(event)) {
+void UI::MainFrame::MainFrameUIOnAbout(wxCommandEvent& WXUNUSED(event)) {
 	wxAboutDialogInfo info;
 	info.SetName(_(MAINFRAME_NAME));
 	info.SetDescription(_("This is a program visualize the result of some digital filters"));
@@ -142,22 +142,22 @@ void DSP::MainFrame::MainFrameUIOnAbout(wxCommandEvent& WXUNUSED(event)) {
 	wxAboutBox(info, this);
 }
 
-void DSP::MainFrame::m_choice_FilterOrderOnChoice(wxCommandEvent& event) {
+void UI::MainFrame::m_choice_FilterOrderOnChoice(wxCommandEvent& event) {
 	un_filterOrder = m_choice_FilterOrder->GetSelection();
 	atomic_b_updatingPlotsRaised = true;
 }
 
-void DSP::MainFrame::m_choice_FilterTypeOnChoice(wxCommandEvent& event) {
+void UI::MainFrame::m_choice_FilterTypeOnChoice(wxCommandEvent& event) {
 	un_filterType = m_choice_FilterType->GetSelection();
 	atomic_b_updatingPlotsRaised = true;
 }
 
-void DSP::MainFrame::m_choice_FilterClassOnChoice(wxCommandEvent& event) {
+void UI::MainFrame::m_choice_FilterClassOnChoice(wxCommandEvent& event) {
 	un_filterClass = m_choice_FilterClass->GetSelection();
 	atomic_b_updatingPlotsRaised = true;
 }
 
-void DSP::MainFrame::m_choice_FilterResponseOnChoice(wxCommandEvent& event) {
+void UI::MainFrame::m_choice_FilterResponseOnChoice(wxCommandEvent& event) {
 	if (un_filterRespone != m_choice_FilterResponse->GetSelection()) {
 		un_filterRespone = m_choice_FilterResponse->GetSelection();
 		LoadingFilter();
@@ -165,7 +165,7 @@ void DSP::MainFrame::m_choice_FilterResponseOnChoice(wxCommandEvent& event) {
 	}
 }
 
-void DSP::MainFrame::m_textCtrl_AppliedFreqOnKeyUp(wxKeyEvent& event) {
+void UI::MainFrame::m_textCtrl_AppliedFreqOnKeyUp(wxKeyEvent& event) {
 	int keyCode = event.GetKeyCode();
 	if (wxIsdigit(keyCode) || (keyCode >= WXK_NUMPAD0 && keyCode <= WXK_NUMPAD9) ||
 		keyCode == WXK_BACK || keyCode == WXK_DELETE) {
@@ -181,7 +181,7 @@ void DSP::MainFrame::m_textCtrl_AppliedFreqOnKeyUp(wxKeyEvent& event) {
 	}
 }
 
-void DSP::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemActivated(wxDataViewEvent& event) {
+void UI::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemActivated(wxDataViewEvent& event) {
 	if(event.GetColumn() < 0) return;
 	wxDataViewItem item = m_dataViewListCtrl_SignalInfo->GetSelection();
 	wxDataViewColumn* col = m_dataViewListCtrl_SignalInfo->GetColumn(event.GetColumn());
@@ -228,7 +228,7 @@ void DSP::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemActivate
 	}
 }
 
-void DSP::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemContextMenu(wxDataViewEvent& event) {
+void UI::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemContextMenu(wxDataViewEvent& event) {
 	if (m_dataViewListCtrl_SignalInfo->GetSelection()) {
 		mp_infoPopMenu->FindItemByPosition(1)->Enable(true);
 		PopupMenu(mp_infoPopMenu);
@@ -239,7 +239,7 @@ void DSP::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemContextM
 	}
 }
 
-void DSP::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlOnMenuSelect(wxCommandEvent& event) {
+void UI::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlOnMenuSelect(wxCommandEvent& event) {
 	if (event.GetId() == wxID_ADD) {
 		wxVector<wxVariant> rowData;
 		rowData.push_back(wxString::Format("%d", un_numRowInfos++));
@@ -272,7 +272,7 @@ void DSP::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlOnMenuSelect
 	}
 }
 
-void DSP::MainFrame::m_textCtrl_SamplingRateOnKeyUp(wxKeyEvent& event) {
+void UI::MainFrame::m_textCtrl_SamplingRateOnKeyUp(wxKeyEvent& event) {
 	int keyCode = event.GetKeyCode();
 	if (wxIsdigit(keyCode) || (keyCode >= WXK_NUMPAD0 && keyCode <= WXK_NUMPAD9) ||
 		keyCode == WXK_BACK || keyCode == WXK_DELETE) {
@@ -289,7 +289,7 @@ void DSP::MainFrame::m_textCtrl_SamplingRateOnKeyUp(wxKeyEvent& event) {
 	}
 }
 
-void DSP::MainFrame::m_toggle_StartOnToggleButton(wxCommandEvent& event) {
+void UI::MainFrame::m_toggle_StartOnToggleButton(wxCommandEvent& event) {
 	LoadingFilter();
 	if (!atomic_b_drawingFiltedResultRaised) {
 		atomic_b_drawingFiltedResultRaised = true;

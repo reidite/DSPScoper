@@ -9,7 +9,7 @@
 // Copyright:       Anyone
 // Licence:         GPL-3.0 license
 /////////////////////////////////////////////////////////////////////////////
-#include "./Mainframe.h"
+#include "ui/MainFrame.h"
 
 //---------------------------------------------------------------------------
 // DSPScoper
@@ -21,7 +21,7 @@ class DSPScoper : public wxApp {
 */
 private:
     //!< Container of the main frame instance
-    DSP::MainFrame* mp_frame;
+    UI::MainFrame* mp_frame;
 public:
     DSPScoper() { }
 
@@ -39,8 +39,8 @@ bool DSPScoper::OnInit() {
     */
     if (!wxApp::OnInit())
         return false;
-    mp_frame = new DSP::MainFrame();
-    wxIcon icon("IDI_ICON", 32, 32);
+    mp_frame = new UI::MainFrame();
+    wxIcon icon("IDI_ICON", wxBITMAP_TYPE_ICO, 32, 32);
     mp_frame->SetIcon(icon);
     mp_frame->Show(true);
     return true;
