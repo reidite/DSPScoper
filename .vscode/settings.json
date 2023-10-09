@@ -1,14 +1,9 @@
 {
-    "makefile.configurations": [
-        
-    ],
+    "cmake.configureSettings": {
+        "CMAKE_TOOLCHAIN_FILE": "F:/Community/vcpkg/scripts/buildsystems/vcpkg.cmake",
+    },
     "sonarlint.pathToCompileCommands": "${workspaceFolder}/build/compile_commands.json",
     "files.associations": {
         "atomic": "cpp"
-    },
-    "makefile.alwaysPreConfigure": false,
-    "makefile.makefilePath": "CMakeLists.txt",
-    "makefile.additionalCompilerNames": [
-        "cmake"
-    ]
+    }
 }

@@ -1,8 +1,8 @@
 # DSPScoper
+DSPScoper is a simple visualize tool for some digital filter algorithms.
 
 ![alt text](https://github.com/reidite/wxwidgets-digital-filters/blob/master/doc/img.JPG?raw=true)
 
-A simple visualize tool for some digital filter algorithms
 
 Author: __Vincent Nguyen__
 

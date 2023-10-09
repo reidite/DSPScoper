@@ -14,6 +14,6 @@ file(GLOB SOURCES "*.cpp")
 add_library(ui ${SOURCES})
 
 # Install headers
-target_link_libraries(ui LINK_PUBLIC plot)
+target_link_libraries(ui PUBLIC plot)
 target_link_libraries(ui PRIVATE ${wxWidgets_LIBRARIES})
-target_include_directories (cacl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories (cacl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/plot)
