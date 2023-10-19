@@ -16,7 +16,7 @@ add_executable(DSPScoper main.cpp)
 target_include_directories(DSPScoper PRIVATE ${OPENGL_INCLUDE_DIR})
 target_link_libraries(DSPScoper PRIVATE ${wxWidgets_LIBRARIES})
 target_link_libraries(DSPScoper PUBLIC
-    kernel32
+    kernel32.lib
     user32
     gdi32
     winspool

@@ -1,7 +1,7 @@
 # DSPScoper
 DSPScoper is a simple visualize tool for some digital filter algorithms.
 
-![alt text](https://github.com/reidite/wxwidgets-digital-filters/blob/master/doc/img.JPG?raw=true)
+![alt text](https://github.com/reidite/wxwidgets-digital-filters/blob/master/docs/img.JPG?raw=true)
 
 
 Author: __Vincent Nguyen__
@@ -42,6 +42,7 @@ If you compile this repository on Linux, do the following in the project directo
 __Windows__
 
 If you compile this repository on Windows, do the following in the project directory:
+https://github.com/skeeto/w64devkit/releases
 
 __MacOS__
 

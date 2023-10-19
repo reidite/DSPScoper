@@ -8,7 +8,7 @@
         "name": "(gdb) Launch",
         "type": "cppdbg",
         "request": "launch",
-        "program": "${workspaceFolder}/x64/Debug/DSPScoper.exe",
+        "program": "${workspaceFolder}/out/windows-default/DSPScoper.exe",
         "args": [],
         "stopAtEntry": false,
         "cwd": "${fileDirname}",
