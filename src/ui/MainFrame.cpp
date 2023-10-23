@@ -8,7 +8,7 @@ UI::MainFrame::MainFrame()
 
 	p_signal = new Calc::Signal();
 	p_filter = new Calc::Filter(un_filterRespone);
-	
+
 	p_signal->SynthesizeSignalData(n_numSampling);
 	p_filter->SetAB(n_numSampling, n_appliedFreq);
 
@@ -182,7 +182,7 @@ void UI::MainFrame::m_textCtrl_AppliedFreqOnKeyUp(wxKeyEvent& event) {
 }
 
 void UI::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemActivated(wxDataViewEvent& event) {
-	if(event.GetColumn() < 0) return;
+	if (event.GetColumn() < 0) return;
 	wxDataViewItem item = m_dataViewListCtrl_SignalInfo->GetSelection();
 	wxDataViewColumn* col = m_dataViewListCtrl_SignalInfo->GetColumn(event.GetColumn());
 	if (item.IsOk() && event.GetColumn() != 0) {
@@ -192,7 +192,7 @@ void UI::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemActivated
 		wxRect itemRect = m_dataViewListCtrl_SignalInfo->GetItemRect(item);
 		renderer->StartEditing(item, itemRect);
 		m_dataViewListCtrl_SignalInfo->EditItem(item, col);
-		
+
 		m_dataViewListCtrl_SignalInfo->Bind(wxEVT_DATAVIEW_ITEM_VALUE_CHANGED, [=](wxDataViewEvent& event) {
 			double newValue;
 			if (m_dataViewListCtrl_SignalInfo->GetTextValue(m_dataViewListCtrl_SignalInfo->ItemToRow(item), event.GetColumn()).ToDouble(&newValue)) {
@@ -224,7 +224,7 @@ void UI::MainFrame::m_dataViewListCtrl_SignalInfoOnDataViewListCtrlItemActivated
 			else {
 				m_dataViewListCtrl_SignalInfo->SetTextValue(prev, m_dataViewListCtrl_SignalInfo->ItemToRow(item), event.GetColumn());
 			}
-		});
+			});
 	}
 }
 

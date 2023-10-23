@@ -1,5 +1,5 @@
 #include "plot.h"
-UI::Plot::SignalPlot::SignalPlot(const wxColour &colour) : mpFXYVector(wxT("f(x) = A*sin(2*PI*Freq*x)"), mpALIGN_LEFT)
+UI::Plot::SignalPlot::SignalPlot(const wxColour& colour) : mpFXYVector(wxT("f(x) = A*sin(2*PI*Freq*x)"), mpALIGN_LEFT)
 {
 	/**
 	 * Setting up resources on initializing time of the application.
@@ -70,15 +70,15 @@ void UI::Plot::SignalPlot::DrawingDFTData(std::vector<double> x, std::vector<dou
 	this->SetData(freqs, modus);
 }
 
-UI::Plot::ATPlotWindow::ATPlotWindow(wxWindow *parent) : mpWindow(parent, -1, wxPoint(0, 0), wxSize(-1, -1), wxSUNKEN_BORDER)
+UI::Plot::ATPlotWindow::ATPlotWindow(wxWindow* parent) : mpWindow(parent, -1, wxPoint(0, 0), wxSize(-1, -1), wxSUNKEN_BORDER)
 {
 	/**
 	 * Setting up the properties for the plot window.
 	 *
 	 * @param parent Pointer to the parent that this UI component belongs.
 	 */
-	mpScaleX *timeAxis = new mpScaleX(wxT("Time"), mpALIGN_BORDER_BOTTOM, false, mpX_NORMAL);
-	mpScaleY *amplitudeAxis = new mpScaleY(wxT("Amplitude"), mpALIGN_BORDER_LEFT, false);
+	mpScaleX* timeAxis = new mpScaleX(wxT("Time"), mpALIGN_BORDER_BOTTOM, false, mpX_NORMAL);
+	mpScaleY* amplitudeAxis = new mpScaleY(wxT("Amplitude"), mpALIGN_BORDER_LEFT, false);
 
 	timeAxis->SetContinuity(true);
 	amplitudeAxis->SetContinuity(true);
@@ -110,20 +110,20 @@ void UI::Plot::ATPlotWindow::UpdatingBoundingBox(double sumAmp)
 	this->Fit(lf_minX, lf_maxX, lf_minY, lf_maxY);
 };
 
-void UI::Plot::ATPlotWindow::OnFit(wxCommandEvent &event)
+void UI::Plot::ATPlotWindow::OnFit(wxCommandEvent& event)
 {
 	this->Fit(lf_minX, lf_maxX, lf_minY, lf_maxY);
 };
 
-UI::Plot::MFPlotWindow::MFPlotWindow(wxWindow *parent) : mpWindow(parent, -1, wxPoint(0, 0), wxSize(-1, -1), wxSUNKEN_BORDER)
+UI::Plot::MFPlotWindow::MFPlotWindow(wxWindow* parent) : mpWindow(parent, -1, wxPoint(0, 0), wxSize(-1, -1), wxSUNKEN_BORDER)
 {
 	/**
 	 * Setting up the properties for the plot window.
 	 *
 	 * @param parent Pointer to the parent that this UI component belongs.
 	 */
-	mpScaleX *freqAxis = new mpScaleX(wxT("Frequency"), mpALIGN_BORDER_BOTTOM, false, mpX_NORMAL);
-	mpScaleY *modulusAxis = new mpScaleY(wxT("Modulus"), mpALIGN_BORDER_LEFT, false);
+	mpScaleX* freqAxis = new mpScaleX(wxT("Frequency"), mpALIGN_BORDER_BOTTOM, false, mpX_NORMAL);
+	mpScaleY* modulusAxis = new mpScaleY(wxT("Modulus"), mpALIGN_BORDER_LEFT, false);
 
 	freqAxis->SetContinuity(true);
 	modulusAxis->SetContinuity(true);
@@ -156,7 +156,7 @@ void UI::Plot::MFPlotWindow::UpdatingBoundingBox(double maxAmp, double maxFreq)
 	this->Fit(lf_minX, lf_maxX, lf_minY, lf_maxY);
 };
 
-void UI::Plot::MFPlotWindow::OnFit(wxCommandEvent &event)
+void UI::Plot::MFPlotWindow::OnFit(wxCommandEvent& event)
 {
 	this->Fit(lf_minX, lf_maxX, lf_minY, lf_maxY);
 }

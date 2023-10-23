@@ -33,7 +33,7 @@ namespace UI
              *	properties of the output figure.
              */
         public:
-            SignalPlot(const wxColour &colour);
+            SignalPlot(const wxColour& colour);
             void DrawingSignalData(std::vector<double> x, std::vector<double> y);
             void DrawingDFTData(std::vector<double> x, std::vector<double> y, int maxFreq);
         };
@@ -48,15 +48,15 @@ namespace UI
             double lf_minX, lf_maxX, lf_minY, lf_maxY;
 
         public:
-            ATPlotWindow(wxWindow *parent);
+            ATPlotWindow(wxWindow* parent);
 
             //!< Updating new constraint bounding box.
             void UpdatingBoundingBox(double sumAmp);
 
             //!< Override interaction events.
-            void OnFit(wxCommandEvent &event);
-            void OnMouseLeftDown(wxMouseEvent &event) {}
-            void OnMouseLeftRelease(wxMouseEvent &event) {}
+            void OnFit(wxCommandEvent& event);
+            void OnMouseLeftDown(wxMouseEvent& event) {}
+            void OnMouseLeftRelease(wxMouseEvent& event) {}
         };
 
         class MFPlotWindow : public mpWindow
@@ -69,15 +69,15 @@ namespace UI
             double lf_minX, lf_maxX, lf_minY, lf_maxY;
 
         public:
-            MFPlotWindow(wxWindow *parent);
+            MFPlotWindow(wxWindow* parent);
 
             //!< Updating new constraint bounding box.
             void UpdatingBoundingBox(double maxAmp, double maxFreq);
 
             //!< Override interaction events.
-            void OnFit(wxCommandEvent &event);
-            void OnMouseLeftDown(wxMouseEvent &event) {}
-            void OnMouseLeftRelease(wxMouseEvent &event) {}
+            void OnFit(wxCommandEvent& event);
+            void OnMouseLeftDown(wxMouseEvent& event) {}
+            void OnMouseLeftRelease(wxMouseEvent& event) {}
         };
     }
 }

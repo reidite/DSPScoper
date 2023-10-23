@@ -37,11 +37,11 @@
 
 namespace UI {
     class MainFrame : public MainFrameUI {
-    /** @brief The main frame of the application handling user inputs and events generated
-        by the GUI elements contained within it. This class defines plot
-        windows for signal visualizations, and input data from the user to
-        control the application.
-    */
+        /** @brief The main frame of the application handling user inputs and events generated
+            by the GUI elements contained within it. This class defines plot
+            windows for signal visualizations, and input data from the user to
+            control the application.
+        */
     private:
         //!< Drawing plots thread to update and refresh plots.
         std::thread* pthrd_PlotUpdater;

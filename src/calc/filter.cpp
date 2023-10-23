@@ -3,7 +3,7 @@
 Calc::Filter::Filter(unsigned int filterResponse) {
 	/**
 	* Constructs a new filter object with some default filter parameters.
-	* 
+	*
 	* @param filterResponse Chosen ID of the filter response.
 	*/
 	un_responseID = filterResponse;
@@ -18,7 +18,7 @@ std::vector<double> Calc::Filter::filting(std::vector<double> y, unsigned int fi
 	* @param y The y-axis input signal data.
 	* @param filterType Chosen ID of the filter type.
 	*/
-    std::vector<double> filtered(y.size(), 0.0);
+	std::vector<double> filtered(y.size(), 0.0);
 	switch (filterType) {
 	case 0:
 		for (int i = 3; i < y.size(); i++) {
@@ -32,33 +32,33 @@ std::vector<double> Calc::Filter::filting(std::vector<double> y, unsigned int fi
 		}
 		break;
 	}
-    
-    return filtered;
+
+	return filtered;
 }
 
 void Calc::Filter::SetAB(int samplingRate, int cutoffFreq) {
 	/**
 	* Setting Alpha-Beta filter coefficients based on the current settle
 	* properties.
-	* 
+	*
 	* @param samplingRate The rate at which the synthesized signal is sampled.
 	* @param cutoffFreq Applied frequency for the digital filter.
 	*/
 	switch (un_responseID) {
-		case 0:
-			applyingLowPass(samplingRate, cutoffFreq);
-			break;
-		case 1:
-			applyingHighPass(samplingRate, cutoffFreq);
-			break;
-		case 2:
-			applyingBandPass(samplingRate, cutoffFreq);
-			break;
-		case 3:
-			applyingBandStop(samplingRate, cutoffFreq);
-			break;
-		default:
-			break;
+	case 0:
+		applyingLowPass(samplingRate, cutoffFreq);
+		break;
+	case 1:
+		applyingHighPass(samplingRate, cutoffFreq);
+		break;
+	case 2:
+		applyingBandPass(samplingRate, cutoffFreq);
+		break;
+	case 3:
+		applyingBandStop(samplingRate, cutoffFreq);
+		break;
+	default:
+		break;
 	}
 }
 

@@ -1,18 +1,10 @@
-#---------------------------------------------------------------------------
-# Subdirectory
-#---------------------------------------------------------------------------
-add_subdirectory(filters)
 
-#---------------------------------------------------------------------------
-# Sources
-#---------------------------------------------------------------------------
+file(GLOB LIBRARY_SOURCES  "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+file(GLOB LIBRARY_HEADERS  "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
-# Add files
-file(GLOB SOURCES "*.cpp")
+add_library(calc STATIC ${LIBRARY_SOURCES} ${LIBRARY_HEADERS})
 
-# Add the library
-add_library(cacl ${SOURCES})
+target_link_libraries(calc PRIVATE ${OPENGL_LIBRARIES}
+										${wxWidgets_LIBRARIES})
 
-# Install headers
-
-target_include_directories (cacl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories (calc PUBLIC ${CMAKE_CURRENT_BINARY_DIR})

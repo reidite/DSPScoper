@@ -1,19 +1,7 @@
-#---------------------------------------------------------------------------
-# External Dependencies
-#---------------------------------------------------------------------------
-find_package(OpenGL REQUIRED)
-find_package(wxWidgets CONFIG REQUIRED)
+file(GLOB LIBRARY_SOURCES  "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+file(GLOB LIBRARY_HEADERS  "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
-#---------------------------------------------------------------------------
-# Sources
-#---------------------------------------------------------------------------
-
-# Add files
-file(GLOB SOURCES "*.cpp")
-
-# Add the library
-add_library(plot ${SOURCES})
-
-# Install headers
-target_link_libraries(plot PRIVATE ${wxWidgets_LIBRARIES})
-target_include_directories (plot PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+add_library(plot STATIC  ${LIBRARY_SOURCES} ${LIBRARY_HEADERS})
+target_link_libraries(plot PRIVATE ${OPENGL_LIBRARIES}
+										${wxWidgets_LIBRARIES})
+target_include_directories (plot PUBLIC ${CMAKE_CURRENT_BINARY_DIR})

@@ -5,10 +5,10 @@ Calc::Signal::Signal()
 	/**
 	 * Constructs a new signal object with some default signal metadata.
 	 */
-	vec_infos = std::vector<SignalInfo>({{1.0, 05, 0.01},
+	vec_infos = std::vector<SignalInfo>({ {1.0, 05, 0.01},
 										 {0.8, 35, 0.01},
 										 {0.6, 50, 0.01},
-										 {0.4, 80, 0.01}});
+										 {0.4, 80, 0.01} });
 }
 
 Calc::Signal::~Signal()
@@ -27,7 +27,7 @@ Calc::Signal::Signal(double amp, double freq, double std)
 	 * @param freq Frequency of the assigned signal.
 	 * @param std Stdddev of the assigned signal.
 	 */
-	vec_infos.push_back({freq, amp, std});
+	vec_infos.push_back({ freq, amp, std });
 }
 
 void Calc::Signal::SynthesizeSignalData(int numOfSample)

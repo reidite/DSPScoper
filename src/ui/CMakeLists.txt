@@ -1,19 +1,13 @@
-#---------------------------------------------------------------------------
-# Subdirectory
-#---------------------------------------------------------------------------
 add_subdirectory(plot)
 
-#---------------------------------------------------------------------------
-# Sources
-#---------------------------------------------------------------------------
+file(GLOB LIBRARY_SOURCES  "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+file(GLOB LIBRARY_HEADERS  "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
-# Add files
-file(GLOB SOURCES "*.cpp")
+add_library(ui STATIC ${LIBRARY_SOURCES} ${LIBRARY_HEADERS})
 
-# Add the library
-add_library(ui ${SOURCES})
+target_link_libraries(ui PRIVATE ${OPENGL_LIBRARIES}
+										${wxWidgets_LIBRARIES}
+										plot
+										calc)
 
-# Install headers
-target_link_libraries(ui PUBLIC plot)
-target_link_libraries(ui PRIVATE ${wxWidgets_LIBRARIES} kernel32)
-target_include_directories (cacl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/plot)
+target_include_directories (ui PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
