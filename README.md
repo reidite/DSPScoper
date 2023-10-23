@@ -1,7 +1,7 @@
 # DSPScoper
 DSPScoper is a simple visualize tool for some digital filter algorithms.
 
-![alt text](https://github.com/reidite/DSPScoper/blob/linux/docs/img.JPG?raw=true)
+![alt text](https://github.com/reidite/DSPScoper/blob/master/docs/img.JPG?raw=true)
 
 
 Author: __Vincent Nguyen__
